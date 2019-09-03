@@ -14,7 +14,7 @@
     <template v-slot:img="attrs">
       <v-img
         v-bind="attrs"
-        gradient="to top, rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)"
+        gradient="to top, #9670ef, #746EFF"
       />
     </template>
 
@@ -52,21 +52,6 @@
       </v-list-item>
     </v-list>
 
-    <template v-slot:append>
-      <v-list nav>
-        <v-list-item
-          to="/upgrade"
-        >
-          <v-list-item-action>
-            <v-icon>mdi-package-up</v-icon>
-          </v-list-item-action>
-
-          <v-list-item-title class="font-weight-light">
-            Upgrade To PRO
-          </v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </template>
   </v-navigation-drawer>
 </template>
 
@@ -76,6 +61,9 @@
     mapMutations,
     mapState
   } from 'vuex'
+
+  import style
+  from '../../style/drawer.css'
 
   export default {
     props: {
