@@ -6,7 +6,6 @@
 
     <core-view />
 
-    <core-footer />
   </v-app>
 </template>
 

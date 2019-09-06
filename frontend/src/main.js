@@ -5,6 +5,10 @@ import store from './store'
 import './plugins'
 import vuetify from './plugins/vuetify'
 import { sync } from 'vuex-router-sync'
+import VueApexCharts from 'vue-apexcharts'
+
+Vue.use(VueApexCharts)
+Vue.component('apexchart', VueApexCharts)
 
 sync(store, router)
 
