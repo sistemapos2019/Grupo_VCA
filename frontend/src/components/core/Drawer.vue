@@ -14,7 +14,7 @@
     <template v-slot:img="attrs">
       <v-img
         v-bind="attrs"
-        gradient="to top, #9670ef, #746EFF"
+        gradient="to top, #716DFF, #A47DFF"
       />
     </template>
 
@@ -28,7 +28,7 @@
       </v-list-item-avatar>
 
       <v-list-item-title class="title">
-        VUETIFY MD
+        SISTEMA POS
       </v-list-item-title>
     </v-list-item>
 
@@ -61,9 +61,6 @@
     mapMutations,
     mapState
   } from 'vuex'
-
-  import style
-  from '../../style/drawer.css'
 
   export default {
     props: {
@@ -129,3 +126,20 @@
     }
   }
 </script>
+
+<style>
+.v-application .primary{
+    background-color: #d1caca5d !important;
+    border-color: #d1caca5d !important;
+    border-radius: 0;
+    border-left: 4px solid white !important;
+}
+
+.v-list--nav .v-list-item{
+  padding: 0 24px !important;
+}
+
+.v-navigation-drawer .v-list{
+  padding: 0;
+}
+</style>
