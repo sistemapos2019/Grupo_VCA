@@ -50,4 +50,34 @@ export default [
     name: 'Upgrade to PRO',
     view: 'Upgrade',
   },
+  {
+    path: '/categorias',
+    name: 'Categorias',
+    view: 'Categorias',
+  },
+  {
+    path: '/usuarioroles',
+    name: 'Usuario y Roles',
+    view: 'UsuarioRoles',
+  },
+  {
+    path: '/productos',
+    name: 'Productos',
+    view: 'Productos',
+  },
+  {
+    path: '/parametros',
+    name: 'Parametros',
+    view: 'Parametros',
+  },
+  {
+    path: '/compras',
+    name: 'Compras',
+    view: 'Compras',
+  },
+  {
+    path: '/mesas',
+    name: 'Mesas',
+    view: 'Mesas',
+  },
 ]
