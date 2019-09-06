@@ -50,6 +50,26 @@
 
         <v-list-item-title v-text="link.text" />
       </v-list-item>
+
+      <v-list-group
+        color="white"
+        prepend-icon="mdi-apps"
+        value="true"
+      > <template v-slot:activator>
+            <v-list-item-title >Administracion</v-list-item-title>
+          </template>
+          <v-list-item
+            v-for="(administrator, i) in administrations"
+            :key="i"
+            :to="administrator.to"
+            active-class="primary white--text"
+          >
+            <v-list-item-title >{{administrator.text}}</v-list-item-title>
+            <v-list-item-icon>
+              <v-icon>{{administrator.icon}}</v-icon>
+            </v-list-item-icon>
+          </v-list-item>
+      </v-list-group>
     </v-list>
 
   </v-navigation-drawer>
@@ -70,6 +90,38 @@
       }
     },
     data: () => ({
+      administrations: [
+      {
+        to: "/categorias",
+        icon: "mdi-animation",
+        text: "Categorias"
+      },
+      {
+        to: "/usuarioroles",
+        icon: "mdi-account-group",
+        text: "Usuario y Roles"
+      },
+      {
+        to: "/productos",
+        icon: "mdi-coffee",
+        text: "Productos"
+      },
+      {
+        to: "/parametros",
+        icon: "mdi-altimeter",
+        text: "Parametros"
+      },
+      {
+        to: "/compras",
+        icon: "mdi-application",
+        text: "Compras"
+      },
+      {
+        to: "/mesas",
+        icon: "mdi-table-chair",
+        text: "Mesas"
+      }
+      ],
       links: [
         {
           to: '/',
