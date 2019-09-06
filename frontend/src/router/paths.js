@@ -10,6 +10,16 @@ export default [
     view: 'Dashboard',
   },
   {
+    path: '/estadisticas',
+    name: 'Estadisticas',
+    view: 'Estadisticas',
+  },
+  {
+    path: '/inventarios',
+    name: 'Inventarios',
+    view: 'Inventarios',
+  },
+  {
     path: '/user-profile',
     name: 'User Profile',
     view: 'UserProfile',

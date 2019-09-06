@@ -1,62 +1,6 @@
 <template>
   <v-container fluid>
-    <div class="tittle_text">RESUMEN</div>
-    <v-row>
-      <v-col cols="12" lg="3">
-        <v-card
-          max-width="344"
-          class="mx-auto"
-          color="#D1B6FF"
-          height="135px"
-          style="background: linear-gradient(-49deg, #736DFF, #A97FFF);
-        box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039);"
-        >
-        
-          <v-card-title>Ventas realizadas</v-card-title>
-          <v-card-text>34 ventas</v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12" lg="3">
-        <v-card
-          max-width="344"
-          class="mx-auto"
-          color="#D1B6FF"
-          height="135px"
-          style="background: linear-gradient(323.35deg, #F7C598 6.2%, #FF8886 97.74%);
-        box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039)"
-        >
-          <v-card-title>Ventas pendientes</v-card-title>
-          <v-card-text>10 ventas</v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12" lg="3">
-        <v-card
-          max-width="344"
-          class="mx-auto"
-          color="#D1B6FF"
-          height="135px"
-          style="background: linear-gradient(147.2deg, #F9B4BD 0%, #9573DB 100%);
-        box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039)"
-        >
-          <v-card-title>Estado</v-card-title>
-          <v-card-text>Abierto</v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12" lg="3">
-        <v-card
-          max-width="344"
-          class="mx-auto"
-          color="#D1B6FF"
-          height="135px"
-          style="background: linear-gradient(146.29deg, #44DEC5 9.19%, #4EBCFA 100%);
-        box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039)"
-        >
-          <v-card-title>Mesas disponibles</v-card-title>
-          <v-card-text>3 mesas libres</v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <div class="tittle_text" style="margin-top:20px;">ORDENES</div>
+    <div class="tittle_text" style="margin-top:20px;">INVENTARIOS</div>
     <v-row>
       <v-col cols="12" lg="12">
         <v-data-table

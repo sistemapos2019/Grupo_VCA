@@ -129,9 +129,14 @@
           text: 'Dashboard'
         },
         {
-          to: '/user-profile',
-          icon: 'mdi-account',
-          text: 'User Profile'
+          to: '/estadisticas',
+          icon: 'mdi-chart-bar',
+          text: 'Estadisticas'
+        },
+        {
+          to: '/inventarios',
+          icon: 'mdi-dropbox',
+          text: 'Inventarios'
         },
         {
           to: '/table-list',
