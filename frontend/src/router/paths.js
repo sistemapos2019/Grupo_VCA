@@ -20,9 +20,9 @@ export default [
     view: 'Inventarios',
   },
   {
-    path: '/user-profile',
-    name: 'User Profile',
-    view: 'UserProfile',
+    path: '/contabilidad',
+    name: 'Contabilidad',
+    view: 'Contabilidad',
   },
   {
     path: '/table-list',
