@@ -25,6 +25,11 @@ export default [
     view: 'Contabilidad',
   },
   {
+    path: '/user-profile',
+    name: 'User Profile',
+    view: 'UserProfile',
+  },
+  {
     path: '/table-list',
     name: 'Table List',
     view: 'TableList',
