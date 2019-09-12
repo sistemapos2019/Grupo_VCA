@@ -143,9 +143,9 @@
           text: 'Inventarios'
         },
         {
-          to: '/table-list',
+          to: '/contabilidad',
           icon: 'mdi-clipboard-outline',
-          text: 'Table List'
+          text: 'Contabilidad'
         },
         {
           to: '/typography',

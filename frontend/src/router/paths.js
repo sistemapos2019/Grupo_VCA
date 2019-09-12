@@ -20,6 +20,11 @@ export default [
     view: 'Inventarios',
   },
   {
+    path: '/contabilidad',
+    name: 'Contabilidad',
+    view: 'Contabilidad',
+  },
+  {
     path: '/user-profile',
     name: 'User Profile',
     view: 'UserProfile',
