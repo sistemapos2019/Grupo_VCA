@@ -80,4 +80,9 @@ export default [
     name: 'Mesas',
     view: 'Mesas',
   },
+  {
+    path: '/bitacoras',
+    name: 'Bitacora',
+    view: 'Bitacora'
+  }
 ]

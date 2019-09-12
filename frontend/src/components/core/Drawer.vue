@@ -120,6 +120,10 @@
         to: "/mesas",
         icon: "mdi-table-chair",
         text: "Mesas"
+      },
+      {
+        to:"/bitacoras",
+        text: "Bitacora"
       }
       ],
       links: [
