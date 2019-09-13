@@ -105,11 +105,7 @@
   export default {
     data: () => ({
       notifications: [
-        'Mike, John responded to your email',
-        'You have 5 new tasks',
-        'You\'re now a friend with Andrew',
-        'Another Notification',
-        'Another One'
+        'Prueba de notificaciones'
       ],
       title: null,
       responsive: false

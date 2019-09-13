@@ -14,7 +14,7 @@
             <v-card-text >
               <v-container >
                 <v-row >
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col cols="12" sm="12" md="12">
                     <v-text-field  v-model="editedItem.name" label="Nombre de la categoria"></v-text-field>
                   </v-col>
                 </v-row>
