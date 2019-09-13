@@ -10,7 +10,7 @@
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn style="background: linear-gradient(-49deg, #736DFF, #A97FFF);" dark class="mb-2" v-on="on">Agregar al inventario</v-btn>
+            <v-btn dark class="mb-2 gradient-background" v-on="on">Agregar al inventario</v-btn>
           </template>
           <v-card>
             <v-card-title>

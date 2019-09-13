@@ -4,7 +4,7 @@
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn rounded color="secondary" dark class="mb-2" v-on="on">Nueva Compra</v-btn>
+            <v-btn dark class="mb-2 gradient-background" v-on="on">Nueva Compra</v-btn>
           </template>
           <v-card>
             <v-card-title>

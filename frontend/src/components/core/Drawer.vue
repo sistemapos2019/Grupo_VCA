@@ -21,7 +21,7 @@
     <v-list-item two-line>
       <v-list-item-avatar color="white">
         <v-img
-          src="https://cdn.vuetifyjs.com/images/logos/v.png"
+          src="../../assets/logo.png"
           height="34"
           contain
         />
@@ -94,36 +94,37 @@
       {
         to: "/categorias",
         icon: "mdi-animation",
-        text: "Categorias"
+        text: "Categorias",
       },
       {
         to: "/usuarioroles",
         icon: "mdi-account-group",
-        text: "Usuario y Roles"
+        text: "Usuario y Roles",
       },
       {
         to: "/productos",
         icon: "mdi-coffee",
-        text: "Productos"
+        text: "Productos",
       },
       {
         to: "/parametros",
         icon: "mdi-altimeter",
-        text: "Parametros"
+        text: "Parametros",
       },
       {
         to: "/compras",
         icon: "mdi-application",
-        text: "Compras"
+        text: "Compras",
       },
       {
         to: "/mesas",
         icon: "mdi-table-chair",
-        text: "Mesas"
+        text: "Mesas",
       },
       {
         to:"/bitacoras",
-        text: "Bitacora"
+        icon: "mdi-account-badge-outline",
+        text: "Bitacora",
       }
       ],
       links: [
