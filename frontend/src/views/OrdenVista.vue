@@ -70,11 +70,8 @@
 
       <v-layout row wrap justify-center align-center>
         <v-flex xs9>
-          <v-btn flat v-if="footer.modoMesa" @click="guardar()">GUARDAR</v-btn>
-          <v-btn
-            color="error"
-            v-show="footer.modoMesa"
-            @click="guardar(); ModalCobro(detalles)">cobrar</v-btn>
+          <v-btn flat  @click="guardar()">GUARDAR</v-btn>
+          
         </v-flex>
         <v-flex xs3 class="text-xs-center">
           <b>Total ${{total()}}</b>
@@ -121,57 +118,7 @@ export default {
       return resultado;
     },
     guardar() {
-      if (this.detalles !== null && this.productos.length > 0) {
-        if (this.cuentas.cuentas.indexOf(this.detalles) >= 0) {
-          this.cuentas.cuentas.splice(
-            this.cuentas.cuentas.indexOf(this.detalles),
-            1
-          );
-        }
-
-        this.detalles.resumen = this.productos;
-        this.cuentas.cuentas.push(this.detalles);      
-        let detalleOrden = this.productos.map(producto => {
-          return {
-            cantidad: producto.cantidad,
-            producto1: {
-              id: producto.id,
-              precio: producto.precio
-            }
-          };
-        });
-        console.log(detalleOrden);
-
-        if (!this.detalles.cuenta) {
-          this.detalles.cuenta = 0;
-        }
-
-        console.log(JSON.stringify(detalleOrden));
-        if (!this.footer.modoMesa) {
-        rest.postJson(
-          `detalleorden?mesero=${this.detalles.mesero}&&mesa=${
-            this.detalles.mesa
-          }&&cliente=${this.detalles.cliente}&&idcuenta=${
-            this.detalles.cuenta
-          }&&observaciones=${this.observaciones}`,
-          detalleOrden
-        );
-          this.$router.push("dashboard");
-        } else{
-          rest.postJson(
-          `detalleorden?mesero=${this.detalles.mesero}&&mesa=${
-            this.detalles.mesa
-          }&&cliente=${this.detalles.cliente}&&idcuenta=${
-            this.detalles.cuenta
-          }&&finalizar=false&&observaciones=${this.observaciones}`,
-          detalleOrden
-        );
-        }
-        
-        this.footer.alert = true;
-      } else {
-        this.snackbar = true;
-      }
+          this.$router.push('dashboard');
     },
     ModalCobro(orden) {
       this.dialog = true;

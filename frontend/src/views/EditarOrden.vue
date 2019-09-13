@@ -76,10 +76,10 @@ export default {
       categorias: ["PRINCIPAL", "BEBIDAS FRIAS", "BEBIDAS CALIENTES", "POSTRES"],
       producto: { nombre: "", precio: 0.0, cantidad: 0 },
       detalle: {
-        cuenta: null,
-        mesa: null,
-        cliente: "",
-        mesero: "",
+        cuenta: 35,
+        mesa: 4,
+        cliente: "juancho",
+        mesero: "felix",
         total: null,
         resumen: []
       },
@@ -112,6 +112,11 @@ export default {
           id: producto.id
         };
       });
+      this.articulos[1].cantidad=2;
+      this.articulos[3].cantidad=1;
+      this.articulos[5].cantidad=3;
+      this.articulos[6].cantidad=5;
+
       //console.log(JSON.stringify(this.articulos))
     },
     getCategorias() {
@@ -251,7 +256,8 @@ export default {
       this.tamanio = this.resumen.length;
       // console.log(JSON.parse(JSON.stringify(this.resumen)));
     }
-  }
+  },
+  props: ["productos", "detalles", "tamanio"]
 };
 </script>
 

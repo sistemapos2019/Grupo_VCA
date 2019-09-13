@@ -95,6 +95,11 @@ export default [{
         view: 'NuevaOrden',
     },
     {
+        path: '/editarorden',
+        name: 'EditarOrden',
+        view: 'EditarOrden',
+    },
+    {
         path: '/bitacoras',
         name: 'Bitacora',
         view: 'Bitacora'
