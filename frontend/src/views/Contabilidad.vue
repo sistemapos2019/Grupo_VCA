@@ -8,8 +8,8 @@
     </v-row>
     <v-row>
       <v-col cols="12" lg="3">
-        <v-btn @click="change('ventas')">VENTAS</v-btn>
-        <v-btn @click="change('compras')">COMPRAS</v-btn>
+        <v-btn style="background: linear-gradient(146.29deg, #44DEC5 9.19%, #4EBCFA 100%); color:white;" @click="change('ventas')">VENTAS</v-btn>
+        <v-btn style="background: linear-gradient(146.29deg, #44DEC5 9.19%, #4EBCFA 100%); color:white;" @click="change('compras')">COMPRAS</v-btn>
       </v-col>
       <v-col cols="12" lg="3">
         <v-text-field placeholder="Ingrese la fecha"></v-text-field>

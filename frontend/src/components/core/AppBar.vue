@@ -52,7 +52,7 @@
             <v-btn
               class="toolbar-items"
               icon
-              to="/notifications"
+              to=""
               v-bind="attrs"
               v-on="on"
             >
@@ -84,7 +84,7 @@
         </v-menu>
 
         <v-btn
-          to="/user-profile"
+          to="/usuarioroles"
           icon
         >
           <v-icon color="tertiary">
