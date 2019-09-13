@@ -4,7 +4,7 @@
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
           <template  v-slot:activator="{ on }">
-            <v-btn rounded color="secondary"  dark class="mb-2" v-on="on">Nueva Mesa</v-btn>
+            <v-btn dark class="mb-2 gradient-background" v-on="on">Nueva Mesa</v-btn>
           </template>
           <v-card  >
             <v-card-title>
@@ -14,8 +14,8 @@
             <v-card-text >
               <v-container >
                 <v-row >
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field  v-model="editedItem.mesa" label="Nombre de Mesa"></v-text-field>
+                  <v-col cols="12" sm="12" md="12">
+                    <v-text-field  v-model="editedItem.name" label="Nombre de Mesa"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>

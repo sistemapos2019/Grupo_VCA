@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <div class="tittle_text" style="margin-top:20px;">CONTABILIDAD</div>
+    <div class="tittle_text" style="margin-top:20px;">{{titulo  }}</div>
     <v-row>
       <v-col cols="12" lg="12">
         <v-data-table :headers="headers" :items="items" :items-per-page="5"></v-data-table>
@@ -8,8 +8,8 @@
     </v-row>
     <v-row>
       <v-col cols="12" lg="3">
-        <v-btn>VENTAS</v-btn>
-        <v-btn>COMPRAS</v-btn>
+        <v-btn style="background: linear-gradient(146.29deg, #44DEC5 9.19%, #4EBCFA 100%); color:white;" @click="change('ventas')">VENTAS</v-btn>
+        <v-btn style="background: linear-gradient(146.29deg, #44DEC5 9.19%, #4EBCFA 100%); color:white;" @click="change('compras')">COMPRAS</v-btn>
       </v-col>
       <v-col cols="12" lg="3">
         <v-text-field placeholder="Ingrese la fecha"></v-text-field>
@@ -22,75 +22,83 @@
 export default {
   data() {
     return {
-      headers: [
-        {
-          sortable: false,
-          text: "ID",
-          value: "id"
-        },
-        {
-          sortable: false,
-          text: "Name",
-          value: "name"
-        },
-        {
-          sortable: false,
-          text: "Salary",
-          value: "salary",
-          align: "right"
-        },
-        {
-          sortable: false,
-          text: "Country",
-          value: "country",
-          align: "right"
-        },
-        {
-          sortable: false,
-          text: "City",
-          value: "city",
-          align: "right"
-        }
-      ],
-      items: [
-        {
-          id: 1,
-          name: "Dakota Rice",
-          country: "Niger",
-          city: "Oud-Tunrhout",
-          salary: "$35,738"
-        },
-        {
-          id: 2,
-          name: "Minerva Hooper",
-          country: "Curaçao",
-          city: "Sinaai-Waas",
-          salary: "$23,738"
-        },
-        {
-          id: 3,
-          name: "Sage Rodriguez",
-          country: "Netherlands",
-          city: "Overland Park",
-          salary: "$56,142"
-        },
-        {
-          id: 4,
-          name: "Philip Chanley",
-          country: "Korea, South",
-          city: "Gloucester",
-          salary: "$38,735"
-        },
-        {
-          id: 5,
-          name: "Doris Greene",
-          country: "Malawi",
-          city: "Feldkirchen in Kārnten",
-          salary: "$63,542"
-        }
-      ]
+      headers: [],
+      items: [],
+      titulo: null,
     };
-  }
+  },
+  methods: {
+    change: function (value) {
+      if(value == 'ventas'){
+        this.headers = [
+          {
+            sortable: false,
+            text: "Fecha",
+            value: "fecha"
+          },
+          {
+            sortable: false,
+            text: "Venta",
+            value: "venta"
+          },
+          {
+            sortable: false,
+            text: "Propinas",
+            value: "propinas"
+          },
+          {
+            sortable: false,
+            text: "Total",
+            value: "total"
+          },
+        ];
+        this.items = [
+          {
+            fecha: "26/08/96",
+            venta: "$60",
+            propinas: "$5",
+            total: "$65",
+          },
+        ];
+        this.titulo = "CONTABILIDAD VENTAS";
+      }else if(value == 'compras'){
+        this.headers = [
+          {
+            sortable: false,
+            text: "Fecha de emision",
+            value: "fecha"
+          },
+          {
+            sortable: false,
+            text: "Numero documento",
+            value: "documento"
+          },
+          {
+            sortable: false,
+            text: "Nombre proveedor",
+            value: "proveedor"
+          },
+          {
+            sortable: false,
+            text: "Total compras",
+            value: "total"
+          },
+        ];
+        this.items = [
+          {
+            fecha: "26/03/76",
+            documento: "34567-32",
+            proveedor: "Juan Valdez",
+            total: "$760.65"
+          },
+        ];
+        this.titulo = "CONTABILIDAD COMPRAS";
+      };
+    }
+  },
+  mounted() {
+    this.change('ventas');
+  },
 };
 </script>
 
