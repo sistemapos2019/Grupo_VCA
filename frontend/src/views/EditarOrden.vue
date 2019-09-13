@@ -115,7 +115,17 @@ export default {
       this.articulos[1].cantidad=2;
       this.articulos[3].cantidad=1;
       this.articulos[5].cantidad=3;
-      this.articulos[6].cantidad=5;
+      let registro = this.setProductos(this.articulos[1]);
+      this.addProducto(registro);
+      this.setCantidad(registro);
+      registro = this.setProductos(this.articulos[3]);
+      this.addProducto(registro);
+      this.setCantidad(registro);
+      registro = this.setProductos(this.articulos[5]);
+      this.addProducto(registro);
+      this.setCantidad(registro);
+
+
 
       //console.log(JSON.stringify(this.articulos))
     },
