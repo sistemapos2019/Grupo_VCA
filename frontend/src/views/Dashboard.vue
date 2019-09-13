@@ -1,6 +1,7 @@
 <template>
   <v-container fluid>
     <div class="tittle_text">RESUMEN</div>
+    <v-btn rounded color="secondary" dark class="mb-2" to="/nuevaorden">Nueva Orden</v-btn>
     <v-row>
       <v-col cols="12" lg="3">
         <v-card
@@ -10,7 +11,6 @@
           height="135px"
           style="box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039);"
         >
-        
           <v-card-title>Ventas realizadas</v-card-title>
           <v-card-text>34 ventas</v-card-text>
         </v-card>
@@ -55,11 +55,12 @@
     <div class="tittle_text" style="margin-top:20px;">ORDENES</div>
     <v-row>
       <v-col cols="12" lg="12">
-        <v-data-table
-        :headers="headers"
-        :items="items"
-        :items-per-page="5"
-      ></v-data-table>
+        <v-data-table :headers="headers" :items="items" :items-per-page="5">
+          <template v-slot:item.action="{ item }">
+            <v-icon small class="mr-2" @click="$router.push('editarorden');">edit</v-icon>
+            <v-icon small @click="deleteItem(item)">payment</v-icon>
+          </template>
+        </v-data-table>
       </v-col>
     </v-row>
   </v-container>
@@ -71,73 +72,104 @@ export default {
     return {
       headers: [
         {
+          text: "Cuenta",
+          align: "left",
           sortable: false,
-          text: "ID",
           value: "id"
         },
-        {
-          sortable: false,
-          text: "Name",
-          value: "name"
-        },
-        {
-          sortable: false,
-          text: "Salary",
-          value: "salary",
-          align: "right"
-        },
-        {
-          sortable: false,
-          text: "Country",
-          value: "country",
-          align: "right"
-        },
-        {
-          sortable: false,
-          text: "City",
-          value: "city",
-          align: "right"
-        }
+        { text: "Mesa", value: "mesa" },
+        { text: "Cliente", value: "cliente" },
+        { text: "Mesero", value: "mesero" },
+        { text: "Total", value: "total" },
+        { text: "Actions", value: "action", sortable: false }
       ],
       items: [
         {
+          cliente: "primer cliente",
+          estado: false,
+          fecha: "2019-06-20T00:00:00Z[UTC]",
           id: 1,
-          name: "Dakota Rice",
-          country: "Niger",
-          city: "Oud-Tunrhout",
-          salary: "$35,738"
+          mesa: 2,
+          mesero: "primero",
+          total: 4.35
         },
         {
+          cliente: "tercer cliente",
+          estado: false,
+          fecha: "2019-06-20T00:00:00Z[UTC]",
           id: 2,
-          name: "Minerva Hooper",
-          country: "Curaçao",
-          city: "Sinaai-Waas",
-          salary: "$23,738"
+          mesa: 2,
+          mesero: "primero",
+          total: 20.0
         },
         {
+          cliente: "tercer cliente",
+          estado: true,
+          fecha: "2019-06-20T00:00:00Z[UTC]",
           id: 3,
-          name: "Sage Rodriguez",
-          country: "Netherlands",
-          city: "Overland Park",
-          salary: "$56,142"
+          mesa: 2,
+          mesero: "primero",
+          total: 20.0
         },
         {
+          cliente: "cliente random",
+          estado: true,
+          fecha: "2019-06-07T00:00:00Z[UTC]",
           id: 4,
-          name: "Philip Chanley",
-          country: "Korea, South",
-          city: "Gloucester",
-          salary: "$38,735"
+          mesa: 4,
+          mesero: "mesero1"
         },
         {
+          cliente: "cliente33",
+          estado: false,
+          fecha: "2019-06-05T00:00:00Z[UTC]",
           id: 5,
-          name: "Doris Greene",
-          country: "Malawi",
-          city: "Feldkirchen in Kārnten",
-          salary: "$63,542"
+          mesa: 3,
+          mesero: "mesero4",
+          observaciones: "esto es prueba para las ventas",
+          total: 33.5
+        },
+        {
+          cliente: "cliente34",
+          estado: false,
+          fecha: "2019-06-05T00:00:00Z[UTC]",
+          id: 6,
+          mesa: 2,
+          mesero: "mesero 3",
+          observaciones: "prueba para ventas",
+          total: 1.5
+        },
+        {
+          cliente: "cliente35",
+          id: 7,
+          mesa: 2,
+          mesero: "mesero3",
+          observaciones: "nopasa"
+        },
+        {
+          cliente: "cliente35",
+          id: 8,
+          mesa: 2,
+          mesero: "mesero3",
+          observaciones: "nopasa"
+        },
+        {
+          cliente: "cliente35",
+          id: 9,
+          mesa: 2,
+          mesero: "mesero3",
+          observaciones: "nopasa"
+        },
+        {
+          cliente: "cliente35",
+          id: 10,
+          mesa: 2,
+          mesero: "mesero3",
+          observaciones: "nopasa"
         }
-      ],
+      ]
     };
-  },
+  }
 };
 </script>
 
