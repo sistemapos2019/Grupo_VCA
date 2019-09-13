@@ -100,6 +100,11 @@ export default [{
         view: 'EditarOrden',
     },
     {
+        path: '/ticket',
+        name: 'Ticket',
+        view: 'Ticket',
+    },
+    {
         path: '/bitacoras',
         name: 'Bitacora',
         view: 'Bitacora'

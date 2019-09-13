@@ -11,6 +11,39 @@
           height="135px"
           style="box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039);"
         >
+          <v-dialog v-model="dialog" persistent max-width="500">
+            <v-card>
+              <v-card-title class="headline">
+                <v-layout align-center justify-center row fill-height>
+                  <v-flex style="text-align: center;">CUENTA N:{{cobrarIndex.cuenta}}</v-flex>
+                </v-layout>
+              </v-card-title>
+              <v-layout justify-center fill-height column>
+                <v-layout row align-center justify-center>
+                  <v-flex xs5>TOTAL:</v-flex>
+                  <v-flex xs5>{{cobrarIndex.total}}</v-flex>
+                </v-layout>
+                <br />
+                <v-layout row align-center justify-center>
+                  <v-flex xs5>PAGO:</v-flex>
+                  <v-flex xs5>
+                    <v-text-field v-model="pago" label="PAGO" single-line></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <br />
+                <v-layout row align-center justify-center>
+                  <v-flex xs5>CAMBIO:</v-flex>
+                  <v-flex xs5>{{(pago - cobrarIndex.total).toFixed(2) | negativos}}</v-flex>
+                </v-layout>
+              </v-layout>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" flat @click="dialog = false">CANCELAR</v-btn>
+                <v-btn color="green darken-1" flat @click="cobrarOrden(cobrarIndex)">COBRAR</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
           <v-card-title>Ventas realizadas</v-card-title>
           <v-card-text>34 ventas</v-card-text>
         </v-card>
@@ -58,7 +91,7 @@
         <v-data-table :headers="headers" :items="items" :items-per-page="5">
           <template v-slot:item.action="{ item }">
             <v-icon small class="mr-2" @click="$router.push('editarorden');">edit</v-icon>
-            <v-icon small @click="deleteItem(item)">payment</v-icon>
+            <v-icon class="mr-2" @click="ModalCobro(item)">payment</v-icon>
           </template>
         </v-data-table>
       </v-col>
@@ -70,6 +103,9 @@
 export default {
   data() {
     return {
+      dialog: false,
+      cobrarIndex: [],
+      pago: null,
       headers: [
         {
           text: "Cuenta",
@@ -169,6 +205,17 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    ModalCobro(orden) {
+      console.log(JSON.stringify(orden));
+      this.dialog = true;
+      this.cobrarIndex = orden;
+    },
+     cobrarOrden(orden) {
+        this.$router.push('/ticket');
+      
+    }
   }
 };
 </script>
