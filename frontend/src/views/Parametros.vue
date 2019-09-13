@@ -1,5 +1,5 @@
 <template>
-  <v-data-table :headers="headers" :items-per-page="5" :items="desserts" sort-by="categorias" class="elevation-1">
+  <v-data-table :headers="headers" :items-per-page="5" :items="parametros" sort-by="categorias" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
@@ -15,7 +15,7 @@
               <v-container >
                 <v-row >
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field  v-model="editedItem.name" label="Nombre"></v-text-field>
+                    <v-text-field  v-model="editedItem.nombre" label="Nombre"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field  v-model="editedItem.valor" label="Valor"></v-text-field>
@@ -56,18 +56,18 @@ export default {
         text: "Nombre Parametro",
         align: "center",
         sortable: false,
-        value: "name"
+        value: "nombre"
       },
       {text: "Valor", sortable: false,value:"valor"},
       { text: "Actions", value: "action", sortable: false }
     ],
-    desserts: [],
+    parametros: [],
     editedIndex: -1,
     editedItem: {
-      name: "",
+      nombre: "",
     },
     defaultItem: {
-      name: "",
+      nombre: "",
     }
   }),
   computed: {
@@ -85,58 +85,62 @@ export default {
   },
   methods: {
     initialize() {
-      this.desserts = [
+      this.parametros = [
         {
-          name: "Modo Entorno",
+          nombre: "Modo Entorno",
+          valor:"Mesa",
+        },
+        {
+          nombre: "Nombre ",
+          valor:"Negocio la Bendición de Dios",
+        },
+        {
+          nombre: "Descripcion",
+          valor:"Servicios de Cafetería y restaurante",
+        },
+        {
+          nombre: "Telefono",
+          valor:"(503) 2453-5478",
+        },
+        {
+          nombre: "NIT",
+          valor:"0524-045374-102-8",
+        },
+        {
+          nombre: "Giro",
+          valor:"Restaurante",
+        },
+        {
+          nombre: "Direccion",
+          valor:"BArrio El Calvario calle libertad N23 Santa Ana",
+        },
+        {
+          nombre: "Imprimir Ticket de productos preparados",
           valor:"Si",
         },
         {
-          name: "Nombre ",
-          valor:"SisBarv.2",
+          nombre: "Imprimir Ticket de productos no preparados o rapidos",
+          valor:"Si",
         },
         {
-          name: "Descripcion",
-          valor:"Interfaces no funcionales",
+          nombre: "Tiempo maximo ordenes RAPIDAS (minutos)",
+          valor:"4.5",
         },
         {
-          name: "Cupcake",
-          valor:"SisBarv.2",
-        },
-        {
-          name: "Gingerbread",
-          valor:"SisBarv.2",
-        },
-        {
-          name: "Jelly bean",
-          valor:"SisBarv.2",
-        },
-        {
-          name: "Lollipop",
-          valor:"SisBarv.2",
-        },
-        {
-          name: "Honeycomb",
-          valor:"SisBarv.2",
-        },
-        {
-          name: "Donut",
-          valor:"SisBarv.2",
-        },
-        {
-          name: "KitKat",
-          valor:"SisBarv.2",
+          nombre: "Tiempo maximo Preparacion Orden",
+          valor:"18",
         }
       ];
     },
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.parametros.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
     deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.desserts.splice(index, 1);
+      const index = this.parametros.indexOf(item);
+      confirm("Desea Eliminar el Parámetro?") &&
+        this.parametros.splice(index, 1);
     },
     close() {
       this.dialog = false;
@@ -147,9 +151,9 @@ export default {
     },
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        Object.assign(this.parametros[this.editedIndex], this.editedItem);
       } else {
-        this.desserts.push(this.editedItem);
+        this.parametros.push(this.editedItem);
       }
       this.close();
     }

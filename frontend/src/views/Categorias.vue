@@ -1,5 +1,5 @@
 <template>
-  <v-data-table :headers="headers" :items="desserts" sort-by="categorias" class="elevation-1" :items-per-page="5">
+  <v-data-table :headers="headers" :items="categorias" sort-by="categorias" class="elevation-1" :items-per-page="5">
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
@@ -15,7 +15,7 @@
               <v-container >
                 <v-row >
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field  v-model="editedItem.name" label="Nombre de la categoria"></v-text-field>
+                    <v-text-field  v-model="editedItem.nombre" label="Nombre de la categoria"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -53,17 +53,17 @@ export default {
         text: "Nombre de la Categoria",
         align: "center",
         sortable: false,
-        value: "name"
+        value: "nombre"
       },
       { text: "Actions", value: "action", sortable: false }
     ],
-    desserts: [],
+    categorias: [],
     editedIndex: -1,
     editedItem: {
-      name: "",
+      nombre: "",
     },
     defaultItem: {
-      name: "",
+      nombre: "",
     }
   }),
   computed: {
@@ -81,48 +81,42 @@ export default {
   },
   methods: {
     initialize() {
-      this.desserts = [
+      this.categorias = [
         {
-          name: "Frozen Yogurt",
+          nombre: "Platos Tipicos",
         },
         {
-          name: "Ice cream sandwich",
+          nombre: "Helados",
         },
         {
-          name: "Eclair",
+          nombre: "Postres",
         },
         {
-          name: "Cupcake",
+          nombre: "desayunos",
         },
         {
-          name: "Gingerbread",
+          nombre: "Bebidas calientes",
         },
         {
-          name: "Jelly bean",
+          nombre: "Bebidas frias",
         },
         {
-          name: "Lollipop",
+          nombre: "Platos",
         },
         {
-          name: "Honeycomb",
-        },
-        {
-          name: "Donut",
-        },
-        {
-          name: "KitKat",
+          nombre: "Entradas",
         }
       ];
     },
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.categorias.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
     deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.desserts.splice(index, 1);
+      const index = this.categorias.indexOf(item);
+      confirm("Desea eliminar la Categoria?") &&
+        this.categorias.splice(index, 1);
     },
     close() {
       this.dialog = false;
@@ -133,9 +127,9 @@ export default {
     },
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        Object.assign(this.categorias[this.editedIndex], this.editedItem);
       } else {
-        this.desserts.push(this.editedItem);
+        this.categorias.push(this.editedItem);
       }
       this.close();
     }

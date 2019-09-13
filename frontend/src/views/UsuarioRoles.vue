@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card >
     <template v-slop:top>
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
@@ -23,7 +23,7 @@
                     <v-text-field v-model="editedItem.clave" label="Clave"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                     <v-select :items="item" v-model="editedItem.rol" label="Rol"></v-select>
+                     <v-select :items="rol" v-model="editedItem.rol" label="Rol"></v-select>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                      <v-tooltip bottom>
@@ -52,7 +52,7 @@
     <v-list>
       <v-subheader>Usuarios</v-subheader>
 
-      <v-list-item v-for="item in items" :key="item.title">
+      <v-list-item v-for="item in usuarios" :key="item.title">
         <v-list-item-avatar>
           <v-img :src="item.avatar"></v-img>
         </v-list-item-avatar>
@@ -78,14 +78,14 @@
 export default {
   data: () => ({
     dialog: false,
-    items: [
+    usuarios: [
       {title: "Jason Oner", avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg", login: "JasonOner", rol: "Mesero"},
       {title: "Ranee Carlson", avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg", login: "RaneeCarlson", rol: "Mesero"},
       {title: "Cindy Baker", avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg", login: "CindyBaker", rol: "Mesero"},
       {title: "Ali Connors", avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",login: "AliConnors", rol: "Mesero"},
-      {title: "La Vistima", avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",login: "Vistima", rol: "Mesero"}
+      {title: "Casandra Petronila", avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",login: "CasPetro", rol: "Mesero"}
     ],
-    item:['Gerente','Mesero','Cocinero'],
+    rol:['Gerente','Mesero','Cocinero'],
     editedIndex: -1,
     editedItem: {
       title: "",
@@ -106,14 +106,14 @@ export default {
   },
   methods: {
     editItem(item) {
-      this.editedIndex = this.items.indexOf(item);
+      this.editedIndex = this.usuarios.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
     deleteItem(item) {
-      const index = this.items.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.items.splice(index, 1);
+      const index = this.usuarios.indexOf(item);
+      confirm("Elminar Usuario de la lista?") &&
+        this.usuarios.splice(index, 1);
     },
     close() {
       this.dialog = false;
@@ -124,9 +124,9 @@ export default {
     },
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.items[this.editedIndex], this.editedItem);
+        Object.assign(this.usuarios[this.editedIndex], this.editedItem);
       } else {
-        this.items.push(this.editedItem);
+        this.usuarios.push(this.editedItem);
       }
       this.close();
     }

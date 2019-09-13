@@ -1,5 +1,5 @@
 <template>
-  <v-data-table :headers="headers" :items-per-page="5" :items="desserts" sort-by="categorias" class="elevation-1">
+  <v-data-table :headers="headers" :items-per-page="5" :items="mesas" sort-by="categorias" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
@@ -15,7 +15,7 @@
               <v-container >
                 <v-row >
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field  v-model="editedItem.name" label="Nombre de Mesa"></v-text-field>
+                    <v-text-field  v-model="editedItem.mesa" label="Nombre de Mesa"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -53,17 +53,17 @@ export default {
         text: "Nombre de Mesa",
         align: "center",
         sortable: false,
-        value: "name"
+        value: "mesa"
       },
       { text: "Actions", value: "action", sortable: false }
     ],
-    desserts: [],
+    mesas: [],
     editedIndex: -1,
     editedItem: {
-      name: "",
+      mesa: "",
     },
     defaultItem: {
-      name: "",
+      mesa: "",
     }
   }),
   computed: {
@@ -81,48 +81,48 @@ export default {
   },
   methods: {
     initialize() {
-      this.desserts = [
+      this.mesas = [
         {
-          name: "Frozen Yogurt",
+          mesa: "uno",
         },
         {
-          name: "Ice cream sandwich",
+          mesa: "dos",
         },
         {
-          name: "Eclair",
+          mesa: "tres",
         },
         {
-          name: "Cupcake",
+          mesa: "cuatro",
         },
         {
-          name: "Gingerbread",
+          mesa: "cinco",
         },
         {
-          name: "Jelly bean",
+          mesa: "seis",
         },
         {
-          name: "Lollipop",
+          mesa: "siete",
         },
         {
-          name: "Honeycomb",
+          mesa: "ocho",
         },
         {
-          name: "Donut",
+          mesa: "nueve",
         },
         {
-          name: "KitKat",
+          mesa: "diez",
         }
       ];
     },
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.mesas.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
     deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.desserts.splice(index, 1);
+      const index = this.mesas.indexOf(item);
+      confirm("Desea Eliminar la Mesa?") &&
+        this.mesas.splice(index, 1);
     },
     close() {
       this.dialog = false;
@@ -133,9 +133,9 @@ export default {
     },
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        Object.assign(this.mesas[this.editedIndex], this.editedItem);
       } else {
-        this.desserts.push(this.editedItem);
+        this.mesas.push(this.editedItem);
       }
       this.close();
     }

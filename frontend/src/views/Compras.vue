@@ -1,5 +1,5 @@
 <template>
-  <v-data-table :headers="headers" :items-per-page="5" :items="desserts" sort-by="clave" class="elevation-1">
+  <v-data-table :headers="headers" :items-per-page="5" :items="compras" sort-by="clave" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
@@ -86,7 +86,7 @@ export default {
 
       { text: "Actions", value: "action", sortable: false }
     ],
-    desserts: [],
+    compras: [],
     editedIndex: -1,
     editedItem: {
       proveedor: "",
@@ -124,7 +124,7 @@ export default {
   },
   methods: {
     initialize() {
-      this.desserts = [
+      this.compras = [
         {
           proveedor: "Frozen Yogurt",
           date: "2019-09-01",
@@ -228,14 +228,14 @@ export default {
       ];
     },
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.compras.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
     deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.desserts.splice(index, 1);
+      const index = this.compras.indexOf(item);
+      confirm("Desea Eliminar la Compra?") &&
+        this.compras.splice(index, 1);
     },
     close() {
       this.dialog = false;
@@ -246,9 +246,9 @@ export default {
     },
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        Object.assign(this.compras[this.editedIndex], this.editedItem);
       } else {
-        this.desserts.push(this.editedItem);
+        this.compras.push(this.editedItem);
       }
       this.close();
     }

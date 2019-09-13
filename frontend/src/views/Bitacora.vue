@@ -53,34 +53,34 @@
     initialize() {
       this.bitacora = [
         {
-          fecha: '2019-09-09',
-          suceso: 'Niger',
-          usuario: 'Oud-Tunrhout',
+          fecha: '2019-09-09 14:50',
+          suceso: 'Agrego productos a la orden N° 22',
+          usuario: 'Ranee Carlson',
         },
         {
-          fecha: '2019-09-09',
-          suceso: 'Curaçao',
-          usuario: 'Sinaai-Waas',
+          fecha: '2019-09-09  13:25',
+          suceso: 'Agrego una nueva orden',
+          usuario: 'Ranee Carlson',
         }, 
         {
-          fecha: '2019-09-09',
-          suceso: 'Netherlands',
-          usuario: 'Overland Park',
+          fecha: '2019-09-09  11:36',
+          suceso: 'Finalizo orden N°1',
+          usuario: 'Casandra Petronila',
         }, 
         {
-          fecha: '2019-09-09',
-          suceso: 'Korea, South',
-          usuario: 'Gloucester',
+          fecha: '2019-09-09  10:05',
+          suceso: 'Cobro la Orden N° 3',
+          usuario: 'Cindy Baker',
         }, 
         {
-          fecha: '2019-09-09',
-          suceso: 'Malawi',
-          usuario: 'Feldkirchen in Kārnten',
+          fecha: '2019-09-08 15:20',
+          suceso: 'Ingreso al sistema',
+          usuario: 'Casandra Petronila',
         }, 
         {
-          fecha: '2019-09-09',
-          suceso: 'Chile',
-          usuario: 'Gloucester',
+          fecha: '2019-09-08  13:23',
+          suceso: 'Finalizo la secion en el sistema',
+          usuario: 'Ranee Carlson',
         }
       ];
     },

@@ -1,5 +1,5 @@
 <template>
-  <v-data-table :headers="headers" :items-per-page="5" :items="desserts" sort-by="categorias" class="elevation-1">
+  <v-data-table :headers="headers" :items-per-page="5" :items="productos" sort-by="categorias" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
@@ -15,7 +15,7 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.name" label="Nombre del producto"></v-text-field>
+                    <v-text-field v-model="editedItem.nombre" label="Nombre del producto"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.categorias" label="Categorias"></v-text-field>
@@ -59,22 +59,22 @@ export default {
         text: "Nombre del Producto",
         align: "left",
         sortable: false,
-        value: "name"
+        value: "nombre"
       },
       { text: "Categoria", value: "categorias" },
       { text: "Precio", value: "precio" },
       { text: "Actions", value: "action", sortable: false }
     ],
-    desserts: [],
+    productos: [],
     editedIndex: -1,
     editedItem: {
-      name: "",
-      categorias: 0,
+      nombre: "",
+      categorias: "",
       precio: 0
     },
     defaultItem: {
-      name: "",
-      categorias: 0,
+      nombre: "",
+      categorias: "",
       precio: 0
     }
   }),
@@ -93,68 +93,68 @@ export default {
   },
   methods: {
     initialize() {
-      this.desserts = [
+      this.productos = [
         {
-          name: "Frozen Yogurt",
-          categorias: 159,
-          precio: 6.0
+          nombre: "Sushi",
+          categorias: "Pasta",
+          precio: "$5.00"
         },
         {
-          name: "Ice cream sandwich",
-          categorias: 237,
-          precio: 9.0
+          nombre: "pealla",
+          categorias: "Platillo",
+          precio: "$7.50"
         },
         {
-          name: "Eclair",
-          categorias: 262,
-          precio: 16.0
+          nombre: "Frozen",
+          categorias: "Bebidas Heladas",
+          precio: "$1.25"
         },
         {
-          name: "Cupcake",
-          categorias: 305,
-          precio: 3.7
+          nombre: "Carne Azada",
+          categorias: "Plato Tipico",
+          precio: "$2.50"
         },
         {
-          name: "Gingerbread",
-          categorias: 356,
-          precio: 16.0
+          nombre: "Capuchino",
+          categorias: "Bebida Caliente",
+          precio: "$1.50"
         },
         {
-          name: "Jelly bean",
-          categorias: 375,
-          precio: 0.0
+          nombre: "Café",
+          categorias: "Bebida Caliente",
+          precio: "$1.00"
         },
         {
-          name: "Lollipop",
-          categorias: 392,
-          precio: 0.2
+          nombre: "Comida Mexicana",
+          categorias: "platillos",
+          precio: "$1.50"
         },
         {
-          name: "Honeycomb",
-          categorias: 408,
-          precio: 3.2
+          nombre: "Tres Leches",
+          categorias: "Postres",
+          precio: "$2.00"
         },
         {
-          name: "Donut",
-          categorias: 452,
-          precio: 25.0
+          nombre: "Mariscada en Salsa Rosa",
+          categorias: "Mariscos",
+          precio: "$7.50"
         },
         {
-          name: "KitKat",
-          categorias: 518,
-          precio: 26.0
+          nombre: "Pilsener",
+          categorias: "Bebida Calientes",
+          precio: "$1.50"
         }
       ];
     },
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.productos.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
     deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.desserts.splice(index, 1);
+      const index = this.productos.indexOf(item);
+      confirm("Eliminar Producto?") &&
+        this.productos.splice(index, 1);
     },
     close() {
       this.dialog = false;
@@ -165,9 +165,9 @@ export default {
     },
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        Object.assign(this.productos[this.editedIndex], this.editedItem);
       } else {
-        this.desserts.push(this.editedItem);
+        this.productos.push(this.editedItem);
       }
       this.close();
     }
