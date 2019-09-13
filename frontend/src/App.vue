@@ -32,4 +32,7 @@
   .gradient-background-lightpurple{
     background: linear-gradient(147.2deg, #F9B4BD 0%, #9573DB 100%);
   }
+  .black-text{
+    color: black !important;
+  }
 </style>

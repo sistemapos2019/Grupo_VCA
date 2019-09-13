@@ -4,11 +4,11 @@
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
           <template  v-slot:activator="{ on }">
-            <v-btn rounded color="secondary"  dark class="mb-2" v-on="on">Nuevo Producto</v-btn>
+            <v-btn dark class="mb-2 gradient-background" v-on="on">Nuevo Producto</v-btn>
           </template>
           <v-card>
             <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
+              <span class="headline black-text">{{ formTitle }}</span>
             </v-card-title>
 
             <v-card-text>
@@ -29,11 +29,11 @@
 
             <v-card-actions>
               <div class="flex-grow-1"></div>
-              <v-btn color="blue darken-1" text @click="close">
-                <v-icon>mdi-cancel</v-icon>Cancel
+              <v-btn color="#504da3" text @click="close">
+                <v-icon>mdi-cancel</v-icon>Cancelar
               </v-btn>
-              <v-btn color="blue darken-1" text @click="save">
-                <v-icon>mdi-content-save</v-icon>Save
+              <v-btn color="#504da3" text @click="save">
+                <v-icon>mdi-content-save</v-icon>Guardar
               </v-btn>
             </v-card-actions>
           </v-card>
