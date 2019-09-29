@@ -1,6 +1,6 @@
 <template>
   <material-card>
-    <v-data-table :headers="headers" :items="bitacora" :items-per-page="5">
+    <v-data-table :headers="headers" :items="bitacoras" :items-per-page="5">
       <template v-slot:top>
         <v-row>
           <v-col cols="12" md="2">
@@ -24,8 +24,12 @@
 </template>
 
 <script>
+import restMethods from "./../utils/restMethods.js";
+import { setTimeout } from "timers";
+const rm = new restMethods();
 export default {
-  data: () => ({
+  data () {
+    return {
     headers: [
       {
         sortable: false,
@@ -40,56 +44,28 @@ export default {
       {
         sortable: false,
         text: "Usuario",
-        value: "usuario"
+        value: "idUsuario.nombreCompleto"
       }
     ],
-    bitacora: []
-  }),
-  created() {
-    this.initialize();
-  },
+    bitacoras: this.getbitacoras(),
+  };},
   methods: {
-    initialize() {
-      this.bitacora = [
-        {
-          fecha: '2019-09-09 14:50',
-          suceso: 'Agrego productos a la orden N° 22',
-          usuario: 'Ranee Carlson',
-        },
-        {
-          fecha: '2019-09-09  13:25',
-          suceso: 'Agrego una nueva orden',
-          usuario: 'Ranee Carlson',
-        }, 
-        {
-          fecha: '2019-09-09  11:36',
-          suceso: 'Finalizo orden N°1',
-          usuario: 'Casandra Petronila',
-        }, 
-        {
-          fecha: '2019-09-09  10:05',
-          suceso: 'Cobro la Orden N° 3',
-          usuario: 'Cindy Baker',
-        }, 
-        {
-          fecha: '2019-09-08 15:20',
-          suceso: 'Ingreso al sistema',
-          usuario: 'Casandra Petronila',
-        }, 
-        {
-          fecha: '2019-09-08  13:23',
-          suceso: 'Finalizo la secion en el sistema',
-          usuario: 'Ranee Carlson',
-        }
-      ];
+    getbitacoras() {
+      rm.getJson("bitacoras")
+        .then(r => {
+          this.bitacoras = r.data;
+        })
+        .catch(e => {
+          this.bitacoras = [];
+        });
     },
     deleteItem() {
       confirm("Desea borrar el historial de Bitacoras de sucesos?") &&
-        this.bitacora.splice(0, this.bitacora.length);
+        this.bitacoras.splice(0, this.bitacoras.length);
     },
     deleteItemRange() {
       confirm("Desea borrar el historial de Bitacoras del rango?") &&
-        this.bitacora.splice(0, 2);
+        this.bitacoras.splice(0, 2);
     }
   }
 };

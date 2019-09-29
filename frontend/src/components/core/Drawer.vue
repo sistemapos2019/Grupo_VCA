@@ -9,7 +9,7 @@
     floating
     mobile-break-point="991"
     persistent
-    width="260"
+    width="273"
   >
     <template v-slot:img="attrs">
       <v-img

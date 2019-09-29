@@ -1,29 +1,34 @@
 <template>
-  <v-data-table :headers="headers" :items="categorias" sort-by="categorias" class="elevation-1" :items-per-page="5">
+  <v-data-table
+    :headers="headers"
+    :items="categorias"
+    sort-by="categorias"
+    class="elevation-1"
+    :items-per-page="5"
+  >
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
-          <template  v-slot:activator="{ on }">
+          <template v-slot:activator="{ on }">
             <v-btn dark class="mb-2 gradient-background" v-on="on">Nueva Categoria</v-btn>
           </template>
-          <v-card  >
+          <v-card>
             <v-card-title>
               <span class="headline black-text">{{ formTitle }}</span>
             </v-card-title>
 
-            <v-card-text >
-              <v-container >
-                <v-row >
-
+            <v-card-text>
+              <v-container>
+                <v-row>
                   <v-col cols="12" sm="12" md="12">
-                    <v-text-field  v-model="editedItem.name" label="Nombre de la categoria"></v-text-field>
+                    <v-text-field v-model="editedItem.nombre" label="Nombre de la categoria"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
             </v-card-text>
 
-            <v-card-actions >
-              <div class="flex-grow-1" ></div>
+            <v-card-actions>
+              <div class="flex-grow-1"></div>
               <v-btn color="#504da3" text @click="close">
                 <v-icon>mdi-cancel</v-icon>Cancelar
               </v-btn>
@@ -39,34 +44,37 @@
       <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
       <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
     </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">Reset</v-btn>
-    </template>
   </v-data-table>
 </template>
 
 <script>
+import restMethods from "./../utils/restMethods.js";
+import { setTimeout } from "timers";
+const rm = new restMethods();
 export default {
-  data: () => ({
-    dialog: false,
-    headers: [
-      {
-        text: "Nombre de la Categoria",
-        align: "center",
-        sortable: false,
-        value: "nombre"
+  data() {
+    return {
+      dialog: false,
+      categorias: this.getcategorias(),
+      headers: [
+        
+        {
+          text: "Nombre de la Categoria",
+          align: "center",
+          sortable: false,
+          value: "categorias"
+        },
+        { text: "Actions", value: "action", sortable: false }
+      ],
+      editedIndex: -1,
+      editedItem: {
+        nombre: ""
       },
-      { text: "Actions", value: "action", sortable: false }
-    ],
-    categorias: [],
-    editedIndex: -1,
-    editedItem: {
-      nombre: "",
-    },
-    defaultItem: {
-      nombre: "",
-    }
-  }),
+      defaultItem: {
+        nombre: ""
+      }
+    };
+  },
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "Nueva Categoria" : "Editar Categoria";
@@ -77,38 +85,7 @@ export default {
       val || this.close();
     }
   },
-  created() {
-    this.initialize();
-  },
   methods: {
-    initialize() {
-      this.categorias = [
-        {
-          nombre: "Platos Tipicos",
-        },
-        {
-          nombre: "Helados",
-        },
-        {
-          nombre: "Postres",
-        },
-        {
-          nombre: "desayunos",
-        },
-        {
-          nombre: "Bebidas calientes",
-        },
-        {
-          nombre: "Bebidas frias",
-        },
-        {
-          nombre: "Platos",
-        },
-        {
-          nombre: "Entradas",
-        }
-      ];
-    },
     editItem(item) {
       this.editedIndex = this.categorias.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -125,6 +102,15 @@ export default {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       }, 300);
+    },
+    getcategorias() {
+      rm.getJson("categorias")
+        .then(r => {
+          this.categorias = r.data;
+        })
+        .catch(e => {
+          this.categorias = [];
+        });
     },
     save() {
       if (this.editedIndex > -1) {

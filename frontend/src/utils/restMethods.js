@@ -2,7 +2,7 @@ import Axios from 'axios'
 
 export default class RestMethods {
     constructor() {
-        this.baseUri = 'http://192.168.43.60:8080/dsi2019-1.0-SNAPSHOT/webresources/'
+        this.baseUri = 'http://localhost:8080/POSis/ws/'
         this.json = null
     }
 

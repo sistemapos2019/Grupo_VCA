@@ -15,7 +15,7 @@
               <v-container >
                 <v-row >
                   <v-col cols="12" sm="12" md="12">
-                    <v-text-field  v-model="editedItem.name" label="Nombre de Mesa"></v-text-field>
+                    <v-text-field  v-model="editedItem.mesa" label="Nombre de Mesa"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
