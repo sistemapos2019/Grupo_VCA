@@ -7,6 +7,7 @@ package com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -139,7 +140,7 @@ public class Usuario implements Serializable {
         this.rol = rol;
     }
 
-    @XmlTransient
+    @JsonbTransient
     public List<Bitacora> getBitacoraList() {
         return bitacoraList;
     }
@@ -148,7 +149,7 @@ public class Usuario implements Serializable {
         this.bitacoraList = bitacoraList;
     }
 
-    @XmlTransient
+    @JsonbTransient
     public List<Orden> getOrdenList() {
         return ordenList;
     }

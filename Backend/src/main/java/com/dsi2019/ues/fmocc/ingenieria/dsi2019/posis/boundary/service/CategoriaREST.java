@@ -61,21 +61,20 @@ public class CategoriaREST {
                 .header("Error al Modificar", 1).build();
     }
 
-//    @GET
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public Response findAll() {
-//        if (!categoriaFacade.findAll().isEmpty()) {
-//            System.out.println("asa: "+categoriaFacade.findAll());
-//             return Response.ok()
-//                .entity(categoriaFacade.findAll())
-//                .header("Total-Reg",1)
-//                .build();
-//        }else{
-//            System.out.println("holAaaa");
-//            return Response.status(Response.Status.NOT_FOUND).build();
-//        }
-//            
-//    }
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response findAll() {
+        if (!categoriaFacade.findAll().isEmpty()) {
+             return Response.ok()
+                .entity(categoriaFacade.findAll())
+                .header("Total-Reg",1)
+                .build();
+        }else{
+            System.out.println("holAaaa");
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+            
+    }
     
     @GET
     @Path("rango")
@@ -87,17 +86,17 @@ public class CategoriaREST {
                 .header("Total-Reg",categoriaFacade.findRange(first, size).size())
                 .build();
     }
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<Categoria> findAll(){
-        if (!categoriaFacade.findAll().isEmpty()) {
-            System.out.println("asdasd "+categoriaFacade.findAll());
-            return categoriaFacade.findAll();
-        }else{
-            System.out.println("error");
-            return null;
-        }
-    }
+//    @GET
+//    @Produces({MediaType.APPLICATION_JSON})
+//    public List<Categoria> findAll(){
+//        if (!categoriaFacade.findAll().isEmpty()) {
+//            System.out.println("asdasd "+categoriaFacade.findAll());
+//            return categoriaFacade.findAll();
+//        }else{
+//            System.out.println("error");
+//            return null;
+//        }
+//    }
      
 
 }

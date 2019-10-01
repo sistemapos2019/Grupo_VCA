@@ -10,7 +10,7 @@
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn dark class="mb-2 gradient-background" v-on="on">Nueva Categoria</v-btn>
+            <v-btn dark class="mb-2 gradient-background" v-on="on" @click="crear()">Nueva Categoria</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -21,7 +21,7 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="12" md="12">
-                    <v-text-field v-model="editedItem.nombre" label="Nombre de la categoria"></v-text-field>
+                    <v-text-field v-model="categoria.nombre" label="Nombre de la categoria"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -32,7 +32,7 @@
               <v-btn color="#504da3" text @click="close">
                 <v-icon>mdi-cancel</v-icon>Cancelar
               </v-btn>
-              <v-btn color="#504da3" text @click="save">
+              <v-btn color="#504da3" text @click="ejecutar(categoria.nombre)">
                 <v-icon>mdi-content-save</v-icon>Guardar
               </v-btn>
             </v-card-actions>
@@ -41,8 +41,8 @@
       </v-toolbar>
     </template>
     <template v-slot:item.action="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+      <v-icon small class="mr-2" @click="editar(item)">mdi-pencil</v-icon>
+<!--      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>-->
     </template>
   </v-data-table>
 </template>
@@ -55,6 +55,7 @@ export default {
   data() {
     return {
       dialog: false,
+      nuevo:false,
       categorias: this.getcategorias(),
       headers: [
         
@@ -62,12 +63,13 @@ export default {
           text: "Nombre de la Categoria",
           align: "center",
           sortable: false,
-          value: "categorias"
+          value: "nombre"
         },
         { text: "Actions", value: "action", sortable: false }
       ],
       editedIndex: -1,
-      editedItem: {
+      categoria: {
+        id:"",
         nombre: ""
       },
       defaultItem: {
@@ -86,15 +88,16 @@ export default {
     }
   },
   methods: {
-    editItem(item) {
-      this.editedIndex = this.categorias.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-    deleteItem(item) {
+    /*deleteItem(item) {
       const index = this.categorias.indexOf(item);
       confirm("Desea eliminar la Categoria?") &&
         this.categorias.splice(index, 1);
+    },*/
+    editar(item) {
+      this.editedIndex= 0;
+      this.nuevo = false;
+      this.categoria = item;
+      this.dialog = true;
     },
     close() {
       this.dialog = false;
@@ -111,7 +114,42 @@ export default {
         .catch(e => {
           this.categorias = [];
         });
+        console.log(JSON.stringify(this.categorias))
     },
+     ejecutar(categoriaEdit) {
+      if (categoriaEdit != null && this.nuevo && !this.categoria.id) {
+        this.categoria.nombre = categoriaEdit;
+        console.log(JSON.stringify(this.categoria));
+        rm.postJson("categorias", {
+          id: this.categoria.id,
+          nombre: this.categoria.nombre
+        });
+        
+      } else if (categoriaEdit != null && !this.nuevo && this.categoria.id) {
+        console.log("edit" + JSON.stringify(this.categoria));
+        this.categoria.nombre = categoriaEdit;
+        rm.putJson("categorias/" + parseInt(this.categoria.id), {
+          id: this.categoria.id,
+          nombre: this.categoria.nombre
+        });
+       
+      }
+       this.dialog = false;
+        this.categoria.id = null;
+        this.categoria.nombre = null;
+      
+      setTimeout(() => {
+        this.getcategorias();
+      }, 100);
+    },
+    crear() {
+      this.categoria.nombre = null;
+      this.nuevo = true;
+      this.categoria.id = null;
+      this.dialog = true;
+      console.log("Entro al crear");
+    },
+
     save() {
       if (this.editedIndex > -1) {
         Object.assign(this.categorias[this.editedIndex], this.editedItem);

@@ -4,7 +4,7 @@
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
           <template  v-slot:activator="{ on }">
-            <v-btn dark class="mb-2 gradient-background" v-on="on">Nuevo Producto</v-btn>
+            <v-btn dark class="mb-2 gradient-background" v-on="on" @click="crear()">Nuevo Producto</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -15,23 +15,20 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.nombre" label="Nombre del producto"></v-text-field>
+                    <v-text-field v-model="producto.nombre" label="Nombre del producto"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.precio" label="Precio del producto"></v-text-field>
+                    <v-text-field v-model="producto.precio" label="Precio del producto"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.inventario" label="Existencia"></v-text-field>
+                    <v-text-field v-model="producto.inventario" label="Existencia"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-select :items="[{prep:true,val:'SI'},{prep:false,val:'NO'}]" item-text="val"
-                    item-value="prep" v-model="editedItem.preparado" label="Preparado"></v-select>
+                    item-value="prep" v-model="producto.preparado" label="Preparado"></v-select>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-select :items="categorias" v-model="editedItem.categorias" label="Categorias"></v-select>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.precio" label="Precio"></v-text-field>
+                    <v-select :items="categorias" item-value="id" item-text="nombre" v-model="producto.nombreCategoria" label="Categorias"></v-select>
                   </v-col>
                 </v-row>
               </v-container>
@@ -42,7 +39,7 @@
               <v-btn color="#504da3" text @click="close">
                 <v-icon>mdi-cancel</v-icon>Cancelar
               </v-btn>
-              <v-btn color="#504da3" text @click="save">
+              <v-btn color="#504da3" text @click="guardar(item)">
                 <v-icon>mdi-content-save</v-icon>Guardar
               </v-btn>
             </v-card-actions>
@@ -71,7 +68,7 @@ export default {
         sortable: false,
         value: "nombre"
       },
-      { text: "Categoria", value: "categorias" },
+      { text: "Categoria", value: "idCategoria.nombre" },
       { text: "Precio", value: "precio" },
       { text: "Existencias", value: "inventario" },
       { text: "Preparado", value: "preparado" },
@@ -80,9 +77,10 @@ export default {
     productos: this.getproductos(),
     categorias:this.getcategorias(),
     editedIndex: -1,
-    editedItem: {
+    producto: {
+      id:"",
       nombre: "",
-      categorias: "",
+      nombreCategoria: "",
       precio: 0,
       inventario:"",
       preparado:"",
@@ -123,11 +121,30 @@ export default {
         .catch(e => {
           this.categorias = [];
         });
+        console.log(JSON.stringify(this.categorias));
     },
     editItem(item) {
-      this.editedIndex = this.productos.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
+      this.editedIndex=0;
+      this.dialog=true;
+      this.producto=item;
+    },
+    crear(){
+      this.producto.id=null;
+      this.producto.nombre=null;
+      this.producto.nombreCategoria=null;
+      this.producto.precio=null;
+      this.producto.inventario=null;
+      this.producto.preparado=null;
+      this.editedIndex=-1;
+    },
+    guardar(item){
+      if(this.producto.id!=null && this.producto.nombre!=null && this.producto.precio!=null && this.producto.nombreCategoria!=null){
+        console.log(JSON.stringify(this.producto));
+      }else{
+        this.producto.id=null;
+        console.log(JSON.stringify("Crear "+this.producto));
+      }
+      this.producto=null;
     },
     deleteItem(item) {
       const index = this.productos.indexOf(item);

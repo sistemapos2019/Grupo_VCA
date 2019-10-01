@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -189,7 +190,7 @@ public class Compra implements Serializable {
         this.total = total;
     }
 
-    @XmlTransient
+    @JsonbTransient
     public List<Detallecompra> getDetallecompraList() {
         return detallecompraList;
     }

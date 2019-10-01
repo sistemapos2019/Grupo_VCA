@@ -7,6 +7,7 @@ package com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -76,7 +77,7 @@ public class Mesa implements Serializable {
         this.mesa = mesa;
     }
 
-    @XmlTransient
+    @JsonbTransient
     public List<Orden> getOrdenList() {
         return ordenList;
     }
