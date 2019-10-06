@@ -40,7 +40,7 @@ public class Detalleorden implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cantidad")
-    private BigDecimal cantidad;
+    private int cantidad;
     @Basic(optional = false)
     @NotNull
     @Column(name = "precioUnitario")
@@ -59,7 +59,7 @@ public class Detalleorden implements Serializable {
         this.detalleordenPK = detalleordenPK;
     }
 
-    public Detalleorden(DetalleordenPK detalleordenPK, BigDecimal cantidad, BigDecimal precioUnitario) {
+    public Detalleorden(DetalleordenPK detalleordenPK, int cantidad, BigDecimal precioUnitario) {
         this.detalleordenPK = detalleordenPK;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
@@ -77,11 +77,11 @@ public class Detalleorden implements Serializable {
         this.detalleordenPK = detalleordenPK;
     }
 
-    public BigDecimal getCantidad() {
+    public int getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(BigDecimal cantidad) {
+    public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
 
