@@ -35,6 +35,7 @@ public class ApplicationConfig extends Application {
         resources.add(com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.boundary.service.CompraREST.class);
         resources.add(com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.boundary.service.DetallecompraREST.class);
         resources.add(com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.boundary.service.DetalleordenREST.class);
+        resources.add(com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.boundary.service.EstadisticasRest.class);
         resources.add(com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.boundary.service.MesaREST.class);
         resources.add(com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.boundary.service.OrdenREST.class);
         resources.add(com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.boundary.service.ParametroREST.class);
