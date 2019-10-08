@@ -73,7 +73,7 @@ export default {
       categoria: "PRINCIPAL",
       tamanio: 0,
 
-      categorias: ["PRINCIPAL", "BEBIDAS FRIAS", "BEBIDAS CALIENTES", "POSTRES"],
+      categorias: this.getCategorias(),
       producto: { nombre: "", precio: 0.0, cantidad: 0 },
       detalle: {
         cuenta: null,
@@ -89,6 +89,7 @@ export default {
   },
   created(){
     this.getProductos();
+    this.getCategorias();
   },
   computed: {
     filter() {
@@ -112,12 +113,10 @@ export default {
           id: producto.id
         };
       });
-      //console.log(JSON.stringify(this.articulos))
+      console.log(JSON.stringify(this.articulos))
     },
     getCategorias() {
-      rest
-        .getJson("categorias")
-        .then(r => {
+      rest.getJson("categorias").then(r => {
           let f = r.data.map(m => {
             return m.nombre;
           });
@@ -129,74 +128,13 @@ export default {
         });
     },
     getProductos() {
-      this.productos = [
-        {
-          categoria: { id: 2, nombre: "BEBIDAS FRIAS" },
-          id: 1,
-          nombre: "PEPSI",
-          precio: 0.5
-        },
-        {
-          categoria: { id: 2, nombre: "BEBIDAS FRIAS" },
-          id: 2,
-          nombre: "COCA COLA",
-          precio: 0.6
-        },
-        {
-          categoria: { id: 2, nombre: "BEBIDAS FRIAS" },
-          id: 3,
-          nombre: "SUPREMA",
-          precio: 1.5
-        },
-        {
-          categoria: { id: 2, nombre: "BEBIDAS FRIAS" },
-          id: 4,
-          nombre: "VODKA",
-          precio: 7.0
-        },
-        {
-          categoria: { id: 2, nombre: "BEBIDAS FRIAS" },
-          id: 5,
-          nombre: "PILSENER",
-          precio: 1.0
-        },
-        {
-          categoria: { id: 1, nombre: "BEBIDAS CALIENTES" },
-          id: 6,
-          nombre: "CAFE",
-          precio: 1.0,
-          preparado: true
-        },
-        {
-          categoria: { id: 1, nombre: "BEBIDAS CALIENTES" },
-          id: 7,
-          nombre: "CHOCOLATE",
-          precio: 1.6,
-          preparado: true
-        },
-        {
-          categoria: { id: 1, nombre: "BEBIDAS CALIENTES" },
-          id: 8,
-          nombre: "TE CALIENTE",
-          precio: 0.75,
-          preparado: true
-        },
-        {
-          categoria: { id: 2, nombre: "BEBIDAS FRIAS" },
-          id: 9,
-          nombre: "LICUADOS",
-          precio: 1.15,
-          preparado: true
-        },
-        {
-          categoria: { id: 2, nombre: "BEBIDAS FRIAS" },
-          id: 10,
-          nombre: "FROZEN",
-          precio: 1.35,
-          preparado: true
-        }
-      ];
-      this.armarResumen();
+       rest.getJson('productos').then(r=>{
+          this.productos = r.data;
+          console.log(JSON.stringify(this.productos));
+          this.armarResumen(); 
+        }).catch(e=>{
+          this.productos = [""];
+        }); 
     },
     aumentar(index, s) {
       if (s.cantidad >= 0) {

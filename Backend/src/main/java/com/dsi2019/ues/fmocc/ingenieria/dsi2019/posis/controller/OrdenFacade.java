@@ -43,7 +43,7 @@ public class OrdenFacade extends AbstractFacade<Orden> {
     }
     
     public List find(){
-        return executeQuery("SELECT o FROM Orden o WHERE o.estado=1").setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
+        return executeQuery("SELECT o FROM Orden o WHERE o.estado='AA'").setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
     }
     
     public List<Orden> ventas(Date inicio, Date fin){

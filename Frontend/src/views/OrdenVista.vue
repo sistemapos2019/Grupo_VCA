@@ -156,3 +156,4 @@ export default {
   props: ["productos", "detalles", "tamanio"]
 };
 </script>
+

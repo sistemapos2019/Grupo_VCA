@@ -7,6 +7,7 @@ package com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -92,7 +94,9 @@ public class Detalleorden implements Serializable {
     public void setPrecioUnitario(BigDecimal precioUnitario) {
         this.precioUnitario = precioUnitario;
     }
-
+    
+    @XmlTransient
+    @JsonbTransient
     public Orden getOrden() {
         return orden;
     }
