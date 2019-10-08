@@ -82,7 +82,7 @@
         </v-list-item-content>
         <v-list-item-icon>
           <v-icon small color="blue" @click="editItem(item)">mdi-pencil</v-icon>
-          <v-icon small color="blue" @click="deleteItem(item)">mdi-delete</v-icon>
+       <!--   <v-icon small color="blue" @click="deleteItem(item)">mdi-delete</v-icon>-->
         </v-list-item-icon>
       </v-list-item>
     </v-list>

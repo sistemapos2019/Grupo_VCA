@@ -70,7 +70,6 @@ public class CategoriaREST {
                 .header("Total-Reg",1)
                 .build();
         }else{
-            System.out.println("holAaaa");
             return Response.status(Response.Status.NOT_FOUND).build();
         }
             
@@ -86,17 +85,4 @@ public class CategoriaREST {
                 .header("Total-Reg",categoriaFacade.findRange(first, size).size())
                 .build();
     }
-//    @GET
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public List<Categoria> findAll(){
-//        if (!categoriaFacade.findAll().isEmpty()) {
-//            System.out.println("asdasd "+categoriaFacade.findAll());
-//            return categoriaFacade.findAll();
-//        }else{
-//            System.out.println("error");
-//            return null;
-//        }
-//    }
-     
-
 }

@@ -27,5 +27,18 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     public UsuarioFacade() {
         super(Usuario.class);
     }
+    public boolean exist(Integer id){
+        return executeQuery("SELECT COUNT(m) FROM Usuario m WHERE m.id=:id")
+                .setParameter("id", id).getSingleResult().toString().equals("1");
+    }
+    
+    public String LoginUser(String id){
+        if (executeQuery("SELECT COUNT(s) FROM Usuario s WHERE s.login=:id")
+                .setParameter("id", id).getSingleResult().toString().equals("1")) {
+             return executeQuery("SELECT us.clave,us.pin FROM Usuario us WHERE us.login=:id")
+                .setParameter("id", id).getSingleResult().toString();
+        }
+        return "0";
+    }
     
 }
