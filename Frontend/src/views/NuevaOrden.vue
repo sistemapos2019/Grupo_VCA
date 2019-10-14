@@ -2,7 +2,7 @@
   <v-container fluid class="container">
     <v-layout>
       <v-flex xs7>
-        <v-card max-width="500" class="mx-auto card" height="230px" >
+        <v-card max-width="500" class="mx-auto card" height="230px">
           <v-form>
             <v-container>
               <v-row>
@@ -16,7 +16,7 @@
                   <v-text-field v-model="detalle.cliente" label="Cliente:" required></v-text-field>
                 </v-col>
                 <v-col cols="3">
-                  <v-text-field v-model="detalle.mesa" label="Mesa:" required></v-text-field>
+                  <v-autocomplete v-model="detalle.mesa" label="Mesa" :items="mesas"  item-text="mesa"></v-autocomplete>
                 </v-col>
                 <v-col cols="7">
                   <v-text-field label="Seleccione un Producto" v-model="search"></v-text-field>
@@ -24,25 +24,25 @@
               </v-row>
             </v-container>
           </v-form>
-            <v-tabs v-model="active" fixed-tabs slider-color="yellow">
-              <v-tab
-                v-for="(categoria, index) in categorias"
-                :key="index"
-                ripple
-                @click="setCategoria(categoria)"
-              >{{ categoria }}</v-tab>
-            </v-tabs>
+          <v-tabs v-model="active" fixed-tabs slider-color="yellow">
+            <v-tab
+              v-for="(categoria, index) in categorias"
+              :key="index"
+              ripple
+              @click="setCategoria(categoria)"
+            >{{ categoria }}</v-tab>
+          </v-tabs>
         </v-card>
-        <v-container >
+        <v-container>
           <v-list max-width="500" class="mx-auto lista">
             <v-list-item v-for="(producto, index) in filter" :key="index" ripple>
               <v-list-item-content>
                 <v-list-item-title>{{producto.nombre}}</v-list-item-title>
               </v-list-item-content>
-              <v-btn flat icon @click="disminuir(index,producto)">
+              <v-btn text icon @click="disminuir(index,producto)">
                 <v-icon>remove</v-icon>
               </v-btn>
-              <v-btn flat icon @click="aumentar(index, producto)">
+              <v-btn text icon @click="aumentar(index, producto)">
                 <v-icon>add</v-icon>
               </v-btn>
               <v-list-item-action>{{producto.cantidad}}</v-list-item-action>
@@ -51,7 +51,7 @@
         </v-container>
       </v-flex>
       <v-flex xs6>
-        <vista :productos="resumen" :detalles="detalle" :tamanio="tamanio"/>
+        <vista :productos="resumen" :detalles="detalle" :tamanio="tamanio" />
       </v-flex>
     </v-layout>
   </v-container>
@@ -83,18 +83,30 @@ export default {
         total: null,
         resumen: []
       },
+      mesas: [
+        {
+          id: 1,
+          mesa: "Uno"
+        },
+        {
+          id: 2,
+          mesa: "Dos"
+        }
+      ],
       productos: [],
       articulos: []
     };
   },
-  created(){
+  created() {
     this.getProductos();
     this.getCategorias();
   },
   computed: {
     filter() {
       if (this.articulos != null) {
-        let filtrados = this.articulos.filter( producto => producto.categoria === this.categoria);
+        let filtrados = this.articulos.filter(
+          producto => producto.categoria === this.categoria
+        );
         console.log(JSON.stringify(filtrados));
         return filtrados.filter(producto =>
           producto.nombre.toLowerCase().includes(this.search.toLowerCase())
@@ -109,14 +121,16 @@ export default {
           nombre: producto.nombre,
           precio: producto.precio,
           cantidad: 0,
-          categoria: producto.categoria.nombre,
+          categoria: producto.idCategoria.nombre,
           id: producto.id
         };
       });
-      console.log(JSON.stringify(this.articulos))
+      //console.log(JSON.stringify(this.articulos));
     },
     getCategorias() {
-      rest.getJson("categorias").then(r => {
+      rest
+        .getJson("categorias")
+        .then(r => {
           let f = r.data.map(m => {
             return m.nombre;
           });
@@ -128,13 +142,16 @@ export default {
         });
     },
     getProductos() {
-       rest.getJson('productos').then(r=>{
+      rest
+        .getJson("productos")
+        .then(r => {
           this.productos = r.data;
-          console.log(JSON.stringify(this.productos));
-          this.armarResumen(); 
-        }).catch(e=>{
+          //console.log(JSON.stringify(this.productos));
+          this.armarResumen();
+        })
+        .catch(e => {
           this.productos = [""];
-        }); 
+        });
     },
     aumentar(index, s) {
       if (s.cantidad >= 0) {
@@ -194,7 +211,7 @@ export default {
 </script>
 
 <style>
-.lista{
+.lista {
   height: 48vh;
   overflow: auto;
 }
