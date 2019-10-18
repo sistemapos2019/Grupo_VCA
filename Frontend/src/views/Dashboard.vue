@@ -103,6 +103,7 @@
 <script>
 import restMethods from "./../utils/restMethods.js";
 import CuentaEntity from "./../utils/CuentaEntity";
+import { mapState } from "vuex";
 import { isArray } from 'util';
 const rm = new restMethods();
 export default {
@@ -134,6 +135,11 @@ export default {
   },
   created() {
     this.getOrdenes();
+    console.log(JSON.stringify(this.cuentaEditar));
+  },
+   computed: {
+    ...mapState(["cuentaEditar"])
+
   },
   methods: {
     getOrdenes() {

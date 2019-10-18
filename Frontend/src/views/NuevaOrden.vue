@@ -16,7 +16,7 @@
                   <v-text-field v-model="detalle.cliente" label="Cliente:" required></v-text-field>
                 </v-col>
                 <v-col cols="3">
-                  <v-autocomplete v-model="detalle.mesa" label="Mesa" :items="mesas"  item-text="mesa"></v-autocomplete>
+                  <v-autocomplete v-model="detalle.mesa" label="Mesa" :items="mesas"  item-text="mesa" item-value="id"></v-autocomplete>
                 </v-col>
                 <v-col cols="7">
                   <v-text-field label="Seleccione un Producto" v-model="search"></v-text-field>
@@ -107,7 +107,7 @@ export default {
         let filtrados = this.articulos.filter(
           producto => producto.categoria === this.categoria
         );
-        console.log(JSON.stringify(filtrados));
+        //console.log(JSON.stringify(filtrados));
         return filtrados.filter(producto =>
           producto.nombre.toLowerCase().includes(this.search.toLowerCase())
         );
@@ -142,9 +142,7 @@ export default {
         });
     },
     getProductos() {
-      rest
-        .getJson("productos")
-        .then(r => {
+      rest.getJson("productos").then(r => {
           this.productos = r.data;
           //console.log(JSON.stringify(this.productos));
           this.armarResumen();
