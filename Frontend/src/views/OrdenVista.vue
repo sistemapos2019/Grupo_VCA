@@ -12,14 +12,14 @@
             <v-flex xs6>TOTAL:</v-flex>
             <v-flex xs6>{{cobrarIndex.total}}</v-flex>
           </v-layout>
-          <br>
+          <br />
           <v-layout row align-center justify-center>
             <v-flex xs6>PAGO:</v-flex>
             <v-flex xs6>
               <v-text-field v-model="pago" label="PAGO" single-line></v-text-field>
             </v-flex>
           </v-layout>
-          <br>
+          <br />
           <v-layout row align-center justify-center>
             <v-flex xs6>CAMBIO:</v-flex>
             <v-flex xs6>{{(pago - cobrarIndex.total).toFixed(2) | negativos}}</v-flex>
@@ -72,8 +72,7 @@
 
       <v-layout row wrap justify-center align-center>
         <v-flex xs9>
-          <v-btn text  @click="guardar()">GUARDAR</v-btn>
-          
+          <v-btn text @click="guardar()">GUARDAR</v-btn>
         </v-flex>
         <v-flex xs3 class="text-xs-center">
           <b>Total ${{total()}}</b>
@@ -118,15 +117,61 @@ export default {
         resultado +=
           this.productos[item].precio * this.productos[item].cantidad;
       }
-      this.detalles.total = resultado;
+      this.detalles.total = resultado.toFixed(2);
       return resultado;
     },
     guardar() {
-          this.$router.push('dashboard');
+      if (this.detalles !== null && this.productos.length > 0) {
+        /*if (this.cuentas.cuentas.indexOf(this.detalles) >= 0) {
+          this.cuentas.cuentas.splice(this.cuentas.cuentas.indexOf(this.detalles),1);
+        }*/
+
+        this.detalles.resumen = this.productos;
+        //this.cuentas.cuentas.push(this.detalles);
+        let detalleOrden = this.productos.map(producto => {
+          return {
+            cantidad: producto.cantidad,
+            precioUnitario: producto.precio,
+            producto: {
+              id: producto.id
+            }
+          }
+        });
+        let orden = {
+          cliente: this.detalles.cliente,
+          detalleordenList: detalleOrden,
+          estado: "AA",
+          formaPago: "E",
+          idMesa: {
+            id: this.detalles.mesa
+          },
+          idUsuario: {
+            id: this.detalles.mesero
+          },
+          llevar: 0,
+          observacion: this.detalles.observacion,
+          propina: 0,
+          total: this.detalles.total
+        };
+        
+        console.log(orden);
+        /*
+        if (!this.detalles.cuenta) {
+          this.detalles.cuenta = 0;
+        }*/
+
+        console.log(JSON.stringify(detalleOrden));
+        rest.postJson(`ordenes`, orden);
+        this.$router.push("dashboard");
+
+        this.footer.alert = true;
+      } else {
+        this.snackbar = true;
+      }
     }
   },
   computed: {
-    ...mapState(["cuentas", "footer", "cuentaTicket"]),
+    ...mapState(["cuentas", "footer", "cuentaTicket"])
   },
   filters: {
     negativos: function(value) {
