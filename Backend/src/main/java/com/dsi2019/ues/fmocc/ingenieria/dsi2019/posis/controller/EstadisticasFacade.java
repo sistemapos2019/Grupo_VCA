@@ -18,45 +18,55 @@ import javax.persistence.Query;
  */
 @Stateless
 public class EstadisticasFacade {
+
     @PersistenceContext(unitName = "com.dsi2019.ues.fmocc.ingenieria.dsi2019_POSis_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
-    public String ordenesVendidas(Date fecha){
+    public String ordenesVendidas(Date fecha) {
         System.out.println("Orden realizadas");
         return executeQuery("SELECT COUNT(o) FROM Orden o WHERE o.fecha = :date")
                 .setParameter("date", fecha)
                 .getSingleResult().toString();
-        
+
     }
-    
-    public String platilloVendidos(Date fecha){
+
+    public String platilloVendidos(Date fecha) {
         System.out.println("Platillo mas vendido");
-        return executeQuery("SELECT d.producto.nombre FROM Orden o INNER JOIN o.detalleordenList d WHERE o.fecha = :date "
+        Query q = executeQuery("SELECT d.producto.nombre FROM Orden o INNER JOIN o.detalleordenList d WHERE o.fecha = :date "
                 + "AND d.producto.idCategoria.id != (SELECT c.id FROM Categoria c WHERE c.nombre LIKE 'bebidas') "
                 + "GROUP BY d.detalleordenPK.idProducto ORDER BY SUM(d.cantidad) DESC")
                 .setParameter("date", fecha)
-                .setMaxResults(1).getSingleResult().toString();
+                .setMaxResults(1);
+
+        return (q.getResultList().isEmpty()) ? "Ninguno" : q.getSingleResult().toString();
     }
-    
-    public String platosVendidos(Date fecha){
+
+    public String platosVendidos(Date fecha) {
         System.out.println("Platos vendidos");
-        return executeQuery("SELECT SUM(d.cantidad) FROM Orden o INNER JOIN o.detalleordenList d "
+        return executeQuery("SELECT CASE WHEN (SUM(d.cantidad) IS NULL) THEN 0 ELSE SUM(d.cantidad) END FROM Orden o INNER JOIN o.detalleordenList d "
                 + "WHERE o.fecha = :date AND d.producto.idCategoria.id != (SELECT c.id FROM Categoria c WHERE c.nombre LIKE 'bebidas')")
                 .setParameter("date", fecha)
                 .getSingleResult().toString();
     }
-    
-    public List platillosSemanales(Date startdate, Date enddate){
+
+    public List platillosSemanales(Date startdate, Date enddate) {
         System.out.println("platillos semanales");
-        return executeQuery("SELECT FUNCTION('DAYOFWEEK',o.fecha),SUM(d.cantidad) FROM Orden o INNER JOIN o.detalleordenList d "
-                + "WHERE d.producto.idCategoria.id != (SELECT c.id FROM Categoria c WHERE c.nombre LIKE 'bebidas') AND o.fecha "
-                + "BETWEEN :startdate AND :enddate GROUP BY o.fecha")
+        return executeQuery("SELECT CASE WHEN (FUNCTION('DAYOFWEEK',o.fecha) = 1) THEN 7 ELSE FUNCTION('DAYOFWEEK',o.fecha) - 1 END,"
+                + "SUM(d.cantidad) FROM Orden o INNER JOIN o.detalleordenList d WHERE d.producto.idCategoria.id != (SELECT c.id FROM Categoria c WHERE c.nombre LIKE 'bebidas') "
+                + "AND o.fecha BETWEEN :startdate AND :enddate GROUP BY o.fecha")
                 .setParameter("startdate", startdate)
                 .setParameter("enddate", enddate)
                 .getResultList();
     }
-    
-    private Query executeQuery(String query){
+
+    public Object countByDate(Date date) {
+        System.out.println("Count by date");
+        return executeQuery("SELECT COUNT(o) FROM Orden o WHERE o.fecha = :date")
+                .setParameter("date", date)
+                .getSingleResult();
+    }
+
+    private Query executeQuery(String query) {
         return em.createQuery(query);
     }
 }

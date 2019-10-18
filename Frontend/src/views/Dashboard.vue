@@ -45,7 +45,7 @@
           </v-dialog>
 
           <v-card-title>Ventas realizadas</v-card-title>
-          <v-card-text>34 ventas</v-card-text>
+          <v-card-text>{{stats.ordenes}}</v-card-text>
         </v-card>
       </v-col>
       <v-col cols="12" lg="3">
@@ -57,7 +57,7 @@
           style="box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039)"
         >
           <v-card-title>Ventas pendientes</v-card-title>
-          <v-card-text>10 ventas</v-card-text>
+          <v-card-text>{{stats.pendientes}}</v-card-text>
         </v-card>
       </v-col>
       <v-col cols="12" lg="3">
@@ -80,8 +80,8 @@
           height="135px"
           style="box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039)"
         >
-          <v-card-title>Mesas disponibles</v-card-title>
-          <v-card-text>3 mesas libres</v-card-text>
+          <v-card-title>Platillo mas vendido</v-card-title>
+          <v-card-text>{{stats.platillos}}</v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -103,6 +103,7 @@
 <script>
 import restMethods from "./../utils/restMethods.js";
 import CuentaEntity from "./../utils/CuentaEntity";
+import { isArray } from 'util';
 const rm = new restMethods();
 export default {
   data() {
@@ -124,44 +125,70 @@ export default {
         { text: "Total", value: "total" },
         { text: "Actions", value: "action", sortable: false }
       ],
+      stats: {
+        platillos: "Ninguno",
+        ordenes: 0,
+        pendientes: 0
+      }
     };
   },
-  created(){
+  created() {
     this.getOrdenes();
   },
   methods: {
-    getOrdenes(){
+    getOrdenes() {
       this.cuentas = [];
 
-       rm.getJson('ordenes').then(r =>{
+      rm.getJson("ordenes")
+        .then(r => {
           this.cuentas = r.data;
           //console.log(JSON.stringify(this.cuentas));
-      this.cuentas = r.data.map(cuenta =>{
-        return  new CuentaEntity(cuenta);
-      })
-        console.log(JSON.stringify(this.cuentas));
-      }).catch(e=>{
-        });
+          this.cuentas = r.data.map(cuenta => {
+            return new CuentaEntity(cuenta);
+          });
+          console.log(JSON.stringify(this.cuentas));
+        })
+        .catch(e => {});
     },
     ModalCobro(orden) {
       console.log(JSON.stringify(orden));
       this.dialog = true;
       this.cobrarIndex = orden;
     },
-     cobrarOrden(orden) {
-        this.$router.push('/ticket');
-    }
+    cobrarOrden(orden) {
+      this.$router.push("/ticket");
+    },
+     getStats() {
+      rm.getJson("estadisticas")
+        .then(r => {
+          let res = r.data;
+          delete res.platos;
+          res.pendientes = r.headers.count - res.ordenes;
+
+          this.stats = res;
+        })
+        .catch(e => {
+          this.stats = {
+            platillos: "",
+            ordenes: 0,
+            pendientes: 0
+          };
+        });
+      console.log(JSON.stringify(this.diario));
+    },
   },
-   filters: {
+  filters: {
     negativos: function(value) {
       return value < 0 ? 0.0 : value;
     }
+  },
+  mounted: function(){
+    this.getStats();
   }
 };
 </script>
 
 <style lang="scss" scoped>
-
 .v-card__title {
   color: white;
   font-family: ABeeZee;
