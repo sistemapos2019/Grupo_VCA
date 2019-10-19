@@ -102,11 +102,12 @@
     mapMutations
   } from 'vuex'
 
+  import rest from './../../utils/restMethods.js';
+  const rm = new rest(); 
+
   export default {
     data: () => ({
-      notifications: [
-        'Prueba de notificaciones'
-      ],
+      notifications: [],
       title: null,
       responsive: false
     }),
@@ -120,6 +121,8 @@
     mounted () {
       this.onResponsiveInverted()
       window.addEventListener('resize', this.onResponsiveInverted)
+      this.bitacora();
+
     },
     beforeDestroy () {
       window.removeEventListener('resize', this.onResponsiveInverted)
@@ -136,6 +139,11 @@
         } else {
           this.responsive = false
         }
+      },
+      bitacora(){
+        rm.getJson('bitacoras/latest').then(r=>{
+          this.notifications = r.data;
+        });
       }
     }
   }

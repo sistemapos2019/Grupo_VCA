@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity;
+package com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.view;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

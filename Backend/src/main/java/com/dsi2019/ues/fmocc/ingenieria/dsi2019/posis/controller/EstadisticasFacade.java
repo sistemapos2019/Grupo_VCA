@@ -49,13 +49,13 @@ public class EstadisticasFacade {
                 .getSingleResult().toString();
     }
 
-    public List platillosSemanales(Date startdate, Date enddate) {
+    public List platillosSemanales(int week, int year) {
         System.out.println("platillos semanales");
-        return executeQuery("SELECT CASE WHEN (FUNCTION('DAYOFWEEK',o.fecha) = 1) THEN 7 ELSE FUNCTION('DAYOFWEEK',o.fecha) - 1 END,"
-                + "SUM(d.cantidad) FROM Orden o INNER JOIN o.detalleordenList d WHERE d.producto.idCategoria.id != (SELECT c.id FROM Categoria c WHERE c.nombre LIKE 'bebidas') "
-                + "AND o.fecha BETWEEN :startdate AND :enddate GROUP BY o.fecha")
-                .setParameter("startdate", startdate)
-                .setParameter("enddate", enddate)
+        return executeQuery("SELECT CASE WHEN (FUNCTION('DAYOFWEEK',o.fecha) = 1) THEN 7 ELSE FUNCTION('DAYOFWEEK',o.fecha) - 1 END,SUM(d.cantidad)"
+                + "FROM Orden o INNER JOIN o.detalleordenList d WHERE d.producto.idCategoria.id != (SELECT c.id FROM Categoria c WHERE c.nombre LIKE 'bebidas')"
+                + "AND FUNCTION('WEEK',o.fecha,1) = :week AND FUNCTION('YEAR',o.fecha) = :year GROUP BY o.fecha")
+                .setParameter("startdate", week)
+                .setParameter("enddate", year)
                 .getResultList();
     }
 

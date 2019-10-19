@@ -87,23 +87,13 @@ public class EstadisticasRest {
         Calendar cl = Calendar.getInstance(new Locale("es"));
         List<resumenJson> rs = new ArrayList<>();
         String json;
-        
-        System.out.println("calendar: "+cl.getTime());
+
         cl.setFirstDayOfWeek(Calendar.MONDAY);
-
         cl.setTime(string2Date(fecha));
-        System.out.println("fecha: "+cl.getTime());
-        cl.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        System.out.println("dia inicial: "+cl.getTime());
+//        cl.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
-        start = cl.getTime();
-        cl.add(Calendar.DATE, 6);
-        end = cl.getTime();
-        System.out.println("fecha inicial: "+start);
-        System.out.println("fecha final: "+end);
-
-        for (Object object : estadisticasFacade.platillosSemanales(start, end).toArray()) {
-            rs.add(new resumenJson((Object[])object));
+        for (Object object : estadisticasFacade.platillosSemanales(cl.get(cl.WEEK_OF_YEAR), cl.getWeekYear()).toArray()) {
+            rs.add(new resumenJson((Object[]) object));
         }
 
         json = new Gson().toJson(rs);

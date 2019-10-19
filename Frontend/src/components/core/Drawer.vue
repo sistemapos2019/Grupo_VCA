@@ -144,7 +144,7 @@
           text: 'Inventarios'
         },
         {
-          to: '/contabilidad',
+          to: '/contcompras',
           icon: 'mdi-clipboard-outline',
           text: 'Contabilidad'
         },
