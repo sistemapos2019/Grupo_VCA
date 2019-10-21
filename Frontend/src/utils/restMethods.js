@@ -2,7 +2,7 @@ import Axios from 'axios'
 
 export default class RestMethods {
     constructor() {
-        this.baseUri = 'http://localhost:8080/POSis-1.0-SNAPSHOT/ws/'
+        this.baseUri = 'http://localhost:8080/Backend/ws/'
         this.json = null
     }
 
@@ -14,33 +14,27 @@ export default class RestMethods {
 
     postJson(resource, registro) {
         if (resource != null && registro != null) {
-            Axios.post(this.baseUri + resource, registro)
-                .then(response => {
-                    console.log(response);
-                })
+            return Axios.post(this.baseUri + resource, registro);
         }
     }
 
     putJson(resource, registro) {
-        if (resource != null && registro != null, { headers: { "Content-Type": "application/json" } }) {
-            Axios.put(this.baseUri + resource, registro)
-                .then(response => {
-                    console.log(response);
-                })
+        if (resource != null && registro != null, { headers: { 'Content-Type': 'application/json' } }) {
+            return Axios.put(this.baseUri + resource, registro);
         }
     }
 
     deleteJson(resource, id) {
         if (resource != null && id != null) {
             Axios.delete(this.baseUri + resource + id, {
-                    headers: {
-                        "Origin": "http://localhost:8081/",
-                        "Access-Control-Request-Method": "DELETE",
-                        "Access-Control-Request-Headers": "Content-Type"
-                    }
-                })
+                headers: {
+                    'Origin': 'http://localhost:8081/',
+                    'Access-Control-Request-Method': 'DELETE',
+                    'Access-Control-Request-Headers': 'Content-Type',
+                },
+            })
                 .then(response => {
-                    console.log(response);
+                    console.log(response)
                 })
         }
     }

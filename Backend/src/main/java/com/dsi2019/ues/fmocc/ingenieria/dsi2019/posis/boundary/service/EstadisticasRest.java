@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -77,30 +78,29 @@ public class EstadisticasRest {
         String json = new Gson().toJson(sj);
         return Response.ok()
                 .entity(json)
+                .header("Count", estadisticasFacade.countByDate(string2Date(fecha)))
                 .build();
     }
 
     public Response semanal(String fecha) {
         Date start, end;
-        Calendar cl = Calendar.getInstance();
+        Calendar cl = Calendar.getInstance(new Locale("es"));
         List<resumenJson> rs = new ArrayList<>();
         String json;
 
+        cl.setFirstDayOfWeek(Calendar.MONDAY);
         cl.setTime(string2Date(fecha));
-        cl.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+//        cl.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
-        start = cl.getTime();
-        cl.add(Calendar.DATE, 6);
-        end = cl.getTime();
-
-        for (Object object : estadisticasFacade.platillosSemanales(start, end).toArray()) {
-            rs.add(new resumenJson((Object[])object));
+        for (Object object : estadisticasFacade.platillosSemanales(cl.get(cl.WEEK_OF_YEAR), cl.getWeekYear()).toArray()) {
+            rs.add(new resumenJson((Object[]) object));
         }
 
-        json = new Gson().toJson(rs).replaceAll("^\\[", "").replaceAll("\\]$", "");
+        json = new Gson().toJson(rs);
 
         return Response.ok()
                 .entity(json)
+                .header("Count", estadisticasFacade.countByDate(string2Date(fecha)))
                 .build();
     }
 

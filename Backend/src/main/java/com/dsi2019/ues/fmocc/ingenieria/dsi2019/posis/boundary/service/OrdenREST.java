@@ -7,13 +7,19 @@ package com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.boundary.service;
 
 import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.controller.DetalleordenFacade;
 import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.controller.OrdenFacade;
+import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.Detalleorden;
+import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.DetalleordenPK;
 import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.Orden;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import javax.ejb.EJB;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -33,8 +39,26 @@ public class OrdenREST {
     OrdenFacade ordenFacade;
     @EJB
     DetalleordenFacade detalleOrdeFacade;
-
+    List<Detalleorden> detalleOrdenList;
     Orden entity;
+    
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response create(Orden orden){
+        if (orden == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        detalleOrdenList = orden.getDetalleordenList();
+        orden.setDetalleordenList(Collections.EMPTY_LIST); 
+        entity = ordenFacade.crear(orden);
+        detalleOrdenList.forEach((producto)->{
+            producto.setDetalleordenPK(new DetalleordenPK(entity.getId(), producto.getProducto().getId()));
+            detalleOrdeFacade.create(producto);
+        });
+        
+        return Response.status(Response.Status.CREATED).build();
+    }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})

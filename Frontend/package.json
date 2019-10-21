@@ -13,7 +13,12 @@
     "apexcharts": "^3.6.6",
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
+<<<<<<< HEAD
     "js-md5": "^0.7.3",
+=======
+    "jspdf": "^1.5.3",
+    "jspdf-autotable": "^3.2.5",
+>>>>>>> 1f57d686677f27d55343ac3d29b45ae1427c3bda
     "vue": "^2.6.10",
     "vue-analytics": "^5.17.0",
     "vue-apexcharts": "^1.5.0",
@@ -28,7 +33,7 @@
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-e2e-cypress": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",
-    "@vue/cli-plugin-unit-jest": "^3.10.0",
+    "@vue/cli-plugin-unit-jest": "^4.0.4",
     "@vue/cli-service": "^3.10.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "@vue/test-utils": "1.0.0-beta.29",

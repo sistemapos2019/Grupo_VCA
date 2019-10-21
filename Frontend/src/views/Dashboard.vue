@@ -45,7 +45,7 @@
           </v-dialog>
 
           <v-card-title>Ventas realizadas</v-card-title>
-          <v-card-text>34 ventas</v-card-text>
+          <v-card-text>{{stats.ordenes}}</v-card-text>
         </v-card>
       </v-col>
       <v-col cols="12" lg="3">
@@ -57,7 +57,7 @@
           style="box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039)"
         >
           <v-card-title>Ventas pendientes</v-card-title>
-          <v-card-text>10 ventas</v-card-text>
+          <v-card-text>{{stats.pendientes}}</v-card-text>
         </v-card>
       </v-col>
       <v-col cols="12" lg="3">
@@ -80,16 +80,17 @@
           height="135px"
           style="box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039)"
         >
-          <v-card-title>Mesas disponibles</v-card-title>
-          <v-card-text>3 mesas libres</v-card-text>
+          <v-card-title>Platillo mas vendido</v-card-title>
+          <v-card-text>{{stats.platillos}}</v-card-text>
         </v-card>
       </v-col>
     </v-row>
     <div class="tittle_text" style="margin-top:20px;">ORDENES</div>
     <v-row>
       <v-col cols="12" lg="12">
-        <v-data-table :headers="headers" :items="items" :items-per-page="5">
+        <v-data-table :headers="headers" :items="cuentas" :items-per-page="5">
           <template v-slot:item.action="{ item }">
+            <v-icon small class="mr-2" @click="$router.push('editarorden');">add</v-icon>
             <v-icon small class="mr-2" @click="$router.push('editarorden');">edit</v-icon>
             <v-icon class="mr-2" @click="ModalCobro(item)">payment</v-icon>
           </template>
@@ -100,18 +101,24 @@
 </template>
 
 <script>
+import restMethods from "./../utils/restMethods.js";
+import CuentaEntity from "./../utils/CuentaEntity";
+import { mapState } from "vuex";
+import { isArray } from 'util';
+const rm = new restMethods();
 export default {
   data() {
     return {
       dialog: false,
       cobrarIndex: [],
       pago: null,
+      cuentas: [],
       headers: [
         {
           text: "Cuenta",
           align: "left",
           sortable: false,
-          value: "id"
+          value: "cuenta"
         },
         { text: "Mesa", value: "mesa" },
         { text: "Cliente", value: "cliente" },
@@ -119,108 +126,75 @@ export default {
         { text: "Total", value: "total" },
         { text: "Actions", value: "action", sortable: false }
       ],
-      items: [
-        {
-          cliente: "primer cliente",
-          estado: false,
-          fecha: "2019-06-20T00:00:00Z[UTC]",
-          id: 1,
-          mesa: 2,
-          mesero: "primero",
-          total: 4.35
-        },
-        {
-          cliente: "tercer cliente",
-          estado: false,
-          fecha: "2019-06-20T00:00:00Z[UTC]",
-          id: 2,
-          mesa: 2,
-          mesero: "primero",
-          total: 20.0
-        },
-        {
-          cliente: "tercer cliente",
-          estado: true,
-          fecha: "2019-06-20T00:00:00Z[UTC]",
-          id: 3,
-          mesa: 2,
-          mesero: "primero",
-          total: 20.0
-        },
-        {
-          cliente: "cliente random",
-          estado: true,
-          fecha: "2019-06-07T00:00:00Z[UTC]",
-          id: 4,
-          mesa: 4,
-          mesero: "mesero1"
-        },
-        {
-          cliente: "cliente33",
-          estado: false,
-          fecha: "2019-06-05T00:00:00Z[UTC]",
-          id: 5,
-          mesa: 3,
-          mesero: "mesero4",
-          observaciones: "esto es prueba para las ventas",
-          total: 33.5
-        },
-        {
-          cliente: "cliente34",
-          estado: false,
-          fecha: "2019-06-05T00:00:00Z[UTC]",
-          id: 6,
-          mesa: 2,
-          mesero: "mesero 3",
-          observaciones: "prueba para ventas",
-          total: 1.5
-        },
-        {
-          cliente: "cliente35",
-          id: 7,
-          mesa: 2,
-          mesero: "mesero3",
-          observaciones: "nopasa"
-        },
-        {
-          cliente: "cliente35",
-          id: 8,
-          mesa: 2,
-          mesero: "mesero3",
-          observaciones: "nopasa"
-        },
-        {
-          cliente: "cliente35",
-          id: 9,
-          mesa: 2,
-          mesero: "mesero3",
-          observaciones: "nopasa"
-        },
-        {
-          cliente: "cliente35",
-          id: 10,
-          mesa: 2,
-          mesero: "mesero3",
-          observaciones: "nopasa"
-        }
-      ]
+      stats: {
+        platillos: "Ninguno",
+        ordenes: 0,
+        pendientes: 0
+      }
     };
   },
+  created() {
+    this.getOrdenes();
+    console.log(JSON.stringify(this.cuentaEditar));
+  },
+   computed: {
+    ...mapState(["cuentaEditar"])
+
+  },
   methods: {
+    getOrdenes() {
+      this.cuentas = [];
+
+      rm.getJson("ordenes")
+        .then(r => {
+          this.cuentas = r.data;
+          //console.log(JSON.stringify(this.cuentas));
+          this.cuentas = r.data.map(cuenta => {
+            return new CuentaEntity(cuenta);
+          });
+          console.log(JSON.stringify(this.cuentas));
+        })
+        .catch(e => {});
+    },
     ModalCobro(orden) {
       console.log(JSON.stringify(orden));
       this.dialog = true;
       this.cobrarIndex = orden;
     },
-     cobrarOrden(orden) {
-        this.$router.push('/ticket');
-      
+    cobrarOrden(orden) {
+      this.$router.push("/ticket");
+    },
+     getStats() {
+      rm.getJson("estadisticas")
+        .then(r => {
+          let res = r.data;
+          delete res.platos;
+          res.pendientes = r.headers.count - res.ordenes;
+
+          this.stats = res;
+        })
+        .catch(e => {
+          this.stats = {
+            platillos: "",
+            ordenes: 0,
+            pendientes: 0
+          };
+        });
+      console.log(JSON.stringify(this.diario));
+    },
+  },
+  filters: {
+    negativos: function(value) {
+      return value < 0 ? 0.0 : value;
     }
+  },
+  mounted: function(){
+    this.getStats();
   }
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .v-card__title {
   color: white;
   font-family: ABeeZee;

@@ -2,4 +2,7 @@
 
 export default {
     token: localStorage('access_token')||null,
+
+    cuentaEditar: { producto: "algo" }
 }
+

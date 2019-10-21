@@ -69,8 +69,8 @@ public class BitacoraREST {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response findAll() {
-          rs= new ArrayList<>();
-        for (Object object : bitacoraFacade.rango("", "",true).toArray()) {
+        rs = new ArrayList<>();
+        for (Object object : bitacoraFacade.rango("", "", true).toArray()) {
             rs.add(new ResponseJson((Object[]) object));
         }
         json = new Gson().toJson(rs);
@@ -91,8 +91,8 @@ public class BitacoraREST {
     @Produces({MediaType.APPLICATION_JSON})
     public Response Rango(@QueryParam("inicio") @DefaultValue("1998-10-27") String Inicio,
             @QueryParam("fin") @DefaultValue("2020-10-27") String Fin) {
-        rs= new ArrayList<>();
-        for (Object object : bitacoraFacade.rango(Inicio, Fin,false).toArray()) {
+        rs = new ArrayList<>();
+        for (Object object : bitacoraFacade.rango(Inicio, Fin, false).toArray()) {
             rs.add(new ResponseJson((Object[]) object));
         }
 
@@ -104,11 +104,21 @@ public class BitacoraREST {
         // return Response.ok(bitacoraFacade.Rango(Inicio, Fin)).header("Total Registros", 1).build();
 
     }
+
+    @GET
+    @Path("latest")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response latestRecords() {
+        return Response
+                .ok()
+                .entity(bitacoraFacade.latestRecords(5))
+                .build();
+    }
 }
 
 class ResponseJson {
 
-    private String suceso, usuario,fecha;
+    private String suceso, usuario, fecha;
 
     public ResponseJson(String fecha, String suceso, String usuario) {
         this.fecha = fecha;
@@ -117,7 +127,7 @@ class ResponseJson {
     }
 
     public ResponseJson(Object[] array) {
-        this.fecha=String.valueOf(array[0]);
+        this.fecha = String.valueOf(array[0]);
         this.suceso = String.valueOf(array[1]);
         this.usuario = String.valueOf(array[2]);
     }

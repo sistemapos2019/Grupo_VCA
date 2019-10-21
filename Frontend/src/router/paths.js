@@ -22,9 +22,14 @@ export default [{
         view: 'Inventarios',
     },
     {
-        path: '/contabilidad',
-        name: 'Contabilidad',
-        view: 'Contabilidad',
+        path: '/contcompras',
+        name: 'ContabilidadCompras',
+        view: 'ContabilidadCompras',
+    },
+    {
+        path: '/contventas',
+        name: 'ContabilidadVentas',
+        view: 'ContabilidadVentas',
     },
     {
         path: '/user-profile',
@@ -114,6 +119,6 @@ export default [{
         meta: {
             requiresVisitor:true,
         },
-    },
-    
+    },   
 ]
+
