@@ -6,6 +6,8 @@
 package com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.controller;
 
 import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.Usuario;
+import java.util.Collections;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,13 +34,18 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
                 .setParameter("id", id).getSingleResult().toString().equals("1");
     }
     
-    public String LoginUser(String id){
-        if (executeQuery("SELECT COUNT(s) FROM Usuario s WHERE s.login=:id")
-                .setParameter("id", id).getSingleResult().toString().equals("1")) {
-             return executeQuery("SELECT us.clave,us.pin FROM Usuario us WHERE us.login=:id")
-                .setParameter("id", id).getSingleResult().toString();
+    public List<Usuario> LoginUser(String login,boolean ver){
+        if (ver) {
+            if (executeQuery("SELECT COUNT(s) FROM Usuario s WHERE s.login=:login")
+                .setParameter("login", login).getSingleResult().toString().equals("1")) {
+             return executeQuery("SELECT us.login, us.clave,us.pin,us.id,us.rol FROM Usuario us WHERE us.login=:login")
+                .setParameter("login", login).getResultList();
         }
-        return "0";
+        }else{
+            return executeQuery("SELECT us.login, us.clave,us.pin,us.id,us.rol FROM Usuario us").getResultList();
+        }
+        
+        return Collections.EMPTY_LIST;
     }
     
 }

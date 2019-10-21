@@ -65,17 +65,17 @@
         <v-subheader>Actions</v-subheader>
       </v-col>
       </v-row>
-      <v-list-item v-for="item in usuarios" :key="item.id">
-        
+      <v-list-item v-for="item in usuarios" :key="item.id">    
         <v-list-item-content>
-          <v-list-item-title v-text="item.nombreCompleto"></v-list-item-title>
+          <v-list-item-title  v-text="item.nombreCompleto"></v-list-item-title>
           <v-list-item-subtitle v-text="(item.rol=='G'? 'Gerente':'Mesero')"></v-list-item-subtitle>
         </v-list-item-content>
-        <v-list-item-content>
+        <v-list-item-content align="left">
           <v-list-item-title v-text="item.login"></v-list-item-title>          
         </v-list-item-content>
         <v-list-item-content>
-          <v-list-item-title v-text="item.clave"></v-list-item-title>          
+          <v-list-item-title v-text="getContrasenia(item.clave)">
+              </v-list-item-title>          
         </v-list-item-content>
         <v-list-item-content>
           <v-list-item-title v-text="item.pin"></v-list-item-title>          
@@ -152,6 +152,9 @@ export default {
         this.usuarios.push(this.editedItem);
       }
       this.close();
+    },
+    getContrasenia(clave){
+      return clave.replace(new RegExp("[a-zA-Z]","g"),"*");
     }
   },
 };

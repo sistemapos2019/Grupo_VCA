@@ -6,15 +6,11 @@
 package com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.boundary.service;
 
 import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.controller.CompraFacade;
-import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.Compra;
+import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.controller.DetalleordenFacade;
 import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.Compra;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -31,6 +27,9 @@ import javax.ws.rs.core.MediaType;
 public class CompraREST {
     @EJB
     CompraFacade compraFacade;
+    @EJB
+    DetalleordenFacade detalleCompraFacade;
+    
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     public void create(Compra entity) {

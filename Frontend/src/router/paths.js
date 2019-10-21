@@ -7,6 +7,9 @@ export default [{
         path: '',
         // Relative to /src/views
         view: 'Dashboard',
+        meta: {
+            requiresAuth:true,
+        },
     },
     {
         path: '/estadisticas',
@@ -85,11 +88,6 @@ export default [{
         view: 'Mesas',
     },
     {
-        path: '/bitacoras',
-        name: 'Bitacora',
-        view: 'Bitacora'
-    },
-    {
         path: '/nuevaorden',
         name: 'Nuevaorden',
         view: 'NuevaOrden',
@@ -107,6 +105,15 @@ export default [{
     {
         path: '/bitacoras',
         name: 'Bitacora',
-        view: 'Bitacora'
-    }
+        view: 'Bitacora',
+    },
+    {
+        path:'/login',
+        name:"Login",
+        view:'Login',
+        meta: {
+            requiresVisitor:true,
+        },
+    },
+    
 ]

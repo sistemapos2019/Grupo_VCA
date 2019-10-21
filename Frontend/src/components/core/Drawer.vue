@@ -12,24 +12,15 @@
     width="273"
   >
     <template v-slot:img="attrs">
-      <v-img
-        v-bind="attrs"
-        gradient="to top, #716DFF, #A47DFF"
-      />
+      <v-img v-bind="attrs" gradient="to top, #716DFF, #A47DFF" />
     </template>
 
     <v-list-item two-line>
       <v-list-item-avatar color="white">
-        <v-img
-          src="../../assets/logo.png"
-          height="34"
-          contain
-        />
+        <v-img src="../../assets/logo.png" height="34" contain />
       </v-list-item-avatar>
 
-      <v-list-item-title class="title">
-        SISTEMA POS
-      </v-list-item-title>
+      <v-list-item-title class="title">SISTEMA POS</v-list-item-title>
     </v-list-item>
 
     <v-divider class="mx-3 mb-3" />
@@ -51,27 +42,23 @@
         <v-list-item-title v-text="link.text" />
       </v-list-item>
 
-      <v-list-group
-        color="white"
-        prepend-icon="mdi-apps"
-        value="true"
-      > <template v-slot:activator>
-            <v-list-item-title >Administracion</v-list-item-title>
-          </template>
-          <v-list-item
-            v-for="(administrator, i) in administrations"
-            :key="i"
-            :to="administrator.to"
-            active-class="primary white--text"
-          >
-            <v-list-item-title >{{administrator.text}}</v-list-item-title>
-            <v-list-item-icon>
-              <v-icon>{{administrator.icon}}</v-icon>
-            </v-list-item-icon>
-          </v-list-item>
+      <v-list-group color="white" prepend-icon="mdi-apps" value="true">
+        <template v-slot:activator>
+          <v-list-item-title>Administracion</v-list-item-title>
+        </template>
+        <v-list-item
+          v-for="(administrator, i) in administrations"
+          :key="i"
+          :to="administrator.to"
+          active-class="primary white--text"
+        >
+          <v-list-item-title>{{administrator.text}}</v-list-item-title>
+          <v-list-item-icon>
+            <v-icon>{{administrator.icon}}</v-icon>
+          </v-list-item-icon>
+        </v-list-item>
       </v-list-group>
     </v-list>
-
   </v-navigation-drawer>
 </template>
 
@@ -170,18 +157,18 @@
 </script>
 
 <style>
-.v-application .primary{
-    background-color: #d1caca5d !important;
-    border-color: #d1caca5d !important;
-    border-radius: 0;
-    border-left: 4px solid white !important;
+.v-application .primary {
+  background-color: #d1caca5d !important;
+  border-color: #d1caca5d !important;
+  border-radius: 0;
+  border-left: 4px solid white !important;
 }
 
-.v-list--nav .v-list-item{
+.v-list--nav .v-list-item {
   padding: 0 24px !important;
 }
 
-.v-navigation-drawer .v-list{
+.v-navigation-drawer .v-list {
   padding: 0;
 }
 </style>

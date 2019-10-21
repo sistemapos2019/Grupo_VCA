@@ -1,5 +1,8 @@
 <template>
   <v-data-table :headers="headers" :items-per-page="5" :items="productos" sort-by="categorias" class="elevation-1">
+    <template v-slot:item.preparado="{ item }">
+      {{ item.preparado?'SI':'NO' }}
+    </template>
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">

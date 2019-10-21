@@ -6,6 +6,7 @@
 package com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.controller;
 
 import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.Detallecompra;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,4 +29,8 @@ public class DetallecompraFacade extends AbstractFacade<Detallecompra> {
         super(Detallecompra.class);
     }
     
+    public List detalle(int id){
+        return executeQuery("SELECT c.producto.nombre, c.cantidad, c.precioUnitario FROM Detallecompra c WHERE c.detallecompraPK.idCompra=:id")
+                .setParameter("id", id).getResultList();
+    }
 }
