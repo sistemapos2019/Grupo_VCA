@@ -39,10 +39,10 @@
               <v-list-item-content>
                 <v-list-item-title>{{producto.nombre}}</v-list-item-title>
               </v-list-item-content>
-              <v-btn flat icon @click="disminuir(index,producto)">
+              <v-btn text icon @click="disminuir(index,producto)">
                 <v-icon>remove</v-icon>
               </v-btn>
-              <v-btn flat icon @click="aumentar(index, producto)">
+              <v-btn text icon @click="aumentar(index, producto)">
                 <v-icon>add</v-icon>
               </v-btn>
               <v-list-item-action>{{producto.cantidad}}</v-list-item-action>
@@ -60,6 +60,7 @@
 <script>
 import OrdenVista from "./OrdenVista";
 import restMethods from "../utils/restMethods.js";
+import { mapState } from "vuex";
 const rest = new restMethods();
 export default {
   components: {
@@ -73,28 +74,42 @@ export default {
       categoria: "PRINCIPAL",
       tamanio: 0,
 
-      categorias: ["PRINCIPAL", "BEBIDAS FRIAS", "BEBIDAS CALIENTES", "POSTRES"],
+      categorias: this.getCategorias(),
       producto: { nombre: "", precio: 0.0, cantidad: 0 },
       detalle: {
-        cuenta: 35,
-        mesa: 4,
-        cliente: "juancho",
-        mesero: "felix",
+        cuenta: null,
+        mesa: null,
+        cliente: "",
+        mesero: "",
         total: null,
         resumen: []
       },
+      mesas: [
+        {
+          id: 1,
+          mesa: "Uno"
+        },
+        {
+          id: 2,
+          mesa: "Dos"
+        }
+      ],
       productos: [],
       articulos: []
     };
   },
   created(){
     this.getProductos();
+    this.getCategorias();
+    this.detalle = this.cuentaEditar.currentCuenta;
+    console.log(this.cuentaEditar.currentCuenta);
   },
   computed: {
+    ...mapState(["cuentaEditar"]),
     filter() {
       if (this.articulos != null) {
         let filtrados = this.articulos.filter( producto => producto.categoria === this.categoria);
-        console.log(JSON.stringify(filtrados));
+        //console.log(JSON.stringify(filtrados));
         return filtrados.filter(producto =>
           producto.nombre.toLowerCase().includes(this.search.toLowerCase())
         );
@@ -108,26 +123,11 @@ export default {
           nombre: producto.nombre,
           precio: producto.precio,
           cantidad: 0,
-          categoria: producto.categoria.nombre,
+          categoria: producto.idCategoria.nombre,
           id: producto.id
         };
       });
-      this.articulos[1].cantidad=2;
-      this.articulos[3].cantidad=1;
-      this.articulos[5].cantidad=3;
-      let registro = this.setProductos(this.articulos[1]);
-      this.addProducto(registro);
-      this.setCantidad(registro);
-      registro = this.setProductos(this.articulos[3]);
-      this.addProducto(registro);
-      this.setCantidad(registro);
-      registro = this.setProductos(this.articulos[5]);
-      this.addProducto(registro);
-      this.setCantidad(registro);
-
-
-
-      //console.log(JSON.stringify(this.articulos))
+      //console.log(JSON.stringify(this.articulos));
     },
     getCategorias() {
       rest
@@ -144,74 +144,14 @@ export default {
         });
     },
     getProductos() {
-      this.productos = [
-        {
-          categoria: { id: 2, nombre: "BEBIDAS FRIAS" },
-          id: 1,
-          nombre: "PEPSI",
-          precio: 0.5
-        },
-        {
-          categoria: { id: 2, nombre: "BEBIDAS FRIAS" },
-          id: 2,
-          nombre: "COCA COLA",
-          precio: 0.6
-        },
-        {
-          categoria: { id: 2, nombre: "BEBIDAS FRIAS" },
-          id: 3,
-          nombre: "SUPREMA",
-          precio: 1.5
-        },
-        {
-          categoria: { id: 2, nombre: "BEBIDAS FRIAS" },
-          id: 4,
-          nombre: "VODKA",
-          precio: 7.0
-        },
-        {
-          categoria: { id: 2, nombre: "BEBIDAS FRIAS" },
-          id: 5,
-          nombre: "PILSENER",
-          precio: 1.0
-        },
-        {
-          categoria: { id: 1, nombre: "BEBIDAS CALIENTES" },
-          id: 6,
-          nombre: "CAFE",
-          precio: 1.0,
-          preparado: true
-        },
-        {
-          categoria: { id: 1, nombre: "BEBIDAS CALIENTES" },
-          id: 7,
-          nombre: "CHOCOLATE",
-          precio: 1.6,
-          preparado: true
-        },
-        {
-          categoria: { id: 1, nombre: "BEBIDAS CALIENTES" },
-          id: 8,
-          nombre: "TE CALIENTE",
-          precio: 0.75,
-          preparado: true
-        },
-        {
-          categoria: { id: 2, nombre: "BEBIDAS FRIAS" },
-          id: 9,
-          nombre: "LICUADOS",
-          precio: 1.15,
-          preparado: true
-        },
-        {
-          categoria: { id: 2, nombre: "BEBIDAS FRIAS" },
-          id: 10,
-          nombre: "FROZEN",
-          precio: 1.35,
-          preparado: true
-        }
-      ];
-      this.armarResumen();
+      rest.getJson("productos").then(r => {
+          this.productos = r.data;
+          //console.log(JSON.stringify(this.productos));
+          this.armarResumen();
+        })
+        .catch(e => {
+          this.productos = [""];
+        });
     },
     aumentar(index, s) {
       if (s.cantidad >= 0) {
@@ -265,9 +205,18 @@ export default {
       this.resumen = this.resumen.filter(producto => producto.cantidad !== 0);
       this.tamanio = this.resumen.length;
       // console.log(JSON.parse(JSON.stringify(this.resumen)));
+    },
+    init() {
+      this.articulos.forEach(articulo => {
+        this.cuentaEdit[0].resumen.forEach(producto => {
+          if (producto.producto === articulo.nombre) {
+            articulo.cantidad = producto.cantidad;
+          }
+        });
+      });
     }
   },
-  props: ["productos", "detalles", "tamanio"]
+  //props: ["productos", "detalles", "tamanio"]
 };
 </script>
 

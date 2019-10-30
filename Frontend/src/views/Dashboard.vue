@@ -90,9 +90,9 @@
       <v-col cols="12" lg="12">
         <v-data-table :headers="headers" :items="cuentas" :items-per-page="5">
           <template v-slot:item.action="{ item }">
-            <v-icon small class="mr-2" @click="$router.push('editarorden');">add</v-icon>
-            <v-icon small class="mr-2" @click="$router.push('editarorden');">edit</v-icon>
-            <v-icon class="mr-2" @click="ModalCobro(item)">payment</v-icon>
+            <v-icon small class="mr-4" @click="$router.push('editarorden');">add</v-icon>
+            <v-icon small class="mr-4" @click="editarCuenta(item);$router.push('editarorden');">edit</v-icon>
+            <v-icon class="mr-4" @click="ModalCobro(item)">payment</v-icon>
           </template>
         </v-data-table>
       </v-col>
@@ -145,12 +145,15 @@ export default {
       this.cuentas = r.data.map(cuenta =>{
         return  new CuentaEntity(cuenta);
       })
-        console.log(JSON.stringify(this.cuentas));
+        //console.log(JSON.stringify(this.cuentas));
       }).catch(e=>{
         });
     },
+    editarCuenta(cuentaEdit){
+      this.cuentaEditar.currentCuenta = cuentaEdit;
+    },
     ModalCobro(orden) {
-      console.log(JSON.stringify(orden));
+      //console.log(JSON.stringify(orden));
       this.dialog = true;
       this.cobrarIndex = orden;
     },
