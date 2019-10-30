@@ -16,16 +16,16 @@ export default class RestMethods {
         if (resource != null && registro != null) {
             Axios.post(this.baseUri + resource, registro)
                 .then(response => {
-                    console.log(response);
+                    console.log(response)
                 })
         }
     }
 
     putJson(resource, registro) {
-        if (resource != null && registro != null, { headers: { "Content-Type": "application/json" } }) {
+        if (resource != null && registro != null, { headers: { 'Content-Type': 'application/json' } }) {
             Axios.put(this.baseUri + resource, registro)
                 .then(response => {
-                    console.log(response);
+                    console.log(response)
                 })
         }
     }
@@ -33,14 +33,14 @@ export default class RestMethods {
     deleteJson(resource, id) {
         if (resource != null && id != null) {
             Axios.delete(this.baseUri + resource + id, {
-                    headers: {
-                        "Origin": "http://localhost:8081/",
-                        "Access-Control-Request-Method": "DELETE",
-                        "Access-Control-Request-Headers": "Content-Type"
-                    }
-                })
+                headers: {
+                    'Origin': 'http://localhost:8081/',
+                    'Access-Control-Request-Method': 'DELETE',
+                    'Access-Control-Request-Headers': 'Content-Type',
+                },
+            })
                 .then(response => {
-                    console.log(response);
+                    console.log(response)
                 })
         }
     }

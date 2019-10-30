@@ -12,7 +12,7 @@
         box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039);"
         >
           <v-card-title>Platos vendidos</v-card-title>
-          <v-card-text>34 platos</v-card-text>
+          <v-card-text>{{diario.platos}} platos</v-card-text>
         </v-card>
       </v-col>
       <v-col cols="12" lg="3">
@@ -25,7 +25,7 @@
         box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039)"
         >
           <v-card-title>Ordenes finalizadas</v-card-title>
-          <v-card-text>10 ordenes</v-card-text>
+          <v-card-text>{{diario.ordenes}} ordenes</v-card-text>
         </v-card>
       </v-col>
       <v-col cols="12" lg="3">
@@ -38,11 +38,11 @@
         box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039)"
         >
           <v-card-title>Platillo mas vendido</v-card-title>
-          <v-card-text>Sopa do macaco</v-card-text>
+          <v-card-text>{{diario.platillos}}</v-card-text>
         </v-card>
       </v-col>
       <v-col cols="12" lg="3">
-        <v-date-picker v-model="picker" color="purple lighten-2"></v-date-picker>
+        <v-date-picker v-model="picker" locale="es" @change="getStats(); getWeekStats();" color="purple lighten-2"></v-date-picker>
       </v-col>
     </v-row>
     <div class="tittle_text" style="margin-top:-200px;">VENTAS SEMANALES</div>
@@ -55,26 +55,90 @@
 </template>
 
 <script>
+import restMethods from "./../utils/restMethods.js";
+const rm = new restMethods();
 export default {
   data() {
     return {
       picker: new Date().toISOString().substr(0, 10),
+      diario: {
+        platillos: "",
+        ordenes: 0,
+        platos: 0
+      },
       options: {
         chart: {
-          id: 'estadisticas'
+          id: "estadisticas"
         },
         fill: {
-          colors: ["#9c7bff"],
+          colors: ["#9c7bff"]
         },
         xaxis: {
-          categories: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"]
+          categories: [
+            "lunes",
+            "martes",
+            "miercoles",
+            "jueves",
+            "viernes",
+            "sabado",
+            "domingo"
+          ]
         }
       },
-      series: [{
-        name: 'ventas',
-        data: [30,12,5,17,30,12,3]
-      }],
+      series: [
+        {
+          name: "ventas",
+          data: [0, 0, 0, 0, 0, 0, 0]
+        }
+      ]
     };
+  },
+  methods: {
+    getStats() {
+      let path =
+        this.picker != undefined
+          ? `estadisticas?date=${this.picker}`
+          : `estadisticas`;
+      rm.getJson(path)
+        .then(r => {
+          this.diario = r.data;
+        })
+        .catch(e => {
+          this.diario = {
+            platillos: "",
+            ordenes: 0,
+            platos: 0
+          };
+        });
+      console.log(JSON.stringify(this.diario));
+    },
+    getWeekStats() {
+      let path =
+        this.picker != undefined
+          ? `estadisticas?date=${this.picker}&week=true`
+          : `estadisticas?week=true`;
+
+      rm.getJson(path)
+        .then(r => {
+          let newData = [0,0,0,0,0,0,0]; 
+
+          r.data.map(m=>{
+            newData.splice(m.dia-1,1,m.cantidad);
+          });
+
+          this.series = [{
+            data: newData
+          }]
+        })
+        .catch(e => {
+          console.log("error en estadisticas semanales ", e);
+        });
+        console.log(JSON.stringify(this.series))
+    }
+  },
+  mounted: function() {
+    this.getStats();
+    this.getWeekStats();
   }
 };
 </script>

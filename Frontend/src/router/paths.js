@@ -85,11 +85,6 @@ export default [{
         view: 'Mesas',
     },
     {
-        path: '/bitacoras',
-        name: 'Bitacora',
-        view: 'Bitacora'
-    },
-    {
         path: '/nuevaorden',
         name: 'Nuevaorden',
         view: 'NuevaOrden',
@@ -107,6 +102,6 @@ export default [{
     {
         path: '/bitacoras',
         name: 'Bitacora',
-        view: 'Bitacora'
-    }
+        view: 'Bitacora',
+    },
 ]
