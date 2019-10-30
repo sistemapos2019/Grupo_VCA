@@ -5,7 +5,7 @@
  */
 package com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.controller;
 
-import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.Detallecompra;
+import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.view.Ventas;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -13,24 +13,28 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author arevalo
+ * @author deadbryam
  */
 @Stateless
-public class DetallecompraFacade extends AbstractFacade<Detallecompra> {
+public class ventasFacade extends AbstractFacade<Ventas>{
+
     @PersistenceContext(unitName = "com.dsi2019.ues.fmocc.ingenieria.dsi2019_POSis_war_1.0-SNAPSHOTPU")
     private EntityManager em;
-
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-
-    public DetallecompraFacade() {
-        super(Detallecompra.class);
+    
+    public ventasFacade() {
+        super(Ventas.class);
     }
     
-    public List detalle(int id){
-        return executeQuery("SELECT c.producto.nombre, c.cantidad, c.precioUnitario FROM Detallecompra c WHERE c.detallecompraPK.idCompra=:id")
-                .setParameter("id", id).getResultList();
+    public List<Ventas> ventasByDate(String date[]){
+        return executeQuery("SELECT v FROM Ventas v WHERE SUBSTRING(v.fecha,1,4) = :year AND SUBSTRING(v.fecha,6,2) = :month")
+                .setParameter("year", date[0])
+                .setParameter("month", date[1])
+                .getResultList();
     }
+    
 }

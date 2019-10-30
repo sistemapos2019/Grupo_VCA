@@ -43,6 +43,7 @@ public class ApplicationConfig extends Application {
         resources.add(com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.boundary.service.ParametroREST.class);
         resources.add(com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.boundary.service.ProductoREST.class);
         resources.add(com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.boundary.service.UsuarioREST.class);
+        resources.add(com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.boundary.service.VentasRest.class);
     }
     
 }

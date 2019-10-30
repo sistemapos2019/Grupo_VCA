@@ -7,6 +7,9 @@ export default [{
         path: '',
         // Relative to /src/views
         view: 'Dashboard',
+        meta: {
+            requiresAuth:true,
+        },
     },
     {
         path: '/estadisticas',
@@ -19,9 +22,14 @@ export default [{
         view: 'Inventarios',
     },
     {
-        path: '/contabilidad',
-        name: 'Contabilidad',
-        view: 'Contabilidad',
+        path: '/contcompras',
+        name: 'ContabilidadCompras',
+        view: 'ContabilidadCompras',
+    },
+    {
+        path: '/contventas',
+        name: 'ContabilidadVentas',
+        view: 'ContabilidadVentas',
     },
     {
         path: '/user-profile',
@@ -104,4 +112,13 @@ export default [{
         name: 'Bitacora',
         view: 'Bitacora',
     },
+    {
+        path:'/login',
+        name:"Login",
+        view:'Login',
+        meta: {
+            requiresVisitor:true,
+        },
+    },   
 ]
+

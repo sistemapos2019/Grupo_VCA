@@ -18,6 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -29,33 +30,38 @@ public class ParametroREST {
     @EJB
     ParametroFacade parametrosFacade;
 
-    @POST
-    @Consumes({MediaType.APPLICATION_JSON})
-    public void create(Parametro entity) {
-        if (entity!=null) {
-            parametrosFacade.create(entity);
-        }
-    }
-
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, Parametro entity) {
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response edit(@PathParam("id") Integer id, Parametro entity) {
         if (parametrosFacade.exist(id)&& entity!=null) {
             parametrosFacade.edit(entity);
+            return Response.ok(entity)
+                    .header("Registro Editado con Exito", id)
+                    .build();
+        }else{
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Parametro> findAll() {
-        return parametrosFacade.findAll();
+    public Response findAll() {
+        return Response.ok(parametrosFacade.findAll())
+                .header("Total-Registros", 1)
+                .build();
     } 
     
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Parametro findbyId(@PathParam("id") int id) {
-        return parametrosFacade.findById(id);
+    public Response findbyId(@PathParam("id") int id) {
+        if(parametrosFacade.exist(id)){
+        return Response.ok(parametrosFacade.findById(id)).build();
+        }else{
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        
     }
 }

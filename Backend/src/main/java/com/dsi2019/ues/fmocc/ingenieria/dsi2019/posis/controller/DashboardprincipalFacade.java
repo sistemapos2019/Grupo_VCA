@@ -5,7 +5,7 @@
  */
 package com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.controller;
 
-import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.Dashboardprincipal;
+import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.view.Dashboardprincipal;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

@@ -38,17 +38,23 @@
       <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
       <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
     </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">Reset</v-btn>
-    </template>
   </v-data-table>
 </template>
 
 <script>
+import restMethods from "./../utils/restMethods.js"
+const rm= new restMethods();
 export default {
-  data: () => ({
+  data(){return {
     dialog: false,
+    mesas:this.getMesas(),
     headers: [
+      {
+        text: "Identificador de Mesa",
+        align: "center",
+        sortable: false,
+        value: "id"
+      },
       {
         text: "Nombre de Mesa",
         align: "center",
@@ -57,7 +63,7 @@ export default {
       },
       { text: "Actions", value: "action", sortable: false }
     ],
-    mesas: [],
+    
     editedIndex: -1,
     editedItem: {
       mesa: "",
@@ -65,7 +71,8 @@ export default {
     defaultItem: {
       mesa: "",
     }
-  }),
+    };
+  },
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "Nueva Mesa" : "Editar Mesa";
@@ -76,43 +83,15 @@ export default {
       val || this.close();
     }
   },
-  created() {
-    this.initialize();
-  },
   methods: {
-    initialize() {
-      this.mesas = [
-        {
-          mesa: "uno",
-        },
-        {
-          mesa: "dos",
-        },
-        {
-          mesa: "tres",
-        },
-        {
-          mesa: "cuatro",
-        },
-        {
-          mesa: "cinco",
-        },
-        {
-          mesa: "seis",
-        },
-        {
-          mesa: "siete",
-        },
-        {
-          mesa: "ocho",
-        },
-        {
-          mesa: "nueve",
-        },
-        {
-          mesa: "diez",
-        }
-      ];
+    getMesas(){
+      rm.getJson("mesas")
+      .then(r=>{
+        this.mesas=r.data;
+      })
+      .catch(c=>{
+        this.mesas=[];
+      });
     },
     editItem(item) {
       this.editedIndex = this.mesas.indexOf(item);

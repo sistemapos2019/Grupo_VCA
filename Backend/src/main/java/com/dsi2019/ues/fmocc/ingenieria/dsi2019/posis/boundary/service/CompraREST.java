@@ -6,7 +6,7 @@
 package com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.boundary.service;
 
 import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.controller.CompraFacade;
-import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.Compra;
+import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.controller.DetalleordenFacade;
 import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.Compra;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,9 +15,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -40,7 +37,9 @@ public class CompraREST {
 
     @EJB
     CompraFacade compraFacade;
-
+    @EJB
+    DetalleordenFacade detalleCompraFacade;
+    
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     public void create(Compra entity) {
@@ -60,7 +59,6 @@ public class CompraREST {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response compras(@QueryParam("date") @DefaultValue("") String date) {
-        compraFacade.totales(string2Date(date));
         return (date.isEmpty()) ? findAll() : CompraByDate(date);
     }
     
@@ -79,15 +77,15 @@ public class CompraREST {
     }
     
     public Response CompraByDate(String fecha){
-        Object[] totales = compraFacade.totales(string2Date(fecha));
+        Object[] totales = compraFacade.totales(fecha.split("-"));
         System.out.println(totales[0] == null);
         return Response
                 .ok()
-                .header("contribuyente", compraFacade.nombre())
+                .header("contribuyente", compraFacade.parametros(2))
                 .header("total-monto", (totales[0] == null) ? 0.0 : totales[0])
                 .header("total-iva", (totales[1] == null) ? 0.0 : totales[1])
                 .header("total-general", (totales[2] == null) ? 0.0 : totales[2])
-                .entity(compraFacade.CompraById(string2Date(fecha)))
+                .entity(compraFacade.compraByDate(fecha.split("-")))
                 .build();
     }
     

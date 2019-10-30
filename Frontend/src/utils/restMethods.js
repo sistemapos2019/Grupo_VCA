@@ -14,19 +14,13 @@ export default class RestMethods {
 
     postJson(resource, registro) {
         if (resource != null && registro != null) {
-            Axios.post(this.baseUri + resource, registro)
-                .then(response => {
-                    console.log(response)
-                })
+            return Axios.post(this.baseUri + resource, registro);
         }
     }
 
     putJson(resource, registro) {
         if (resource != null && registro != null, { headers: { 'Content-Type': 'application/json' } }) {
-            Axios.put(this.baseUri + resource, registro)
-                .then(response => {
-                    console.log(response)
-                })
+            return Axios.put(this.baseUri + resource, registro);
         }
     }
 

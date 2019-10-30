@@ -28,4 +28,9 @@ public class MesaFacade extends AbstractFacade<Mesa> {
         super(Mesa.class);
     }
     
+    public boolean exist(Integer id){
+        return executeQuery("SELECT COUNT(m) FROM Mesa m WHERE m.id=:id")
+                .setParameter("id", id).getSingleResult().toString().equals("1");
+    }
+    
 }

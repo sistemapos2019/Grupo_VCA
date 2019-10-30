@@ -16,7 +16,7 @@
         >
           <template v-slot:activator="{ on }">
             <v-text-field
-              v-model="date"
+              v-model="month"
               label="Filtrado por fechas"
               prepend-icon="event"
               readonly
@@ -24,8 +24,10 @@
             ></v-text-field>
           </template>
           <v-date-picker
+            locale="es"
             color="blue"
             v-model="date"
+            type="month"
             no-title
             scrollable
             @change="getCompras(); $refs.menu.save(date);"
@@ -36,19 +38,27 @@
       <v-col lg="2">
         <v-btn
           @click="generarReporte()"
-          style="background: linear-gradient(323.35deg, #F7C598 6.2%, #FF8886 97.74%); color:white;"
+          style="background: var(--gradient-orange); color:white;"
         >GENERAR REPORTE</v-btn>
+      </v-col>
+      <v-col lg="2">
+        <v-btn
+          :to="to"
+          style="background: var(--gradient-lightpurple); color:white;"
+        >CAMBIAR A VENTAS</v-btn>
       </v-col>
     </v-row>
     <v-row>
       <v-col lg="12">
-        <table id="contable">
+        <table id="contableCompras">
           <thead>
             <tr>
-              <th colspan="6">NOMBRE CONTRIBUYENTE: {{contribuyente}}</th>
-              <th colspan="3">NRC: </th>
-              <th colspan="2">MES: {{new Date(date).toLocaleString('default', { month: 'long' })}}</th>
-              <th colspan="1">AÑO: {{new Date(date).getFullYear()}}</th>
+              <th colspan="6">NOMBRE CONTRIBUYENTE: {{contribuyente | upper}}</th>
+              <th colspan="3">NRC:</th>
+              <th
+                colspan="2"
+              >MES: {{month}}</th>
+              <th colspan="1">AÑO: {{new Date(date+'-02').getFullYear()}}</th>
             </tr>
             <tr>
               <td rowspan="2">N</td>
@@ -76,22 +86,21 @@
               <td>{{item.nrc}}</td>
               <td>{{item.nitdui}}</td>
               <td>{{item.nombreProveedor}}</td>
-              <td>{{item.montoInterno}}</td>
+              <td style="text-align: center;">{{item.montoInterno}}</td>
               <td></td>
               <td></td>
-              <td>{{item.iva}}</td>
+              <td style="text-align: center;">{{item.iva}}</td>
               <td style="text-align: center;">{{item.total}}</td>
               <td></td>
             </tr>
-            
           </tbody>
           <tfoot>
             <tr>
               <td colspan="6">TOTALES</td>
-              <td>{{totales.interno}}</td>
+              <td style="text-align: center;">{{totales.interno}}</td>
               <td></td>
               <td></td>
-              <td>{{totales.iva}}</td>
+              <td style="text-align: center;">{{totales.iva}}</td>
               <td style="text-align: center;">{{totales.general}}</td>
               <td></td>
             </tr>
@@ -99,19 +108,6 @@
         </table>
       </v-col>
     </v-row>
-
-    <!--v-row>
-      <v-col cols="12" lg="12">
-        <v-data-table :headers="headers" :items="items" :items-per-page="5"></v-data-table>
-      </v-col>
-      <v-col cols="12" lg="3">
-        <v-btn style="background: linear-gradient(146.29deg, #44DEC5 9.19%, #4EBCFA 100%); color:white;" >VENTAS</v-btn>
-        <v-btn style="background: linear-gradient(146.29deg, #44DEC5 9.19%, #4EBCFA 100%); color:white;" >COMPRAS</v-btn>
-      </v-col>
-      <v-col cols="12" lg="3">
-        <v-text-field placeholder="Ingrese la fecha"></v-text-field>
-      </v-col>
-    </v-row-->
   </v-container>
 </template>
 
@@ -125,13 +121,15 @@ export default {
     return {
       compras: {},
       menu: false,
-      date: new Date().toISOString().substr(0, 10),
+      date: new Date().toISOString().substr(0, 7), 
       contribuyente: "",
       totales: {
         iva: 0.0,
         interno: 0.0,
         general: 0.0
-      }
+      },
+      to: "contventas",
+      month: "",
     };
   },
   methods: {
@@ -151,31 +149,41 @@ export default {
       doc.setFontSize(40);
       doc.text(80, 25, "LIBRO DE COMPRAS");
       doc.autoTable({
-        html: "table#contable",
+        html: "table#contableCompras",
         theme: "grid",
         startY: 50,
         styles: {
           overflow: "linebreak",
           fontSize: 8,
-          valign: "middle",
+          valign: "middle"
         },
-        didParseCell: (HookData) => {
-          if(((HookData.cell != undefined) ? HookData.cell.text : "")=="Compras gravadas"){
-            HookData.cell.styles.halign= 'center';
+        didParseCell: HookData => {
+          if (
+            (HookData.cell != undefined ? HookData.cell.text : "") ==
+            "Compras gravadas"
+          ) {
+            HookData.cell.styles.halign = "center";
           }
         }
       });
       //doc.save("table.pdf");
       doc.output("dataurlnewwindow");
+    },
+    updateMonth(){
+      this.month = new Date(this.date+"-02").toLocaleString('default', { month: 'long' }).toUpperCase();
     }
   },
   filters: {
     date(value) {
       return value.substr(0, 10);
+    },
+    upper(value) {
+      return value.toUpperCase();
     }
   },
   mounted: function() {
     this.getCompras();
+    this.updateMonth();
   }
 };
 </script>
@@ -215,29 +223,33 @@ export default {
   margin: 0 15px;
 }
 
-#contable {
+#contableCompras {
   width: 100%;
   border-collapse: collapse;
+  vertical-align: middle;
 }
 
-#contable tbody > tr ,
-#contable > thead{
+#contableCompras tbody > tr,
+#contableCompras > thead {
   height: 50px;
   text-align: left;
 }
+#contableCompras tbody > tr {
+  background: white;
+}
 
-#contable thead,
-#contable tfoot{
-  background: linear-gradient(146.29deg, #44DEC5 9.19%, #4EBCFA 100%);
+#contableCompras thead,
+#contableCompras tfoot {
+  background: var(--gradient-lightblue);
   color: white;
 }
-#contable tfoot > tr{
+#contableCompras tfoot > tr {
   height: 30px;
+  font-weight: bold;
 }
 
-#contable > thead > tr:nth-child(1) > th:nth-child(1),
-#contable > thead > tr:nth-child(2) > td:nth-child(1),
-#contable > tfoot > tr > td:nth-child(1){
-  padding-left: 10px;
+#contableCompras tr > th:nth-child(1),
+#contableCompras tr > td:nth-child(1) {
+  padding-left: 8px;
 }
 </style>

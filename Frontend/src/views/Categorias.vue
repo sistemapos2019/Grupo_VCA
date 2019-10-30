@@ -42,7 +42,7 @@
     </template>
     <template v-slot:item.action="{ item }">
       <v-icon small class="mr-2" @click="editar(item)">mdi-pencil</v-icon>
-<!--      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>-->
+      <!--      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>-->
     </template>
   </v-data-table>
 </template>
@@ -55,10 +55,9 @@ export default {
   data() {
     return {
       dialog: false,
-      nuevo:false,
+      nuevo: false,
       categorias: this.getcategorias(),
       headers: [
-        
         {
           text: "Nombre de la Categoria",
           align: "center",
@@ -69,7 +68,7 @@ export default {
       ],
       editedIndex: -1,
       categoria: {
-        id:"",
+        id: "",
         nombre: ""
       },
       defaultItem: {
@@ -94,7 +93,7 @@ export default {
         this.categorias.splice(index, 1);
     },*/
     editar(item) {
-      this.editedIndex= 0;
+      this.editedIndex = 0;
       this.nuevo = false;
       this.categoria = item;
       this.dialog = true;
@@ -114,33 +113,32 @@ export default {
         .catch(e => {
           this.categorias = [];
         });
-        console.log(JSON.stringify(this.categorias))
+      console.log(JSON.stringify(this.categorias));
     },
-     ejecutar(categoriaEdit) {
+    ejecutar(categoriaEdit) {
       if (categoriaEdit != null && this.nuevo && !this.categoria.id) {
         this.categoria.nombre = categoriaEdit;
         console.log(JSON.stringify(this.categoria));
         rm.postJson("categorias", {
           id: this.categoria.id,
           nombre: this.categoria.nombre
+        }).then(()=>{
+          this.getcategorias();
         });
-        
       } else if (categoriaEdit != null && !this.nuevo && this.categoria.id) {
         console.log("edit" + JSON.stringify(this.categoria));
         this.categoria.nombre = categoriaEdit;
         rm.putJson("categorias/" + parseInt(this.categoria.id), {
           id: this.categoria.id,
           nombre: this.categoria.nombre
+        }).then(()=>{
+          this.getcategorias();
         });
-       
       }
-       this.dialog = false;
-        this.categoria.id = null;
-        this.categoria.nombre = null;
-      
-      setTimeout(() => {
-        this.getcategorias();
-      }, 100);
+      this.dialog = false;
+      this.categoria.id = null;
+      this.categoria.nombre = null;
+
     },
     crear() {
       this.categoria.nombre = null;

@@ -1,5 +1,8 @@
 <template>
   <v-data-table :headers="headers" :items-per-page="5" :items="productos" sort-by="categorias" class="elevation-1">
+    <template v-slot:item.preparado="{ item }">
+      {{ item.preparado?'SI':'NO' }}
+    </template>
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
@@ -24,11 +27,11 @@
                     <v-text-field v-model="producto.inventario" label="Existencia"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-select :items="[{prep:true,val:'SI'},{prep:false,val:'NO'}]" item-text="val"
-                    item-value="prep" v-model="producto.preparado" label="Preparado"></v-select>
+                    <v-select :items="[{preparado:1,val:'SI' },{preparado:0,val:'NO' }]" item-text="val"
+                    item-value="preparado" v-model="producto.preparado" label="Preparado"></v-select>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-select :items="categorias" item-value="id" item-text="nombre" v-model="producto.nombreCategoria" label="Categorias"></v-select>
+                    <v-select :items="categorias" item-value="id" item-text="nombre" v-model="producto.idCategoria.id" label="Categorias"></v-select>
                   </v-col>
                 </v-row>
               </v-container>
@@ -39,7 +42,7 @@
               <v-btn color="#504da3" text @click="close">
                 <v-icon>mdi-cancel</v-icon>Cancelar
               </v-btn>
-              <v-btn color="#504da3" text @click="guardar(item)">
+              <v-btn color="#504da3" text @click="guardar()">
                 <v-icon>mdi-content-save</v-icon>Guardar
               </v-btn>
             </v-card-actions>
@@ -80,7 +83,10 @@ export default {
     producto: {
       id:"",
       nombre: "",
-      nombreCategoria: "",
+      idCategoria: {
+        id:"",
+        nombre:"",
+      },
       precio: 0,
       inventario:"",
       preparado:"",
@@ -126,25 +132,42 @@ export default {
     editItem(item) {
       this.editedIndex=0;
       this.dialog=true;
-      this.producto=item;
+      this.producto.id=item.id;
+      this.producto.preparado=item.preparado;
+      this.producto.nombre=item.nombre;
+      this.producto.inventario=item.inventario;
+      this.producto.precio=item.precio;
+      this.producto.idCategoria.id=item.idCategoria.id;
+      this.producto.idCategoria.nombre=item.idCategoria.nombre;
     },
     crear(){
-      this.producto.id=null;
-      this.producto.nombre=null;
-      this.producto.nombreCategoria=null;
-      this.producto.precio=null;
-      this.producto.inventario=null;
-      this.producto.preparado=null;
+    this.productoItem();
       this.editedIndex=-1;
     },
-    guardar(item){
-      if(this.producto.id!=null && this.producto.nombre!=null && this.producto.precio!=null && this.producto.nombreCategoria!=null){
-        console.log(JSON.stringify(this.producto));
+    guardar(){
+      if(this.editedIndex!=-1){
+        rm.putJson("productos/"+this.producto.id,{
+          id:this.producto.id,
+          nombre:this.producto.nombre,
+          idCategoria:{id:this.producto.idCategoria.id },
+          inventario: this.producto.inventario,
+          precio:this.producto.precio,
+          preparado:this.producto.preparado,
+        })  
+        console.log("Editar"+JSON.stringify(this.producto));
       }else{
-        this.producto.id=null;
-        console.log(JSON.stringify("Crear "+this.producto));
+        rm.postJson("productos",{
+          id:null,
+          nombre:this.producto.nombre,
+          idCategoria:{id:this.producto.idCategoria.id },
+          inventario: this.producto.inventario,
+          precio:this.producto.precio,
+          preparado:this.producto.preparado,
+        })
+        console.log("Crear "+JSON.stringify(this.producto));
       }
-      this.producto=null;
+      this.productoItem();
+      this.close();
     },
     deleteItem(item) {
       const index = this.productos.indexOf(item);
@@ -165,7 +188,16 @@ export default {
         this.productos.push(this.editedItem);
       }
       this.close();
+    },
+    productoItem(){
+      this.producto.id=null;
+      this.producto.nombre=null;
+      this.producto.idCategoria.id=null;
+      this.producto.idCategoria.nombre=null;
+      this.producto.precio=null;
+      this.producto.inventario=null;
+      this.producto.preparado=null;
     }
-  }
+  },
 };
 </script>
