@@ -41,24 +41,43 @@ public class OrdenREST {
     DetalleordenFacade detalleOrdeFacade;
     List<Detalleorden> detalleOrdenList;
     Orden entity;
-    
+
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response create(Orden orden){
+    public Response create(Orden orden) {
         if (orden == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         detalleOrdenList = orden.getDetalleordenList();
-        orden.setDetalleordenList(Collections.EMPTY_LIST); 
+        orden.setDetalleordenList(Collections.EMPTY_LIST);
         entity = ordenFacade.crear(orden);
-        detalleOrdenList.forEach((producto)->{
+        detalleOrdenList.forEach((producto) -> {
             producto.setDetalleordenPK(new DetalleordenPK(entity.getId(), producto.getProducto().getId()));
             detalleOrdeFacade.create(producto);
         });
-        
+
         return Response.status(Response.Status.CREATED).build();
     }
+
+    @PUT
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response edit(Orden orden) {
+        if (orden == null) { 
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        detalleOrdenList = orden.getDetalleordenList();
+        detalleOrdenList.forEach(producto -> {
+            producto.setDetalleordenPK(new DetalleordenPK(orden.getId(), producto.getProducto().getId()));
+        });
+        orden.setDetalleordenList(detalleOrdenList);
+        ordenFacade.edit(orden);
+
+        return Response.status(Response.Status.ACCEPTED).build();
+    }
+    
+    
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -148,7 +167,7 @@ public class OrdenREST {
             Date fech;
             String[] fechas = fecha.split("-");
             Calendar s = new GregorianCalendar();
-            s.set(Integer.parseInt(fechas[0]), Integer.parseInt(fechas[1])-1, Integer.parseInt(fechas[2]));
+            s.set(Integer.parseInt(fechas[0]), Integer.parseInt(fechas[1]) - 1, Integer.parseInt(fechas[2]));
             fech = s.getTime();
             return Response.status(Response.Status.OK)
                     .entity(ordenFacade.ventaProducto(fech))
