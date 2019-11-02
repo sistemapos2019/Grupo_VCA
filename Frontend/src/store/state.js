@@ -1,5 +1,5 @@
 // https://vuex.vuejs.org/en/state.html
 
 export default {
-    cuentaEditar: { currentCuenta: {} }
+    store: { currentCuenta: {}, editando: false, alert: false, ampliando: false }
 }

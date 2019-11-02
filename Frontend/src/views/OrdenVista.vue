@@ -78,7 +78,7 @@
           <b>Total ${{total()}}</b>
         </v-flex>
         <v-flex xs12>
-          <v-text-field v-model="observaciones" label="Observaciones" single-line></v-text-field>
+          <v-text-field v-model="detalles.observacion" label="Observaciones" single-line></v-text-field>
         </v-flex>
       </v-layout>
     </v-flex>
@@ -87,6 +87,7 @@
 
 <script>
 import { mapState } from "vuex";
+import OrdenEntity from "./../utils/OrdenEntity";
 import restMethods from "../utils/restMethods.js";
 const rest = new restMethods();
 export default {
@@ -106,8 +107,7 @@ export default {
       dialog: false,
       pago: null,
       snackbar: false,
-      cobrarIndex: [],
-      observaciones: ""
+      cobrarIndex: []
     };
   },
   methods: {
@@ -122,56 +122,40 @@ export default {
     },
     guardar() {
       if (this.detalles !== null && this.productos.length > 0) {
-        /*if (this.cuentas.cuentas.indexOf(this.detalles) >= 0) {
-          this.cuentas.cuentas.splice(this.cuentas.cuentas.indexOf(this.detalles),1);
-        }*/
-
-        this.detalles.resumen = this.productos;
-        //this.cuentas.cuentas.push(this.detalles);
-        let detalleOrden = this.productos.map(producto => {
-          return {
-            cantidad: producto.cantidad,
-            precioUnitario: producto.precio,
-            producto: {
-              id: producto.id
-            }
-          }
-        });
-        let orden = {
-          cliente: this.detalles.cliente,
-          detalleordenList: detalleOrden,
-          estado: "AA",
-          formaPago: "E",
-          idMesa: {
-            id: this.detalles.mesa
-          },
-          idUsuario: {
-            id: this.detalles.mesero
-          },
-          llevar: 0,
-          observacion: this.detalles.observacion,
-          propina: 0,
-          total: this.detalles.total
-        };
-        
+        (this.store.ampliando) ? this.sumarizarProductos() : this.detalles;
+        let orden = new OrdenEntity(this.detalles, this.productos);
         console.log(orden);
-        /*
-        if (!this.detalles.cuenta) {
-          this.detalles.cuenta = 0;
-        }*/
 
-        console.log(JSON.stringify(detalleOrden));
-        rest.postJson(`ordenes`, orden);
+        if (this.store.editando) {
+          rest.putJson(`ordenes`, orden);
+        } else {
+          rest.postJson(`ordenes`, orden);
+        }
         this.$router.push("dashboard");
 
-        this.footer.alert = true;
+        this.store.alert = true;
       } else {
         this.snackbar = true;
       }
+    },
+    sumarizarProductos() {
+      this.store.ampliando = false;
+      this.detalles.resumen.forEach(current => {
+        //se suman las cantidades de los productos viejos con los nuevos
+        this.productos.forEach(nuevo => {
+          if (nuevo.id === current.id) {
+            nuevo.cantidad += current.cantidad;
+          }
+        });
+        //Se agregan los productos existentes a la nueva lista de productos, primero se agregan todos los productos diferentes
+        if (this.productos.every(producto => producto.id !== current.id)) {
+          this.productos.push(current);
+        }
+      });
     }
   },
   computed: {
-    ...mapState(["cuentas", "footer", "cuentaTicket"])
+    ...mapState(["cuentas", "store", "cuentaTicket"])
   },
   filters: {
     negativos: function(value) {

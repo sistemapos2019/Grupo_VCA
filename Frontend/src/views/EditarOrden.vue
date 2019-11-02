@@ -7,7 +7,7 @@
             <v-container>
               <v-row>
                 <v-col cols="2">
-                  <v-text-field v-model="detalle.cuenta" label="Orden:" required></v-text-field>
+                  <v-text-field disabled v-model="detalle.cuenta" label="Orden:" required></v-text-field>
                 </v-col>
                 <v-col cols="5">
                   <v-text-field v-model="detalle.mesero" label="Mesero:" required></v-text-field>
@@ -16,7 +16,7 @@
                   <v-text-field v-model="detalle.cliente" label="Cliente:" required></v-text-field>
                 </v-col>
                 <v-col cols="3">
-                  <v-text-field v-model="detalle.mesa" label="Mesa:" required></v-text-field>
+                  <v-autocomplete v-model="detalle.mesa" label="Mesa" :items="mesas"  item-text="mesa" item-value="id"></v-autocomplete>
                 </v-col>
                 <v-col cols="7">
                   <v-text-field label="Seleccione un Producto" v-model="search"></v-text-field>
@@ -101,11 +101,12 @@ export default {
   created(){
     this.getProductos();
     this.getCategorias();
-    this.detalle = this.cuentaEditar.currentCuenta;
-    console.log(this.cuentaEditar.currentCuenta);
+    this.detalle = this.store.currentCuenta;
+    this.resumen = this.detalle.resumen;
+    console.log(this.store.currentCuenta);
   },
   computed: {
-    ...mapState(["cuentaEditar"]),
+    ...mapState(["store"]),
     filter() {
       if (this.articulos != null) {
         let filtrados = this.articulos.filter( producto => producto.categoria === this.categoria);
@@ -127,12 +128,11 @@ export default {
           id: producto.id
         };
       });
+        this.init();
       //console.log(JSON.stringify(this.articulos));
     },
     getCategorias() {
-      rest
-        .getJson("categorias")
-        .then(r => {
+      rest.getJson("categorias").then(r => {
           let f = r.data.map(m => {
             return m.nombre;
           });
@@ -208,7 +208,7 @@ export default {
     },
     init() {
       this.articulos.forEach(articulo => {
-        this.cuentaEdit[0].resumen.forEach(producto => {
+        this.store.currentCuenta.resumen.forEach(producto => {
           if (producto.producto === articulo.nombre) {
             articulo.cantidad = producto.cantidad;
           }

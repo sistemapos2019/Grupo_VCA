@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db
--- Tiempo de generación: 19-10-2019 a las 19:04:31
+-- Tiempo de generación: 30-10-2019 a las 20:34:34
 -- Versión del servidor: 5.6.45
 -- Versión de PHP: 7.2.14
 
@@ -53,7 +53,7 @@ CREATE TABLE `bitacora` (
 
 INSERT INTO `bitacora` (`id`, `idUsuario`, `fecha`, `suceso`) VALUES
 (1, 1, '2019-10-04 18:14:31', 'Compro pan'),
-(2, 1, '2019-10-07 18:14:33', 'Compro pan'),
+(2, 1, '2019-10-07 18:14:33', 'Tradeo pan'),
 (3, 2, '2019-10-01 18:15:02', 'Vendio tierra'),
 (4, 1, '2019-10-19 18:15:02', 'Encontro diamantes'),
 (5, 1, '2019-10-10 18:15:32', 'Murio por un creeper'),
@@ -162,7 +162,7 @@ CREATE TABLE `dashboardprincipal` (
 CREATE TABLE `detallecompra` (
   `idCompra` int(11) NOT NULL,
   `idProducto` int(11) NOT NULL,
-  `cantidad` decimal(8,2) NOT NULL,
+  `cantidad` int(11) NOT NULL,
   `precioUnitario` decimal(8,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -332,7 +332,7 @@ CREATE TABLE `parametro` (
 
 INSERT INTO `parametro` (`id`, `nombre`, `valor`) VALUES
 (1, 'ModoEntorno', 'MESA'),
-(2, 'Nombre', 'El pan dulce'),
+(2, 'Nombre', 'La papaya que quema'),
 (3, 'Descripcion', 'Servicios de Cafetería y restaurante'),
 (4, 'Telefono', '(503) 2453-5478'),
 (5, 'NIT', '0524-045374-102-8'),
@@ -341,7 +341,9 @@ INSERT INTO `parametro` (`id`, `nombre`, `valor`) VALUES
 (8, 'Imprimir Ticket de productos preparados', 'SI'),
 (9, 'Imprimir Ticket de productos NO preparados o rapidos', 'SI'),
 (10, 'Tiempo maximo ordenes RAPIDAS (minutos)', '4.5'),
-(11, 'Tiempo maximo Preparacion de Orden', '18');
+(11, 'Tiempo maximo Preparacion de Orden', '18'),
+(12, 'Login en cada pantalla', '0'),
+(13, 'NRC', '2134567');
 
 -- --------------------------------------------------------
 
