@@ -38,8 +38,8 @@
               </v-layout>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="green darken-1" flat @click="dialog = false">CANCELAR</v-btn>
-                <v-btn color="green darken-1" flat @click="cobrarOrden(cobrarIndex)">COBRAR</v-btn>
+                <v-btn color="green darken-1" text @click="dialog = false">CANCELAR</v-btn>
+                <v-btn color="green darken-1" text @click="cobrarOrden(cobrarIndex)">COBRAR</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -169,11 +169,7 @@ export default {
     },
     editarCuenta(cuentaEdit) {
       console.log(cuentaEdit);
-      this.cuentas.forEach(cuenta => {
-        if (cuenta.cuenta === cuentaEdit.idOrden) {
-          this.store.currentCuenta = cuenta;
-        }
-      });
+        this.store.currentCuenta = this.cuentas.find(cuenta => cuenta.cuenta === cuentaEdit.idOrden);
       this.store.editando = true;
     },
     ModalCobro(orden) {
@@ -182,7 +178,16 @@ export default {
       this.cobrarIndex = orden;
     },
     cobrarOrden(orden) {
-      this.$router.push("/ticket");
+      if (orden.total <= this.pago) {
+        this.dialog = false;
+        this.store.cuentaTicket = this.cuentas.find(cuenta => cuenta.cuenta === orden.idOrden);
+        this.store.pago = this.pago;
+        console.log(this.store.cuentaTicket);
+        //rm.putJson(`ordenes/finalizar/${orden.idOrden}`, { });
+        this.$router.push('/ticket');
+      } else {
+        this.snackbar = true;
+      }
     },
     getStats() {
       rm.getJson("estadisticas")
