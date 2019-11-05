@@ -105,7 +105,7 @@ public class OrdenREST {
     public Response Final(@PathParam("idOrden") Integer idOrden) {
         if (ordenFacade.existe(idOrden)) {
             entity = ordenFacade.findById(idOrden);
-            entity.setEstado("0");
+            entity.setEstado("CC");
             ordenFacade.edit(entity);
             return Response.status(Response.Status.OK)
                     .entity(entity)
