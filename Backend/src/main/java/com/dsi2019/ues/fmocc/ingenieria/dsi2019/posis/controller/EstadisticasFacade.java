@@ -54,8 +54,8 @@ public class EstadisticasFacade {
         return executeQuery("SELECT CASE WHEN (FUNCTION('DAYOFWEEK',o.fecha) = 1) THEN 7 ELSE FUNCTION('DAYOFWEEK',o.fecha) - 1 END,SUM(d.cantidad)"
                 + "FROM Orden o INNER JOIN o.detalleordenList d WHERE d.producto.idCategoria.id != (SELECT c.id FROM Categoria c WHERE c.nombre LIKE 'bebidas')"
                 + "AND FUNCTION('WEEK',o.fecha,1) = :week AND FUNCTION('YEAR',o.fecha) = :year GROUP BY o.fecha")
-                .setParameter("startdate", week)
-                .setParameter("enddate", year)
+                .setParameter("week", week)
+                .setParameter("year", year)
                 .getResultList();
     }
 

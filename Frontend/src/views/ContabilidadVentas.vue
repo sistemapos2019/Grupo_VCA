@@ -63,7 +63,7 @@
                 colspan="2"
               >MES: {{month}}</th>
               <th colspan="1">AÑO: {{new Date(date+'-02').getFullYear()}}</th>
-              <th colspan="3">NRC:</th>
+              <th colspan="3">NRC: {{nrc}}</th>
             </tr>
             <tr>
               <td rowspan="2">FECHA</td>
@@ -115,6 +115,7 @@ export default {
       date: new Date().toISOString().substr(0, 7),
       month: "",
       contribuyente: "",
+      nrc: "",
       totales: {
         ventas: 0.0,
         total: 0.0,
@@ -129,6 +130,7 @@ export default {
         .then(r => {
           this.ventas = r.data;
           this.contribuyente = r.headers.contribuyente;
+          this.nrc = r.headers.nrc;
           r.data.map(m=>{
             this.totales.ventas += m.ventas;
             this.totales.total += m.total;

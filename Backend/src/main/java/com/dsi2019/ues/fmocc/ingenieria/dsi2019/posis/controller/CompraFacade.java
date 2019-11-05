@@ -42,13 +42,6 @@ public class CompraFacade extends AbstractFacade<Compra> {
                 .getResultList();
     }
     
-    public Object[] totales(String[] date) {
-        return (Object[]) executeQuery("SELECT SUM(c.montoInterno),SUM(c.iva),SUM(c.total) FROM Compra c WHERE SUBSTRING(c.fecha, 6, 2) = :month AND SUBSTRING(c.fecha, 1, 4) = :year")
-                .setParameter("year", date[0])
-                .setParameter("month", date[1])
-                .getSingleResult();
-    }
-    
     public Object parametros(int id){
         return executeQuery("SELECT p.valor FROM Parametro p WHERE p.id = :id")
                 .setParameter("id", id)

@@ -43,21 +43,21 @@ const router = new Router({
     return { x: 0, y: 0 }
   },
 });
-router.beforeEach((to,from,next)=>{
-if(to.matched.some(record=>record.meta.requiresAuth)){
+// router.beforeEach((to,from,next)=>{
+// if(to.matched.some(record=>record.meta.requiresAuth)){
 
-  if(!store.getters.loggedIn){
-    next({view:Login});
-  }else if(to.matched.some(record=>record.meta.requiresVisitor)){
-    if(store.getters.loggedIn){
-      next({view:Dashboard});
-    }else{
-      next();
-    }
-    next();
-  }
-}
-});
+//   if(!store.getters.loggedIn){
+//     next({view:Login});
+//   }else if(to.matched.some(record=>record.meta.requiresVisitor)){
+//     if(store.getters.loggedIn){
+//       next({view:Dashboard});
+//     }else{
+//       next();
+//     }
+//     next();
+//   }
+// }
+// });
 
 Vue.use(Meta)
 

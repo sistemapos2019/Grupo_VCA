@@ -33,22 +33,22 @@ public class VentasRest {
     public Response ventas(@QueryParam("date") @DefaultValue("") String date) {
         return (date.isEmpty()) ? findAll() : ventasByDate(date);
     }
-    
-    public Response findAll(){
+
+    public Response findAll() {
         return Response
                 .ok()
                 .entity(ventasFacade.findAll())
                 .build();
     }
-    
-    public  Response ventasByDate(String date){
+
+    public Response ventasByDate(String date) {
         System.out.println(date);
         return Response
                 .ok()
                 .header("contribuyente", compraFacade.parametros(2))
+                .header("nrc", compraFacade.parametros(13))
                 .entity(ventasFacade.ventasByDate(date.split("-")))
-                .build();           
+                .build();
     }
-            
 
 }

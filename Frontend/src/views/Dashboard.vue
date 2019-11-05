@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <div class="tittle_text">RESUMEN</div>
-    <v-btn rounded color="secondary" dark class="mb-2" to="/nuevaorden">Nueva Orden</v-btn>
+    <v-btn dark class="mb-2 gradient-background" to="/nuevaorden">Nueva Orden</v-btn>
     <v-row>
       <v-col cols="12" lg="3">
         <v-card
