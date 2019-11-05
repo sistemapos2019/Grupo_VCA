@@ -1,91 +1,6 @@
 <template>
   <v-container fluid>
-    <div class="tittle_text">RESUMEN</div>
-    <v-btn dark class="mb-2 gradient-background" to="/nuevaorden">Nueva Orden</v-btn>
-    <v-row>
-      <v-col cols="12" lg="3">
-        <v-card
-          max-width="344"
-          class="mx-auto gradient-background"
-          color="#D1B6FF"
-          height="135px"
-          style="box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039);"
-        >
-          <v-dialog v-model="dialog" persistent max-width="500">
-            <v-card>
-              <v-card-title class="headline">
-                <v-layout align-center justify-center row fill-height>
-                  <v-flex style="text-align: center;">CUENTA N:{{cobrarIndex.cuenta}}</v-flex>
-                </v-layout>
-              </v-card-title>
-              <v-layout justify-center fill-height column>
-                <v-layout row align-center justify-center>
-                  <v-flex xs5>TOTAL:</v-flex>
-                  <v-flex xs5>{{cobrarIndex.total}}</v-flex>
-                </v-layout>
-                <br />
-                <v-layout row align-center justify-center>
-                  <v-flex xs5>PAGO:</v-flex>
-                  <v-flex xs5>
-                    <v-text-field v-model="pago" label="PAGO" single-line></v-text-field>
-                  </v-flex>
-                </v-layout>
-                <br />
-                <v-layout row align-center justify-center>
-                  <v-flex xs5>CAMBIO:</v-flex>
-                  <v-flex xs5>{{(pago - cobrarIndex.total).toFixed(2) | negativos}}</v-flex>
-                </v-layout>
-              </v-layout>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="green darken-1" flat @click="dialog = false">CANCELAR</v-btn>
-                <v-btn color="green darken-1" flat @click="cobrarOrden(cobrarIndex)">COBRAR</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-
-          <v-card-title>Ventas realizadas</v-card-title>
-          <v-card-text>{{stats.ordenes}}</v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12" lg="3">
-        <v-card
-          max-width="344"
-          class="mx-auto gradient-background-orange"
-          color="#D1B6FF"
-          height="135px"
-          style="box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039)"
-        >
-          <v-card-title>Ventas pendientes</v-card-title>
-          <v-card-text>{{stats.pendientes}}</v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12" lg="3">
-        <v-card
-          max-width="344"
-          class="mx-auto gradient-background-lightpurple"
-          color="#D1B6FF"
-          height="135px"
-          style="box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039)"
-        >
-          <v-card-title>Estado</v-card-title>
-          <v-card-text>Abierto</v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12" lg="3">
-        <v-card
-          max-width="344"
-          class="mx-auto gradient-background-lightblue"
-          color="#D1B6FF"
-          height="135px"
-          style="box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.498039)"
-        >
-          <v-card-title>Platillo mas vendido</v-card-title>
-          <v-card-text>{{stats.platillos}}</v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <div class="tittle_text" style="margin-top:20px;">ORDENES</div>
+    <div class="tittle_text">ORDENES PARA LLEVAR</div>
     <v-row>
       <v-col cols="12" lg="12">
         <v-data-table :headers="headers" :items="dashboard" :items-per-page="5">
@@ -160,7 +75,7 @@ export default {
         .catch(e => {});
     },
     getDashboard() {
-      rm.getJson("dashboardprincipal")
+      rm.getJson("dashboardllevar")
         .then(r => {
           this.dashboard = r.data;
           console.log(this.dashboard);

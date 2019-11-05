@@ -6,9 +6,12 @@
 package com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.controller;
 
 import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.view.Dashboardprincipal;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.eclipse.persistence.config.HintValues;
+import org.eclipse.persistence.config.QueryHints;
 
 /**
  *
@@ -27,6 +30,10 @@ public class DashboardprincipalFacade extends AbstractFacade<Dashboardprincipal>
 
     public DashboardprincipalFacade() {
         super(Dashboardprincipal.class);
+    }
+    
+     public List<Dashboardprincipal> getDashboard(){
+        return em.createNamedQuery("Dashboardprincipal.findAll").setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
     }
     
 }

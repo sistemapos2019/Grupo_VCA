@@ -8,13 +8,18 @@ export default [{
         // Relative to /src/views
         view: 'Dashboard',
         meta: {
-            requiresAuth:true,
+            requiresAuth: true,
         },
     },
     {
         path: '/estadisticas',
         name: 'Estadisticas',
         view: 'Estadisticas',
+    },
+    {
+        path: '/dashboardllevar',
+        name: 'DashboardLlevar',
+        view: 'DashboardLlevar',
     },
     {
         path: '/inventarios',
@@ -113,12 +118,16 @@ export default [{
         view: 'Bitacora',
     },
     {
-        path:'/login',
-        name:"Login",
-        view:'Login',
+        path: '/ampliarorden',
+        name: 'AmpliarOrden',
+        view: 'AmpliarOrden',
+    },
+    {
+        path: '/login',
+        name: "Login",
+        view: 'Login',
         meta: {
-            requiresVisitor:true,
+            requiresVisitor: true,
         },
-    },   
+    },
 ]
-
