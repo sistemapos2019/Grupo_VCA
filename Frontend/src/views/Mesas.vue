@@ -4,7 +4,7 @@
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
           <template  v-slot:activator="{ on }">
-            <v-btn dark class="mb-2 gradient-background" v-on="on">Nueva Mesa</v-btn>
+            <v-btn dark class="mb-2 gradient-background" v-on="on" @click="create()">Nueva Mesa</v-btn>
           </template>
           <v-card  >
             <v-card-title>
@@ -15,7 +15,7 @@
               <v-container >
                 <v-row >
                   <v-col cols="12" sm="12" md="12">
-                    <v-text-field  v-model="editedItem.mesa" label="Nombre de Mesa"></v-text-field>
+                    <v-text-field  v-model="arrayMesas.mesa" label="Nombre de Mesa"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -34,7 +34,7 @@
         </v-dialog>
       </v-toolbar>
     </template>
-    <template v-slot:item.action="{ item }">
+    <template v-if="auth" v-slot:item.action="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
       <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
     </template>
@@ -47,6 +47,7 @@ const rm= new restMethods();
 export default {
   data(){return {
     dialog: false,
+    auth:false,
     mesas:this.getMesas(),
     headers: [
       {
@@ -65,7 +66,7 @@ export default {
     ],
     
     editedIndex: -1,
-    editedItem: {
+    arrayMesas: {
       mesa: "",
     },
     defaultItem: {
@@ -94,9 +95,15 @@ export default {
       });
     },
     editItem(item) {
-      this.editedIndex = this.mesas.indexOf(item);
-      this.editedItem = Object.assign({}, item);
+      this.editedIndex = 0;
+      this.arrayMesas = item;
       this.dialog = true;
+    },
+    create(){
+      this.arrayMesas.mesa=null;
+      this.dialog=true;
+      this.editedIndex=0;
+      console.log("crear");
     },
     deleteItem(item) {
       const index = this.mesas.indexOf(item);
@@ -106,15 +113,15 @@ export default {
     close() {
       this.dialog = false;
       setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
+        this.arrayMesas = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       }, 300);
     },
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.mesas[this.editedIndex], this.editedItem);
+        rm.putJson();
       } else {
-        this.mesas.push(this.editedItem);
+        this.mesas.push(this.arrayMesas);
       }
       this.close();
     }

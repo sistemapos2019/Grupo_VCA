@@ -55,20 +55,23 @@ export default {
           this.rol= this.usuarios[0].rol==='M'?'Mesero':'Gerente';
           this.idUsuario=this.usuarios[0].id;
           console.log("Rol: "+this.rol+" IdUs: "+this.idUsuario);
-         if( this.usuarios[0].pin===md5(password) || this.usuarios[0].clave===md5(password) ){
-           //this.$router.push("categorias");
-           this.$store.dispaatch('retrieveToken',{
-             username:this.login,
-             password:this.password,
-           })
+         if( this.usuarios[0].pin===password || this.usuarios[0].clave===md5(password) ){
+           this.$store.state.IdUsuario=this.idUsuario;
+           this.$store.state.rol=this.rol;
+          if(this.$store.state.pantallaVista){
+            this.$router.push('/');
+          }
+
          }else{
            this.snack=true;
            this.text="Error Clave erronea para "+this.usuarios[0].user;
            console.log("Error"+JSON.stringify(this.usuarios));
            this.usuarios=this.getInfo("");
-           
-           //this.$router.push("login");
+           this.$router.push("login");
          }
+         console.log("verId: "+this.$store.state.IdUsuario);
+           console.log("verRol: "+this.$store.state.rol);
+
       },
       async getInfo(login,password){
        await rm.getJson("usuarios/user?login="+login)

@@ -14,6 +14,7 @@ import Meta from 'vue-meta'
 
 // Routes
 import paths from './paths'
+import store from '../store';
 
 function route (path, view, name) {
   return {
@@ -43,21 +44,29 @@ const router = new Router({
     return { x: 0, y: 0 }
   },
 });
-router.beforeEach((to,from,next)=>{
-if(to.matched.some(record=>record.meta.requiresAuth)){
 
-  if(!store.getters.loggedIn){
-    next({view:Login});
-  }else if(to.matched.some(record=>record.meta.requiresVisitor)){
-    if(store.getters.loggedIn){
-      next({view:Dashboard});
-    }else{
-      next();
-    }
-    next();
-  }
-}
+///*
+router.beforeEach((to,from,next)=>{
+      if( store.state.pantallaVista ){
+        if( store.state.rol!='Gerente'){
+          if( to.path==='/categorias' || to.path==='/bitacoras' || to.path==='/productos' ||
+          to.path==='/usuarioroles' || to.path==='/compras' || to.path==='/mesas' || to.path==='/parametros'){
+            confirm('Acceso Denegado');
+            next('/')
+          }else{
+            next()
+            console.log('es asi '+store.state.rol);
+          }
+        }else{
+          next();
+          console.log('es asi '+store.state.pantallaVista);
+        }   
+      }else {
+        console.log('pasa')
+        next()
+      }
 });
+//*/
 
 Vue.use(Meta)
 

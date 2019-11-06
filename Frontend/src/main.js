@@ -13,6 +13,7 @@ Vue.component('apexchart', VueApexCharts)
 sync(store, router)
 
 Vue.config.productionTip = false
+//variables globales
 
 new Vue({
   router,
