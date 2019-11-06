@@ -16,36 +16,36 @@ import Meta from 'vue-meta'
 import paths from './paths'
 import store from '../store';
 
-function route (path, view, name) {
-  return {
-    name: name || view,
-    path,
-    component: (resovle) => import(
-      `@/views/${view}.vue`
-    ).then(resovle),
-  }
+function route(path, view, name) {
+    return {
+        name: name || view,
+        path,
+        component: (resovle) =>
+            import (
+                `@/views/${view}.vue`
+            ).then(resovle),
+    }
 }
 
 Vue.use(Router)
 
 // Create a new router
 const router = new Router({
-  mode: 'history',
-  routes: paths.map(path => route(path.path, path.view, path.name)).concat([
-    { path: '*', redirect: '/' },
-  ]),
-  scrollBehavior (to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    }
-    if (to.hash) {
-      return { selector: to.hash }
-    }
-    return { x: 0, y: 0 }
-  },
+    mode: 'history',
+    routes: paths.map(path => route(path.path, path.view, path.name)).concat([
+        { path: '*', redirect: '/' },
+    ]),
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        }
+        if (to.hash) {
+            return { selector: to.hash }
+        }
+        return { x: 0, y: 0 }
+    },
 });
 
-///*
 router.beforeEach((to,from,next)=>{
       if( store.state.pantallaVista ){
         if( store.state.rol!='Gerente'){
@@ -66,7 +66,8 @@ router.beforeEach((to,from,next)=>{
         next()
       }
 });
-//*/
+
+
 
 Vue.use(Meta)
 
@@ -74,13 +75,13 @@ Vue.use(Meta)
 // Set in .env
 // https://github.com/MatteoGabriele/vue-analytics
 if (process.env.GOOGLE_ANALYTICS) {
-  Vue.use(VueAnalytics, {
-    id: process.env.GOOGLE_ANALYTICS,
-    router,
-    autoTracking: {
-      page: process.env.NODE_ENV !== 'development',
-    },
-  })
+    Vue.use(VueAnalytics, {
+        id: process.env.GOOGLE_ANALYTICS,
+        router,
+        autoTracking: {
+            page: process.env.NODE_ENV !== 'development',
+        },
+    })
 }
 
 export default router

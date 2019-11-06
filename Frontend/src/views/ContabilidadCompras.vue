@@ -30,7 +30,7 @@
             type="month"
             no-title
             scrollable
-            @change="getCompras(); $refs.menu.save(date);"
+            @change="getCompras(); $refs.menu.save(date); updateMonth();"
           ></v-date-picker>
         </v-menu>
       </v-col>
@@ -54,10 +54,8 @@
           <thead>
             <tr>
               <th colspan="6">NOMBRE CONTRIBUYENTE: {{contribuyente | upper}}</th>
-              <th colspan="3">NRC:</th>
-              <th
-                colspan="2"
-              >MES: {{month}}</th>
+              <th colspan="3">NRC: {{nrc}}</th>
+              <th colspan="2">MES: {{month}}</th>
               <th colspan="1">AÑO: {{new Date(date+'-02').getFullYear()}}</th>
             </tr>
             <tr>
@@ -97,15 +95,39 @@
           <tfoot>
             <tr>
               <td colspan="6">TOTALES</td>
-              <td style="text-align: center;">{{totales.interno}}</td>
-              <td></td>
-              <td></td>
-              <td style="text-align: center;">{{totales.iva}}</td>
-              <td style="text-align: center;">{{totales.general}}</td>
+              <td style="text-align: center;">{{totales.interno | money}}</td>
+              <td colspan="2"></td>
+              <td style="text-align: center;">{{totales.iva | money}}</td>
+              <td style="text-align: center;">{{totales.general | money}}</td>
               <td></td>
             </tr>
           </tfoot>
         </table>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col lg="12">
+        <table id="totalesventas">
+          <tbody>
+            <tr>
+              <td>Total ventas</td>
+              <td>{{totales.interno | money}}</td>
+              <td>Ventas netas gravadas locales</td>
+              <td>{{(totales.interno/1.13).toFixed(2) | money}}</td>
+            </tr>
+            <tr>
+              <td colspan="2"></td>
+              <td>Impuesto iva</td>
+              <td>{{(totales.interno*.13).toFixed(2) | money}}</td>
+            </tr>
+            <tr>
+              <td colspan="2"></td>
+              <td>Total ventas</td>
+              <td>{{totales.interno | money}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <canvas id="qr"> </canvas>
       </v-col>
     </v-row>
   </v-container>
@@ -113,6 +135,7 @@
 
 <script>
 import restMethods from "./../utils/restMethods.js";
+import QRCode from "qrcode";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 const rm = new restMethods();
@@ -121,15 +144,16 @@ export default {
     return {
       compras: {},
       menu: false,
-      date: new Date().toISOString().substr(0, 7), 
+      date: new Date().toISOString().substr(0, 7),
       contribuyente: "",
+      nrc: "",
       totales: {
         iva: 0.0,
         interno: 0.0,
         general: 0.0
       },
       to: "contventas",
-      month: "",
+      month: ""
     };
   },
   methods: {
@@ -138,9 +162,12 @@ export default {
         .then(r => {
           this.compras = r.data;
           this.contribuyente = r.headers.contribuyente;
-          this.totales.iva = r.headers["total-iva"];
-          this.totales.general = r.headers["total-general"];
-          this.totales.interno = r.headers["total-monto"];
+          this.nrc = r.headers.nrc;
+          r.data.map(m => {
+            this.totales.interno += m.montoInterno;
+            this.totales.iva += m.iva;
+            this.totales.general += m.total;
+          });
         })
         .catch(e => {});
     },
@@ -169,8 +196,10 @@ export default {
       //doc.save("table.pdf");
       doc.output("dataurlnewwindow");
     },
-    updateMonth(){
-      this.month = new Date(this.date+"-02").toLocaleString('default', { month: 'long' }).toUpperCase();
+    updateMonth() {
+      this.month = new Date(this.date + "-02")
+        .toLocaleString("default", { month: "long" })
+        .toUpperCase();
     }
   },
   filters: {
@@ -179,11 +208,19 @@ export default {
     },
     upper(value) {
       return value.toUpperCase();
+    },
+    money(value) {
+      return "$" + value;
     }
   },
   mounted: function() {
     this.getCompras();
     this.updateMonth();
+    QRCode.toCanvas(document.getElementById('qr'),
+    'http://192.168.1.4:8081/', { toSJISFunc: QRCode.toSJIS }, function (error) {
+    if (error) console.error(error)
+    console.log('success!')
+  })
   }
 };
 </script>
@@ -251,5 +288,10 @@ export default {
 #contableCompras tr > th:nth-child(1),
 #contableCompras tr > td:nth-child(1) {
   padding-left: 8px;
+}
+
+#totalesventas {
+  width: 40%;
+  float: right;
 }
 </style>

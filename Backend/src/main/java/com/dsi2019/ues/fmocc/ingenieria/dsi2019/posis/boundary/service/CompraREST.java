@@ -11,16 +11,13 @@ import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.Compra;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -77,14 +74,10 @@ public class CompraREST {
     }
     
     public Response CompraByDate(String fecha){
-        Object[] totales = compraFacade.totales(fecha.split("-"));
-        System.out.println(totales[0] == null);
         return Response
                 .ok()
                 .header("contribuyente", compraFacade.parametros(2))
-                .header("total-monto", (totales[0] == null) ? 0.0 : totales[0])
-                .header("total-iva", (totales[1] == null) ? 0.0 : totales[1])
-                .header("total-general", (totales[2] == null) ? 0.0 : totales[2])
+                .header("nrc", compraFacade.parametros(13))
                 .entity(compraFacade.compraByDate(fecha.split("-")))
                 .build();
     }

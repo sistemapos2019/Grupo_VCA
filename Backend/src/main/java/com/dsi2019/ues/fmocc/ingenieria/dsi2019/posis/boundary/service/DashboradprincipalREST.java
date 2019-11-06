@@ -27,7 +27,7 @@ public class DashboradprincipalREST {
     @Produces({MediaType.APPLICATION_JSON})
     public Response findAll() {
         return Response.status(Response.Status.OK)
-                .entity(dashboardService.findAll())
+                .entity(dashboardService.getDashboard())
                 .header("X-numero-registros", dashboardService.count())
                 .build();
     }

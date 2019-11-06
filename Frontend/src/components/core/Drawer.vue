@@ -121,6 +121,11 @@
           text: 'Dashboard'
         },
         {
+          to: '/dashboardllevar',
+          icon: 'mdi-view-dashboard',
+          text: 'Dashboard para llevar'
+        },
+        {
           to: '/estadisticas',
           icon: 'mdi-chart-bar',
           text: 'Estadisticas'

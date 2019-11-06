@@ -1,9 +1,7 @@
 // https://vuex.vuejs.org/en/state.html
 
 export default {
-   // token: localStorage('access_token')||null,
-
-    cuentaEditar: { producto: "algo" },
+    store: { currentCuenta: {}, cuentaTicket: {}, pago: null, editando: false, alert: false, ampliando: false },
 
     pantallaVista:true,
     rol:null,

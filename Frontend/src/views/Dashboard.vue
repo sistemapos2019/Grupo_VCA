@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <div class="tittle_text">RESUMEN</div>
-    <v-btn rounded color="secondary" dark class="mb-2" to="/nuevaorden">Nueva Orden</v-btn>
+    <v-btn dark class="mb-2 gradient-background" to="/nuevaorden">Nueva Orden</v-btn>
     <v-row>
       <v-col cols="12" lg="3">
         <v-card
@@ -38,8 +38,8 @@
               </v-layout>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="green darken-1" flat @click="dialog = false">CANCELAR</v-btn>
-                <v-btn color="green darken-1" flat @click="cobrarOrden(cobrarIndex)">COBRAR</v-btn>
+                <v-btn color="green darken-1" text @click="dialog = false">CANCELAR</v-btn>
+                <v-btn color="green darken-1" text @click="cobrarOrden(cobrarIndex)">COBRAR</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -88,11 +88,11 @@
     <div class="tittle_text" style="margin-top:20px;">ORDENES</div>
     <v-row>
       <v-col cols="12" lg="12">
-        <v-data-table :headers="headers" :items="cuentas" :items-per-page="5">
+        <v-data-table :headers="headers" :items="dashboard" :items-per-page="5">
           <template v-slot:item.action="{ item }">
-            <v-icon small class="mr-2" @click="$router.push('editarorden');">add</v-icon>
-            <v-icon small class="mr-2" @click="$router.push('editarorden');">edit</v-icon>
-            <v-icon class="mr-2" @click="ModalCobro(item)">payment</v-icon>
+            <v-icon small class="mr-4" @click="editarCuenta(item);$router.push('ampliarorden');">add</v-icon>
+            <v-icon small class="mr-4" @click="editarCuenta(item);$router.push('editarorden');">edit</v-icon>
+            <v-icon class="mr-4" @click="ModalCobro(item)">payment</v-icon>
           </template>
         </v-data-table>
       </v-col>
@@ -104,7 +104,7 @@
 import restMethods from "./../utils/restMethods.js";
 import CuentaEntity from "./../utils/CuentaEntity";
 import { mapState } from "vuex";
-import { isArray } from 'util';
+import { isArray } from "util";
 const rm = new restMethods();
 export default {
   data() {
@@ -113,16 +113,18 @@ export default {
       cobrarIndex: [],
       pago: null,
       cuentas: [],
+      dashboard: [],
       headers: [
         {
-          text: "Cuenta",
+          text: "Orden",
           align: "left",
           sortable: false,
-          value: "cuenta"
+          value: "idOrden"
         },
         { text: "Mesa", value: "mesa" },
         { text: "Cliente", value: "cliente" },
         { text: "Mesero", value: "mesero" },
+        { text: "TiempoPreparado", value: "tiempoPreparado" },
         { text: "Total", value: "total" },
         { text: "Actions", value: "action", sortable: false }
       ],
@@ -135,11 +137,12 @@ export default {
   },
   created() {
     this.getOrdenes();
-    console.log(JSON.stringify(this.cuentaEditar));
+    this.getDashboard();
+    this.store.editando = false;
+    console.log(JSON.stringify(this.store));
   },
-   computed: {
-    ...mapState(["cuentaEditar"])
-
+  computed: {
+    ...mapState(["store"])
   },
   methods: {
     getOrdenes() {
@@ -152,19 +155,41 @@ export default {
           this.cuentas = r.data.map(cuenta => {
             return new CuentaEntity(cuenta);
           });
-          console.log(JSON.stringify(this.cuentas));
+          //console.log(JSON.stringify(this.cuentas));
         })
         .catch(e => {});
     },
+    getDashboard() {
+      rm.getJson("dashboardprincipal")
+        .then(r => {
+          this.dashboard = r.data;
+          console.log(this.dashboard);
+        })
+        .catch(e => {});
+    },
+    editarCuenta(cuentaEdit) {
+      console.log(cuentaEdit);
+        this.store.currentCuenta = this.cuentas.find(cuenta => cuenta.cuenta === cuentaEdit.idOrden);
+      this.store.editando = true;
+    },
     ModalCobro(orden) {
-      console.log(JSON.stringify(orden));
+      //console.log(JSON.stringify(orden));
       this.dialog = true;
       this.cobrarIndex = orden;
     },
     cobrarOrden(orden) {
-      this.$router.push("/ticket");
+      if (orden.total <= this.pago) {
+        this.dialog = false;
+        this.store.cuentaTicket = this.cuentas.find(cuenta => cuenta.cuenta === orden.idOrden);
+        this.store.pago = this.pago;
+        console.log(this.store.cuentaTicket);
+        //rm.putJson(`ordenes/finalizar/${orden.idOrden}`, { });
+        this.$router.push('/ticket');
+      } else {
+        this.snackbar = true;
+      }
     },
-     getStats() {
+    getStats() {
       rm.getJson("estadisticas")
         .then(r => {
           let res = r.data;
@@ -181,14 +206,14 @@ export default {
           };
         });
       console.log(JSON.stringify(this.diario));
-    },
+    }
   },
   filters: {
     negativos: function(value) {
       return value < 0 ? 0.0 : value;
     }
   },
-  mounted: function(){
+  mounted: function() {
     this.getStats();
   }
 };
