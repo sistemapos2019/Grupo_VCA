@@ -99,7 +99,6 @@ export default {
       this.close();
     },
     getparametros() {
-      
       rm.getJson("parametros")
         .then(r => {
           this.parametros = r.data;

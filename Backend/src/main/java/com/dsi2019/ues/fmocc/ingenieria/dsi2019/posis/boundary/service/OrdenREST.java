@@ -10,6 +10,8 @@ import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.controller.OrdenFacade;
 import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.Detalleorden;
 import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.DetalleordenPK;
 import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.Orden;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -64,7 +66,7 @@ public class OrdenREST {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public Response edit(Orden orden) {
-        if (orden == null) { 
+        if (orden == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         detalleOrdenList = orden.getDetalleordenList();
@@ -76,8 +78,6 @@ public class OrdenREST {
 
         return Response.status(Response.Status.ACCEPTED).build();
     }
-    
-    
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -177,6 +177,44 @@ public class OrdenREST {
         }
         return Response.status(Response.Status.NOT_FOUND)
                 .header("Error en el rango de Productos", 1)
+                .build();
+    }
+
+    @GET
+    @Path("cerrarorden")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response cerrarOrden(@QueryParam("id") @DefaultValue("0") int id, @QueryParam("type") @DefaultValue("NA") String tipo) {
+        System.out.println("??");
+        
+        JsonObject estado = new JsonObject();
+        estado.addProperty("id", id);
+
+        if ("NA".equals(tipo) || id == 0) {
+            return Response
+                    .status(400)
+                    .build();
+        }
+
+        if ("NP".equals(tipo)) {
+            estado.addProperty("estado", ordenFacade.getEstadoById(id));
+            
+            ordenFacade.setTiempoRapidoNull(id);
+            return Response.ok()
+                    .entity(estado.toString())
+                    .build();
+        }
+
+        if ("PP".equals(tipo)) {
+            estado.addProperty("estado", ordenFacade.getEstadoById(id));
+            
+            ordenFacade.setTiempoPreparadoNull(id);
+            return Response.ok()
+                    .entity(estado.toString())
+                    .build();
+        }
+
+        return Response
+                .status(400)
                 .build();
     }
 }
