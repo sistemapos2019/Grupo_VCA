@@ -64,101 +64,93 @@
 
 <script>
 // Utilities
-  import {
-    mapMutations,
-    mapState
-  } from 'vuex'
+import { mapMutations, mapState } from "vuex";
 
-  export default {
-    props: {
-      opened: {
-        type: Boolean,
-        default: false
-      }
-    },
-    data: () => ({
-      administrations: [
+export default {
+  props: {
+    opened: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data: () => ({
+    administrations: [
       {
         to: "/categorias",
         icon: "mdi-animation",
-        text: "Categorias",
+        text: "Categorias"
       },
       {
         to: "/usuarioroles",
         icon: "mdi-account-group",
-        text: "Usuario y Roles",
+        text: "Usuario y Roles"
       },
       {
         to: "/productos",
         icon: "mdi-coffee",
-        text: "Productos",
+        text: "Productos"
       },
       {
         to: "/parametros",
         icon: "mdi-altimeter",
-        text: "Parametros",
+        text: "Parametros"
       },
       {
         to: "/compras",
         icon: "mdi-application",
-        text: "Compras",
+        text: "Compras"
       },
       {
         to: "/mesas",
         icon: "mdi-table-chair",
-        text: "Mesas",
+        text: "Mesas"
       },
       {
-        to:"/bitacoras",
+        to: "/bitacoras",
         icon: "mdi-account-badge-outline",
-        text: "Bitacora",
+        text: "Bitacora"
       }
-      ],
-      links: [
-        {
-          to: '/',
-          icon: 'mdi-view-dashboard',
-          text: 'Dashboard'
-        },
-        {
-          to: '/dashboardllevar',
-          icon: 'mdi-view-dashboard',
-          text: 'Dashboard para llevar'
-        },
-        {
-          to: '/estadisticas',
-          icon: 'mdi-chart-bar',
-          text: 'Estadisticas'
-        },
-        {
-          to: '/inventarios',
-          icon: 'mdi-dropbox',
-          text: 'Inventarios'
-        },
-        {
-          to: '/contcompras',
-          icon: 'mdi-clipboard-outline',
-          text: 'Contabilidad'
-        },
-      ]
-    }),
-
-    computed: {
-      ...mapState('app', ['image', 'color']),
-      inputValue: {
-        get () {
-          return this.$store.state.app.drawer
-        },
-        set (val) {
-          this.setDrawer(val)
-        }
+    ],
+    links: [
+      {
+        to: "/",
+        icon: "mdi-view-dashboard",
+        text: "Dashboard"
+      },
+      {
+        to: "/dashboardllevar",
+        icon: "mdi-view-dashboard",
+        text: "Dashboard para llevar"
+      },
+      {
+        to: "/estadisticas",
+        icon: "mdi-chart-bar",
+        text: "Estadisticas"
+      },
+      {
+        to: "/contcompras",
+        icon: "mdi-clipboard-outline",
+        text: "Contabilidad"
       }
-    },
+    ]
+  }),
 
-    methods: {
-      ...mapMutations('app', ['setDrawer', 'toggleDrawer'])
+  computed: {
+    ...mapState("app", ["image", "color"]),
+    inputValue: {
+      get() {
+        return this.$store.state.app.drawer;
+      },
+      set(val) {
+        this.setDrawer(val);
+      }
     }
+  },
+
+  methods: {
+    ...mapMutations("app", ["setDrawer", "toggleDrawer"])
   }
+};
 </script>
 
 <style>

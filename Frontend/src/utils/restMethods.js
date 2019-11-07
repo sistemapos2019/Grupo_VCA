@@ -2,7 +2,7 @@ import Axios from 'axios'
 
 export default class RestMethods {
     constructor() {
-        this.baseUri = 'http://localhost:8080/POSis-1.0-SNAPSHOT/ws/'
+        this.baseUri = 'http://localhost:8080/Backend/ws/'
         this.json = null
         this.suceso=''
         this.parPan

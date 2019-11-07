@@ -1,4 +1,5 @@
 <template>
+<v-container fluid>
   <v-data-table
     :headers="headers"
     :items-per-page="5"
@@ -88,6 +89,7 @@
       <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
     </template>
   </v-data-table>
+</v-container>
 </template>
 
 <script>

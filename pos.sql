@@ -2,10 +2,10 @@
 -- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Servidor: db
--- Tiempo de generación: 30-10-2019 a las 20:34:34
--- Versión del servidor: 5.6.45
--- Versión de PHP: 7.2.14
+-- Host: db
+-- Generation Time: Nov 07, 2019 at 09:31 PM
+-- Server version: 5.6.45
+-- PHP Version: 7.2.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,12 +19,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `pos`
+-- Database: `pos`
 --
 
 DELIMITER $$
 --
--- Procedimientos
+-- Procedures
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `calcularTotalOrden` (`LidOrden` INT)  BEGIN
 
@@ -37,7 +37,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `bitacora`
+-- Table structure for table `bitacora`
 --
 
 CREATE TABLE `bitacora` (
@@ -48,7 +48,7 @@ CREATE TABLE `bitacora` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `bitacora`
+-- Dumping data for table `bitacora`
 --
 
 INSERT INTO `bitacora` (`id`, `idUsuario`, `fecha`, `suceso`) VALUES
@@ -60,7 +60,7 @@ INSERT INTO `bitacora` (`id`, `idUsuario`, `fecha`, `suceso`) VALUES
 (6, 1, '2019-09-09 18:15:32', 'Murio por una bruja');
 
 --
--- Disparadores `bitacora`
+-- Triggers `bitacora`
 --
 DELIMITER $$
 CREATE TRIGGER `bitacora_BEFORE_INSERT` BEFORE INSERT ON `bitacora` FOR EACH ROW BEGIN
@@ -72,7 +72,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `categoria`
+-- Table structure for table `categoria`
 --
 
 CREATE TABLE `categoria` (
@@ -81,7 +81,7 @@ CREATE TABLE `categoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `categoria`
+-- Dumping data for table `categoria`
 --
 
 INSERT INTO `categoria` (`id`, `nombre`) VALUES
@@ -92,7 +92,7 @@ INSERT INTO `categoria` (`id`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `compra`
+-- Table structure for table `compra`
 --
 
 CREATE TABLE `compra` (
@@ -109,7 +109,7 @@ CREATE TABLE `compra` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `compra`
+-- Dumping data for table `compra`
 --
 
 INSERT INTO `compra` (`id`, `fecha`, `Ndocumento`, `NRC`, `NITDUI`, `nombreProveedor`, `montoInterno`, `iva`, `percepcion`, `total`) VALUES
@@ -119,8 +119,8 @@ INSERT INTO `compra` (`id`, `fecha`, `Ndocumento`, `NRC`, `NITDUI`, `nombreProve
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `dashboardllevar`
--- (Véase abajo para la vista actual)
+-- Stand-in structure for view `dashboardllevar`
+-- (See below for the actual view)
 --
 CREATE TABLE `dashboardllevar` (
 `IdOrden` int(11)
@@ -128,15 +128,15 @@ CREATE TABLE `dashboardllevar` (
 ,`Cliente` varchar(145)
 ,`Total` decimal(8,2)
 ,`Estado` varchar(2)
-,`TiempoPreparado` decimal(17,1)
-,`Preparado` varchar(8)
+,`TiempoPreparado` varchar(17)
+,`Preparado` varchar(6)
 );
 
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `dashboardprincipal`
--- (Véase abajo para la vista actual)
+-- Stand-in structure for view `dashboardprincipal`
+-- (See below for the actual view)
 --
 CREATE TABLE `dashboardprincipal` (
 `IdOrden` int(11)
@@ -146,17 +146,17 @@ CREATE TABLE `dashboardprincipal` (
 ,`Total` decimal(8,2)
 ,`Estado` varchar(2)
 ,`llevar` int(11)
-,`TiempoPreparado` decimal(17,1)
-,`Preparado` varchar(8)
-,`TiempoRapido` decimal(17,1)
-,`Rapido` varchar(8)
+,`TiempoPreparado` varchar(17)
+,`Preparado` varchar(6)
+,`TiempoRapido` varchar(17)
+,`Rapido` varchar(6)
 ,`tipo` varchar(6)
 );
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `detallecompra`
+-- Table structure for table `detallecompra`
 --
 
 CREATE TABLE `detallecompra` (
@@ -167,7 +167,7 @@ CREATE TABLE `detallecompra` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Disparadores `detallecompra`
+-- Triggers `detallecompra`
 --
 DELIMITER $$
 CREATE TRIGGER `detallecompra_AFTER_INSERT` AFTER INSERT ON `detallecompra` FOR EACH ROW BEGIN
@@ -179,7 +179,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `detalleorden`
+-- Table structure for table `detalleorden`
 --
 
 CREATE TABLE `detalleorden` (
@@ -190,19 +190,34 @@ CREATE TABLE `detalleorden` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `detalleorden`
+-- Dumping data for table `detalleorden`
 --
 
 INSERT INTO `detalleorden` (`idOrden`, `idProducto`, `cantidad`, `precioUnitario`) VALUES
-(1, 1, 4, '5.00'),
+(1, 1, 4, '4.50'),
+(1, 2, 6, '1.25'),
 (2, 1, 3, '5.00'),
 (2, 2, 5, '1.00'),
 (3, 1, 2, '5.00'),
-(3, 2, 10, '1.00');
+(3, 2, 10, '1.00'),
+(4, 1, 1, '4.50'),
+(5, 1, 2, '4.50'),
+(6, 2, 3, '1.25'),
+(7, 2, 2, '1.25'),
+(9, 1, 5, '4.50'),
+(10, 2, 1, '1.25'),
+(11, 1, 1, '4.50'),
+(11, 2, 1, '1.25');
 
 --
--- Disparadores `detalleorden`
+-- Triggers `detalleorden`
 --
+DELIMITER $$
+CREATE TRIGGER `detalleorden_AFTER_DELETE` AFTER DELETE ON `detalleorden` FOR EACH ROW BEGIN
+	call calcularTotalOrden(old.idOrden);
+END
+$$
+DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `detalleorden_AFTER_INSERT` AFTER INSERT ON `detalleorden` FOR EACH ROW BEGIN
 declare tipoP int;
@@ -254,7 +269,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `mesa`
+-- Table structure for table `mesa`
 --
 
 CREATE TABLE `mesa` (
@@ -263,7 +278,7 @@ CREATE TABLE `mesa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `mesa`
+-- Dumping data for table `mesa`
 --
 
 INSERT INTO `mesa` (`id`, `mesa`) VALUES
@@ -276,7 +291,7 @@ INSERT INTO `mesa` (`id`, `mesa`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `orden`
+-- Table structure for table `orden`
 --
 
 CREATE TABLE `orden` (
@@ -296,16 +311,24 @@ CREATE TABLE `orden` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `orden`
+-- Dumping data for table `orden`
 --
 
 INSERT INTO `orden` (`id`, `idMesa`, `idUsuario`, `fecha`, `llevar`, `estado`, `observacion`, `tiempoPreparado`, `tiempoRapido`, `total`, `propina`, `formaPago`, `cliente`) VALUES
-(1, 5, 2, '2019-09-29', 1, 'AA', NULL, '2019-10-06 04:09:18', '2019-10-05 00:05:00', '20.00', '2.00', 'E', 'Jose'),
-(2, 4, 2, '2019-10-06', 0, 'CC', NULL, '2019-10-06 04:09:46', '2019-10-06 04:09:46', '20.00', '2.00', 'E', 'Amilcar'),
-(3, 2, 2, '2019-10-03', 0, 'CC', NULL, '2019-10-06 04:10:03', '2019-10-06 04:10:03', '20.00', '2.00', 'E', 'Marco');
+(1, 1, 1, NULL, 1, 'AA', NULL, '2019-11-06 00:09:00', '2019-11-06 00:00:50', '25.50', '0.00', 'E', 'Jose'),
+(2, 4, 2, '2019-10-06', 0, 'CP', NULL, NULL, NULL, '20.00', '2.00', 'E', 'Amilcar'),
+(3, 2, 2, '2019-10-03', 0, 'CC', NULL, '2019-10-06 00:10:04', NULL, '20.00', '2.00', 'E', 'Marco'),
+(4, 2, 1, '2019-11-06', 0, 'AA', '', NULL, NULL, '4.50', '0.00', 'E', 'Pedro'),
+(5, 2, 1, '2019-11-07', 0, 'AA', '', NULL, NULL, '9.00', '0.00', 'E', ''),
+(6, 2, 2, '2019-11-07', 0, 'AA', '', NULL, NULL, '3.75', '0.00', 'E', ''),
+(7, 1, 1, '2019-11-07', 0, 'AA', '', NULL, '2019-11-07 02:30:33', '2.50', '0.00', 'E', ''),
+(8, 5, 2, '2019-11-07', 1, 'AA', 'ninguna', NULL, NULL, '0.00', '0.00', 'E', NULL),
+(9, 1, 2, '2019-11-07', 1, 'AA', '', NULL, NULL, '22.50', '0.00', 'E', ''),
+(10, 1, 1, '2019-11-07', 1, 'AA', '', NULL, '2019-11-07 02:36:41', '1.25', '0.00', 'E', 'Luis'),
+(11, 1, 2, '2019-11-07', 1, 'AA', '', '2019-11-07 02:38:29', '2019-11-07 02:38:29', '5.75', '0.00', 'E', '');
 
 --
--- Disparadores `orden`
+-- Triggers `orden`
 --
 DELIMITER $$
 CREATE TRIGGER `orden_BEFORE_INSERT` BEFORE INSERT ON `orden` FOR EACH ROW BEGIN
@@ -317,7 +340,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `parametro`
+-- Table structure for table `parametro`
 --
 
 CREATE TABLE `parametro` (
@@ -327,7 +350,7 @@ CREATE TABLE `parametro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `parametro`
+-- Dumping data for table `parametro`
 --
 
 INSERT INTO `parametro` (`id`, `nombre`, `valor`) VALUES
@@ -342,13 +365,14 @@ INSERT INTO `parametro` (`id`, `nombre`, `valor`) VALUES
 (9, 'Imprimir Ticket de productos NO preparados o rapidos', 'SI'),
 (10, 'Tiempo maximo ordenes RAPIDAS (minutos)', '4.5'),
 (11, 'Tiempo maximo Preparacion de Orden', '18'),
-(12, 'Login en cada pantalla', '0'),
-(13, 'NRC', '2134567');
+(12, 'Login en cada pantalla', '1'),
+(13, 'NRC', '2134567'),
+(14, 'Propina', '0.1');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `producto`
+-- Table structure for table `producto`
 --
 
 CREATE TABLE `producto` (
@@ -361,17 +385,17 @@ CREATE TABLE `producto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `producto`
+-- Dumping data for table `producto`
 --
 
 INSERT INTO `producto` (`id`, `nombre`, `precio`, `inventario`, `preparado`, `idCategoria`) VALUES
-(1, 'Carne Asada', '4.50', 0, 1, 2),
-(2, 'Soda Coca-Cola 12onz', '1.25', 31, 0, 3);
+(1, 'Carne Asada', '5.00', 0, 1, 2),
+(2, 'Soda Coca-Cola 12onz', '1.25', 18, 0, 3);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario`
+-- Table structure for table `usuario`
 --
 
 CREATE TABLE `usuario` (
@@ -384,18 +408,18 @@ CREATE TABLE `usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `usuario`
+-- Dumping data for table `usuario`
 --
 
 INSERT INTO `usuario` (`id`, `nombreCompleto`, `login`, `clave`, `pin`, `rol`) VALUES
 (1, 'Administrador', 'admin', 'admin', '12345', 'G'),
-(2, 'Juan Perez', 'juan', 'juan', '11111', 'M');
+(2, 'Juan Perez', 'juan', 'dethmo', '1514', 'M');
 
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `ventas`
--- (Véase abajo para la vista actual)
+-- Stand-in structure for view `ventas`
+-- (See below for the actual view)
 --
 CREATE TABLE `ventas` (
 `fecha` date
@@ -409,75 +433,75 @@ CREATE TABLE `ventas` (
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `dashboardllevar`
+-- Structure for view `dashboardllevar`
 --
 DROP TABLE IF EXISTS `dashboardllevar`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dashboardllevar`  AS  select `o`.`id` AS `IdOrden`,`u`.`nombreCompleto` AS `Mesero`,ifnull(`o`.`cliente`,'') AS `Cliente`,`o`.`total` AS `Total`,`o`.`estado` AS `Estado`,round(((now() - `o`.`tiempoPreparado`) / 60),1) AS `TiempoPreparado`,if(`o`.`tiempoPreparado`,ifnull(if((round(((now() - `o`.`tiempoPreparado`) / 60),1) > (select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11))),'ROJO',NULL),if((((select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11)) - round(((now() - `o`.`tiempoPreparado`) / 60),1)) > 1.5),'VERDE','AMARILLO')),NULL) AS `Preparado` from (`orden` `o` join `usuario` `u` on((`o`.`idUsuario` = `u`.`id`))) where ((`o`.`estado` <> 'CC') and (`o`.`llevar` = 1)) order by 1 ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dashboardllevar`  AS  select `o`.`id` AS `IdOrden`,`u`.`nombreCompleto` AS `Mesero`,ifnull(`o`.`cliente`,'') AS `Cliente`,`o`.`total` AS `Total`,`o`.`estado` AS `Estado`,date_format(`o`.`tiempoPreparado`,'%H:%i:%s min') AS `TiempoPreparado`,if(`o`.`tiempoPreparado`,ifnull(if((round(((now() - `o`.`tiempoPreparado`) / 60),1) > (select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11))),'red',NULL),if((((select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11)) - round(((now() - `o`.`tiempoPreparado`) / 60),1)) > 1.5),'green','yellow')),'gray') AS `Preparado` from (`orden` `o` join `usuario` `u` on((`o`.`idUsuario` = `u`.`id`))) where ((`o`.`estado` <> 'CC') and (`o`.`llevar` = 1)) order by 1 ;
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `dashboardprincipal`
+-- Structure for view `dashboardprincipal`
 --
 DROP TABLE IF EXISTS `dashboardprincipal`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dashboardprincipal`  AS  select `o`.`id` AS `IdOrden`,`o`.`idMesa` AS `Mesa`,`u`.`nombreCompleto` AS `Mesero`,ifnull(`o`.`cliente`,'') AS `Cliente`,`o`.`total` AS `Total`,`o`.`estado` AS `Estado`,`o`.`llevar` AS `llevar`,round(((now() - `o`.`tiempoPreparado`) / 60),1) AS `TiempoPreparado`,if(`o`.`tiempoPreparado`,ifnull(if((round(((now() - `o`.`tiempoPreparado`) / 60),1) > (select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11))),'ROJO',NULL),if((((select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11)) - round(((now() - `o`.`tiempoPreparado`) / 60),1)) > 1.5),'VERDE','AMARILLO')),NULL) AS `Preparado`,round(((now() - `o`.`tiempoRapido`) / 60),1) AS `TiempoRapido`,if(`o`.`tiempoRapido`,ifnull(if((round(((now() - `o`.`tiempoRapido`) / 60),1) > (select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 10))),'ROJO',NULL),if((((select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 10)) - round(((now() - `o`.`tiempoRapido`) / 60),1)) > 1.5),'VERDE','AMARILLO')),NULL) AS `Rapido`,if((`o`.`llevar` = 1),'LLEVAR','AQUI') AS `tipo` from (`orden` `o` join `usuario` `u` on((`o`.`idUsuario` = `u`.`id`))) where (`o`.`estado` <> 'CC') order by 1 ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dashboardprincipal`  AS  select `o`.`id` AS `IdOrden`,`o`.`idMesa` AS `Mesa`,`u`.`nombreCompleto` AS `Mesero`,ifnull(`o`.`cliente`,'') AS `Cliente`,`o`.`total` AS `Total`,`o`.`estado` AS `Estado`,`o`.`llevar` AS `llevar`,date_format(`o`.`tiempoPreparado`,'%H:%i:%s min') AS `TiempoPreparado`,if(`o`.`tiempoPreparado`,ifnull(if((round(((now() - `o`.`tiempoPreparado`) / 60),1) > (select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11))),'red',NULL),if((((select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11)) - round(((now() - `o`.`tiempoPreparado`) / 60),1)) > 1.5),'green','yellow')),'gray') AS `Preparado`,date_format(`o`.`tiempoRapido`,'%H:%i:%s min') AS `TiempoRapido`,if(`o`.`tiempoRapido`,ifnull(if((round(((now() - `o`.`tiempoRapido`) / 60),1) > (select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 10))),'red',NULL),if((((select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 10)) - round(((now() - `o`.`tiempoRapido`) / 60),1)) > 1.5),'green','yellow')),'gray') AS `Rapido`,if((`o`.`llevar` = 1),'LLEVAR','AQUI') AS `tipo` from (`orden` `o` join `usuario` `u` on((`o`.`idUsuario` = `u`.`id`))) where (`o`.`estado` <> 'CC') order by 1 ;
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `ventas`
+-- Structure for view `ventas`
 --
 DROP TABLE IF EXISTS `ventas`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `ventas`  AS  select `o`.`fecha` AS `fecha`,min(`o`.`id`) AS `inicial`,max(`o`.`id`) AS `final`,sum(`o`.`total`) AS `ventas`,sum(`o`.`propina`) AS `propinas`,(sum(`o`.`propina`) + sum(`o`.`total`)) AS `total` from `orden` `o` group by `o`.`fecha` ;
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `bitacora`
+-- Indexes for table `bitacora`
 --
 ALTER TABLE `bitacora`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_bitacora_usuario_idx` (`idUsuario`);
 
 --
--- Indices de la tabla `categoria`
+-- Indexes for table `categoria`
 --
 ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `compra`
+-- Indexes for table `compra`
 --
 ALTER TABLE `compra`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `detallecompra`
+-- Indexes for table `detallecompra`
 --
 ALTER TABLE `detallecompra`
   ADD PRIMARY KEY (`idCompra`,`idProducto`),
   ADD KEY `fk_detallecompra_producto_idx` (`idProducto`);
 
 --
--- Indices de la tabla `detalleorden`
+-- Indexes for table `detalleorden`
 --
 ALTER TABLE `detalleorden`
   ADD PRIMARY KEY (`idOrden`,`idProducto`),
   ADD KEY `fk_detalle_producto_idx` (`idProducto`);
 
 --
--- Indices de la tabla `mesa`
+-- Indexes for table `mesa`
 --
 ALTER TABLE `mesa`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `orden`
+-- Indexes for table `orden`
 --
 ALTER TABLE `orden`
   ADD PRIMARY KEY (`id`),
@@ -485,20 +509,20 @@ ALTER TABLE `orden`
   ADD KEY `fk_orden_mesa_idx` (`idMesa`);
 
 --
--- Indices de la tabla `parametro`
+-- Indexes for table `parametro`
 --
 ALTER TABLE `parametro`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `producto`
+-- Indexes for table `producto`
 --
 ALTER TABLE `producto`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_producto_categoria_idx` (`idCategoria`);
 
 --
--- Indices de la tabla `usuario`
+-- Indexes for table `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`),
@@ -506,84 +530,84 @@ ALTER TABLE `usuario`
   ADD UNIQUE KEY `pin_UNIQUE` (`pin`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `bitacora`
+-- AUTO_INCREMENT for table `bitacora`
 --
 ALTER TABLE `bitacora`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT de la tabla `categoria`
+-- AUTO_INCREMENT for table `categoria`
 --
 ALTER TABLE `categoria`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `compra`
+-- AUTO_INCREMENT for table `compra`
 --
 ALTER TABLE `compra`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `mesa`
+-- AUTO_INCREMENT for table `mesa`
 --
 ALTER TABLE `mesa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de la tabla `orden`
+-- AUTO_INCREMENT for table `orden`
 --
 ALTER TABLE `orden`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT de la tabla `producto`
+-- AUTO_INCREMENT for table `producto`
 --
 ALTER TABLE `producto`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `usuario`
+-- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `bitacora`
+-- Constraints for table `bitacora`
 --
 ALTER TABLE `bitacora`
   ADD CONSTRAINT `fk_bitacora_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `detallecompra`
+-- Constraints for table `detallecompra`
 --
 ALTER TABLE `detallecompra`
   ADD CONSTRAINT `fk_detallecompra_compra` FOREIGN KEY (`idCompra`) REFERENCES `compra` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_detallecompra_producto` FOREIGN KEY (`idProducto`) REFERENCES `producto` (`id`) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `detalleorden`
+-- Constraints for table `detalleorden`
 --
 ALTER TABLE `detalleorden`
   ADD CONSTRAINT `fk_detalle_orden` FOREIGN KEY (`idOrden`) REFERENCES `orden` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_detalle_producto` FOREIGN KEY (`idProducto`) REFERENCES `producto` (`id`) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `orden`
+-- Constraints for table `orden`
 --
 ALTER TABLE `orden`
   ADD CONSTRAINT `fk_orden_mesa` FOREIGN KEY (`idMesa`) REFERENCES `mesa` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_orden_usuario1` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`id`) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `producto`
+-- Constraints for table `producto`
 --
 ALTER TABLE `producto`
   ADD CONSTRAINT `fk_producto_categoria` FOREIGN KEY (`idCategoria`) REFERENCES `categoria` (`id`) ON UPDATE CASCADE;
