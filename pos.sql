@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Nov 07, 2019 at 09:31 PM
+-- Generation Time: Nov 07, 2019 at 11:21 PM
 -- Server version: 5.6.45
 -- PHP Version: 7.2.14
 
@@ -128,7 +128,7 @@ CREATE TABLE `dashboardllevar` (
 ,`Cliente` varchar(145)
 ,`Total` decimal(8,2)
 ,`Estado` varchar(2)
-,`TiempoPreparado` varchar(17)
+,`TiempoPreparado` varchar(14)
 ,`Preparado` varchar(6)
 );
 
@@ -146,9 +146,9 @@ CREATE TABLE `dashboardprincipal` (
 ,`Total` decimal(8,2)
 ,`Estado` varchar(2)
 ,`llevar` int(11)
-,`TiempoPreparado` varchar(17)
+,`TiempoPreparado` varchar(14)
 ,`Preparado` varchar(6)
-,`TiempoRapido` varchar(17)
+,`TiempoRapido` varchar(14)
 ,`Rapido` varchar(6)
 ,`tipo` varchar(6)
 );
@@ -207,7 +207,8 @@ INSERT INTO `detalleorden` (`idOrden`, `idProducto`, `cantidad`, `precioUnitario
 (9, 1, 5, '4.50'),
 (10, 2, 1, '1.25'),
 (11, 1, 1, '4.50'),
-(11, 2, 1, '1.25');
+(11, 2, 1, '1.25'),
+(12, 1, 2, '5.00');
 
 --
 -- Triggers `detalleorden`
@@ -315,17 +316,18 @@ CREATE TABLE `orden` (
 --
 
 INSERT INTO `orden` (`id`, `idMesa`, `idUsuario`, `fecha`, `llevar`, `estado`, `observacion`, `tiempoPreparado`, `tiempoRapido`, `total`, `propina`, `formaPago`, `cliente`) VALUES
-(1, 1, 1, NULL, 1, 'AA', NULL, '2019-11-06 00:09:00', '2019-11-06 00:00:50', '25.50', '0.00', 'E', 'Jose'),
-(2, 4, 2, '2019-10-06', 0, 'CP', NULL, NULL, NULL, '20.00', '2.00', 'E', 'Amilcar'),
+(1, 1, 1, NULL, 1, 'CC', NULL, '2019-11-07 16:32:02', '2019-11-06 00:00:50', '25.50', '0.00', 'E', 'Jose'),
+(2, 4, 2, '2019-10-06', 0, 'CC', NULL, '2019-11-07 18:37:00', NULL, '20.00', '2.00', 'E', 'Amilcar'),
 (3, 2, 2, '2019-10-03', 0, 'CC', NULL, '2019-10-06 00:10:04', NULL, '20.00', '2.00', 'E', 'Marco'),
-(4, 2, 1, '2019-11-06', 0, 'AA', '', NULL, NULL, '4.50', '0.00', 'E', 'Pedro'),
-(5, 2, 1, '2019-11-07', 0, 'AA', '', NULL, NULL, '9.00', '0.00', 'E', ''),
-(6, 2, 2, '2019-11-07', 0, 'AA', '', NULL, NULL, '3.75', '0.00', 'E', ''),
-(7, 1, 1, '2019-11-07', 0, 'AA', '', NULL, '2019-11-07 02:30:33', '2.50', '0.00', 'E', ''),
-(8, 5, 2, '2019-11-07', 1, 'AA', 'ninguna', NULL, NULL, '0.00', '0.00', 'E', NULL),
-(9, 1, 2, '2019-11-07', 1, 'AA', '', NULL, NULL, '22.50', '0.00', 'E', ''),
-(10, 1, 1, '2019-11-07', 1, 'AA', '', NULL, '2019-11-07 02:36:41', '1.25', '0.00', 'E', 'Luis'),
-(11, 1, 2, '2019-11-07', 1, 'AA', '', '2019-11-07 02:38:29', '2019-11-07 02:38:29', '5.75', '0.00', 'E', '');
+(4, 2, 1, '2019-11-06', 0, 'CC', '', NULL, NULL, '4.50', '0.00', 'E', 'Pedro'),
+(5, 2, 1, '2019-11-07', 0, 'CC', '', NULL, NULL, '9.00', '0.00', 'E', ''),
+(6, 2, 2, '2019-11-07', 0, 'CC', '', NULL, NULL, '3.75', '0.00', 'E', ''),
+(7, 1, 1, '2019-11-07', 0, 'CC', '', NULL, '2019-11-07 02:30:33', '2.50', '0.00', 'E', ''),
+(8, 5, 2, '2019-11-07', 1, 'CC', 'ninguna', NULL, NULL, '0.00', '0.00', 'E', NULL),
+(9, 1, 2, '2019-11-07', 1, 'CC', '', NULL, NULL, '22.50', '0.00', 'E', ''),
+(10, 1, 1, '2019-11-07', 1, 'CC', '', NULL, '2019-11-07 02:36:41', '1.25', '0.00', 'E', 'Luis'),
+(11, 1, 2, '2019-11-07', 1, 'CC', '', '2019-11-07 02:38:29', '2019-11-07 02:38:29', '5.75', '0.00', 'E', ''),
+(12, 2, 2, '2019-11-07', 0, 'AA', '', '2019-11-07 17:19:57', NULL, '10.00', '0.00', 'E', 'Maria');
 
 --
 -- Triggers `orden`
@@ -437,7 +439,7 @@ CREATE TABLE `ventas` (
 --
 DROP TABLE IF EXISTS `dashboardllevar`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dashboardllevar`  AS  select `o`.`id` AS `IdOrden`,`u`.`nombreCompleto` AS `Mesero`,ifnull(`o`.`cliente`,'') AS `Cliente`,`o`.`total` AS `Total`,`o`.`estado` AS `Estado`,date_format(`o`.`tiempoPreparado`,'%H:%i:%s min') AS `TiempoPreparado`,if(`o`.`tiempoPreparado`,ifnull(if((round(((now() - `o`.`tiempoPreparado`) / 60),1) > (select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11))),'red',NULL),if((((select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11)) - round(((now() - `o`.`tiempoPreparado`) / 60),1)) > 1.5),'green','yellow')),'gray') AS `Preparado` from (`orden` `o` join `usuario` `u` on((`o`.`idUsuario` = `u`.`id`))) where ((`o`.`estado` <> 'CC') and (`o`.`llevar` = 1)) order by 1 ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dashboardllevar`  AS  select `o`.`id` AS `IdOrden`,`u`.`nombreCompleto` AS `Mesero`,ifnull(`o`.`cliente`,'') AS `Cliente`,`o`.`total` AS `Total`,`o`.`estado` AS `Estado`,concat(sec_to_time(timestampdiff(SECOND,`o`.`tiempoPreparado`,now())),' min') AS `TiempoPreparado`,if(`o`.`tiempoPreparado`,ifnull(if((round(((now() - `o`.`tiempoPreparado`) / 60),1) > (select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11))),'red',NULL),if((((select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11)) - round(((now() - `o`.`tiempoPreparado`) / 60),1)) > 1.5),'green','yellow')),'gray') AS `Preparado` from (`orden` `o` join `usuario` `u` on((`o`.`idUsuario` = `u`.`id`))) where ((`o`.`estado` <> 'CC') and (`o`.`llevar` = 1)) order by 1 ;
 
 -- --------------------------------------------------------
 
@@ -446,7 +448,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `dashboardprincipal`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dashboardprincipal`  AS  select `o`.`id` AS `IdOrden`,`o`.`idMesa` AS `Mesa`,`u`.`nombreCompleto` AS `Mesero`,ifnull(`o`.`cliente`,'') AS `Cliente`,`o`.`total` AS `Total`,`o`.`estado` AS `Estado`,`o`.`llevar` AS `llevar`,date_format(`o`.`tiempoPreparado`,'%H:%i:%s min') AS `TiempoPreparado`,if(`o`.`tiempoPreparado`,ifnull(if((round(((now() - `o`.`tiempoPreparado`) / 60),1) > (select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11))),'red',NULL),if((((select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11)) - round(((now() - `o`.`tiempoPreparado`) / 60),1)) > 1.5),'green','yellow')),'gray') AS `Preparado`,date_format(`o`.`tiempoRapido`,'%H:%i:%s min') AS `TiempoRapido`,if(`o`.`tiempoRapido`,ifnull(if((round(((now() - `o`.`tiempoRapido`) / 60),1) > (select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 10))),'red',NULL),if((((select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 10)) - round(((now() - `o`.`tiempoRapido`) / 60),1)) > 1.5),'green','yellow')),'gray') AS `Rapido`,if((`o`.`llevar` = 1),'LLEVAR','AQUI') AS `tipo` from (`orden` `o` join `usuario` `u` on((`o`.`idUsuario` = `u`.`id`))) where (`o`.`estado` <> 'CC') order by 1 ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dashboardprincipal`  AS  select `o`.`id` AS `IdOrden`,`o`.`idMesa` AS `Mesa`,`u`.`nombreCompleto` AS `Mesero`,ifnull(`o`.`cliente`,'') AS `Cliente`,`o`.`total` AS `Total`,`o`.`estado` AS `Estado`,`o`.`llevar` AS `llevar`,concat(sec_to_time(timestampdiff(SECOND,`o`.`tiempoPreparado`,now())),' min') AS `TiempoPreparado`,if(`o`.`tiempoPreparado`,ifnull(if((round(((now() - `o`.`tiempoPreparado`) / 60),1) > (select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11))),'red',NULL),if((((select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 11)) - round(((now() - `o`.`tiempoPreparado`) / 60),1)) > 1.5),'green','yellow')),'gray') AS `Preparado`,concat(sec_to_time(timestampdiff(SECOND,`o`.`tiempoRapido`,now())),' min') AS `TiempoRapido`,if(`o`.`tiempoRapido`,ifnull(if((round(((now() - `o`.`tiempoRapido`) / 60),1) > (select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 10))),'red',NULL),if((((select `parametro`.`valor` from `parametro` where (`parametro`.`id` = 10)) - round(((now() - `o`.`tiempoRapido`) / 60),1)) > 1.5),'green','yellow')),'gray') AS `Rapido`,if((`o`.`llevar` = 1),'LLEVAR','AQUI') AS `tipo` from (`orden` `o` join `usuario` `u` on((`o`.`idUsuario` = `u`.`id`))) where (`o`.`estado` <> 'CC') order by 1 ;
 
 -- --------------------------------------------------------
 
@@ -561,7 +563,7 @@ ALTER TABLE `mesa`
 -- AUTO_INCREMENT for table `orden`
 --
 ALTER TABLE `orden`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `producto`
