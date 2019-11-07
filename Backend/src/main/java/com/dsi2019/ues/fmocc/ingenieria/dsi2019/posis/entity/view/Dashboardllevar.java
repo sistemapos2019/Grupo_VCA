@@ -14,47 +14,58 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author kevin
+ * @author deadbryam
  */
 @Entity
-@Table(name = "dashboardllevar", catalog = "pos", schema = "")
+@Table(name = "dashboardllevar")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Dashboardllevar.findAll", query = "SELECT d FROM Dashboardllevar d"),
-    @NamedQuery(name = "Dashboardllevar.findByIdOrden", query = "SELECT d FROM Dashboardllevar d WHERE d.idOrden = :idOrden"),
-    @NamedQuery(name = "Dashboardllevar.findByMesero", query = "SELECT d FROM Dashboardllevar d WHERE d.mesero = :mesero"),
-    @NamedQuery(name = "Dashboardllevar.findByCliente", query = "SELECT d FROM Dashboardllevar d WHERE d.cliente = :cliente"),
-    @NamedQuery(name = "Dashboardllevar.findByTotal", query = "SELECT d FROM Dashboardllevar d WHERE d.total = :total"),
-    @NamedQuery(name = "Dashboardllevar.findByEstado", query = "SELECT d FROM Dashboardllevar d WHERE d.estado = :estado"),
-    @NamedQuery(name = "Dashboardllevar.findByTiempoPreparado", query = "SELECT d FROM Dashboardllevar d WHERE d.tiempoPreparado = :tiempoPreparado"),
-    @NamedQuery(name = "Dashboardllevar.findByPreparado", query = "SELECT d FROM Dashboardllevar d WHERE d.preparado = :preparado")})
+    @NamedQuery(name = "Dashboardllevar.findAll", query = "SELECT d FROM Dashboardllevar d")
+    , @NamedQuery(name = "Dashboardllevar.findByIdOrden", query = "SELECT d FROM Dashboardllevar d WHERE d.idOrden = :idOrden")
+    , @NamedQuery(name = "Dashboardllevar.findByMesero", query = "SELECT d FROM Dashboardllevar d WHERE d.mesero = :mesero")
+    , @NamedQuery(name = "Dashboardllevar.findByCliente", query = "SELECT d FROM Dashboardllevar d WHERE d.cliente = :cliente")
+    , @NamedQuery(name = "Dashboardllevar.findByTotal", query = "SELECT d FROM Dashboardllevar d WHERE d.total = :total")
+    , @NamedQuery(name = "Dashboardllevar.findByEstado", query = "SELECT d FROM Dashboardllevar d WHERE d.estado = :estado")
+    , @NamedQuery(name = "Dashboardllevar.findByTiempoPreparado", query = "SELECT d FROM Dashboardllevar d WHERE d.tiempoPreparado = :tiempoPreparado")
+    , @NamedQuery(name = "Dashboardllevar.findByPreparado", query = "SELECT d FROM Dashboardllevar d WHERE d.preparado = :preparado")})
 public class Dashboardllevar implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @Id
     @Basic(optional = false)
-    @Column(name = "IdOrden", nullable = false)
+    @NotNull
+    @Column(name = "IdOrden")
     private int idOrden;
     @Basic(optional = false)
-    @Column(name = "Mesero", nullable = false, length = 145)
+    @NotNull
+    @Size(min = 1, max = 145)
+    @Column(name = "Mesero")
     private String mesero;
     @Basic(optional = false)
-    @Column(name = "Cliente", nullable = false, length = 145)
+    @NotNull
+    @Size(min = 1, max = 145)
+    @Column(name = "Cliente")
     private String cliente;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "Total", precision = 8, scale = 2)
+    @Column(name = "Total")
     private BigDecimal total;
     @Basic(optional = false)
-    @Column(name = "Estado", nullable = false, length = 2)
+    @NotNull
+    @Size(min = 1, max = 2)
+    @Column(name = "Estado")
     private String estado;
-    @Column(name = "TiempoPreparado", precision = 18, scale = 1)
-    private Double tiempoPreparado;
-    @Column(name = "Preparado", length = 8)
+    @Size(max = 17)
+    @Column(name = "TiempoPreparado")
+    private String tiempoPreparado;
+    @Size(max = 6)
+    @Column(name = "Preparado")
     private String preparado;
 
     public Dashboardllevar() {
@@ -100,11 +111,11 @@ public class Dashboardllevar implements Serializable {
         this.estado = estado;
     }
 
-    public Double getTiempoPreparado() {
+    public String getTiempoPreparado() {
         return tiempoPreparado;
     }
 
-    public void setTiempoPreparado(Double tiempoPreparado) {
+    public void setTiempoPreparado(String tiempoPreparado) {
         this.tiempoPreparado = tiempoPreparado;
     }
 
