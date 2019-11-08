@@ -5,6 +5,7 @@
  */
 package com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.controller;
 
+import com.dsi2019.ues.fmocc.ingenieria.dsi2019.posis.entity.custom.EstadisticaSemanal;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -49,7 +50,7 @@ public class EstadisticasFacade {
                 .getSingleResult().toString();
     }
 
-    public List platillosSemanales(int week, int year) {
+    public List<Object[]> platillosSemanales(int week, int year) {
         System.out.println("platillos semanales");
         return executeQuery("SELECT CASE WHEN (FUNCTION('DAYOFWEEK',o.fecha) = 1) THEN 7 ELSE FUNCTION('DAYOFWEEK',o.fecha) - 1 END,SUM(d.cantidad)"
                 + "FROM Orden o INNER JOIN o.detalleordenList d WHERE d.producto.idCategoria.id != (SELECT c.id FROM Categoria c WHERE c.nombre LIKE 'bebidas')"

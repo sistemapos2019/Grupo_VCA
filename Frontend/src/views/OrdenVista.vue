@@ -1,88 +1,90 @@
 <template>
-  <v-layout>
-    <v-dialog v-model="dialog" persistent max-width="290">
-      <v-card>
-        <v-card-title class="headline">
-          <v-layout align-center justify-center row fill-height>
-            <v-flex style="text-align: center;">COBRAR ORDEN</v-flex>
+  <v-container fluid>
+    <v-layout>
+      <v-dialog v-model="dialog" persistent max-width="290">
+        <v-card>
+          <v-card-title class="headline">
+            <v-layout align-center justify-center row fill-height>
+              <v-flex style="text-align: center;">COBRAR ORDEN</v-flex>
+            </v-layout>
+          </v-card-title>
+          <v-layout justify-center fill-height column>
+            <v-layout row align-center justify-center>
+              <v-flex xs6>TOTAL:</v-flex>
+              <v-flex xs6>{{cobrarIndex.total}}</v-flex>
+            </v-layout>
+            <br />
+            <v-layout row align-center justify-center>
+              <v-flex xs6>PAGO:</v-flex>
+              <v-flex xs6>
+                <v-text-field v-model="pago" label="PAGO" single-line></v-text-field>
+              </v-flex>
+            </v-layout>
+            <br />
+            <v-layout row align-center justify-center>
+              <v-flex xs6>CAMBIO:</v-flex>
+              <v-flex xs6>{{(pago - cobrarIndex.total).toFixed(2) | negativos}}</v-flex>
+            </v-layout>
           </v-layout>
-        </v-card-title>
-        <v-layout justify-center fill-height column>
-          <v-layout row align-center justify-center>
-            <v-flex xs6>TOTAL:</v-flex>
-            <v-flex xs6>{{cobrarIndex.total}}</v-flex>
-          </v-layout>
-          <br />
-          <v-layout row align-center justify-center>
-            <v-flex xs6>PAGO:</v-flex>
-            <v-flex xs6>
-              <v-text-field v-model="pago" label="PAGO" single-line></v-text-field>
-            </v-flex>
-          </v-layout>
-          <br />
-          <v-layout row align-center justify-center>
-            <v-flex xs6>CAMBIO:</v-flex>
-            <v-flex xs6>{{(pago - cobrarIndex.total).toFixed(2) | negativos}}</v-flex>
-          </v-layout>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green darken-1" text @click="dialog = false">CANCELAR</v-btn>
+            <v-btn color="green darken-1" text @click="cobrarOrden(cobrarIndex)">COBRAR</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <v-snackbar v-model="snackbar" :timeout="1000">INGRESE DATOS.</v-snackbar>
+
+      <v-flex xs12 offset-xs1>
+        <v-card class="mx-auto" height="95px">
+          <v-card-text>
+            <v-layout row wrap>
+              <v-flex xs6>&nbsp;&nbsp;&nbsp;ORDEN: {{detalles.cuenta}}</v-flex>
+              <v-flex xs6>MESA: {{detalles.mesa}}</v-flex>
+              <v-flex xs6>&nbsp;&nbsp;&nbsp;MESERO: {{detalles.mesero}}</v-flex>
+              <v-flex xs6>CLIENTE: {{detalles.cliente}}</v-flex>
+            </v-layout>
+          </v-card-text>
+        </v-card>
+        <v-data-table
+          :headers="headers"
+          :items="productos"
+          hide-default-footer
+          :search="search"
+          :page.sync="page"
+          :items-per-page="itemsperpage"
+          @page-count="pageCount = $event"
+          class="elevation-1"
+        >
+          <template v-slot:items="productos">
+            <td>{{ productos.item.cantidad }}</td>
+            <td>{{ productos.item.producto }}</td>
+            <td>${{ productos.item.precio }}</td>
+            <td>${{ (productos.item.precio * productos.item.cantidad).toFixed(2) }}</td>
+          </template>
+          <template v-slot:no-data>
+            <v-alert :value="true" icon="warning">Aun no elije productos</v-alert>
+          </template>
+        </v-data-table>
+        <v-layout row align-center justify-center>
+          <v-pagination v-model="page" :length="pageCount"></v-pagination>
         </v-layout>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="dialog = false">CANCELAR</v-btn>
-          <v-btn color="green darken-1" text @click="cobrarOrden(cobrarIndex)">COBRAR</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
 
-    <v-snackbar v-model="snackbar" :timeout="1000">INGRESE DATOS.</v-snackbar>
-
-    <v-flex xs12 offset-xs1>
-      <v-card class="mx-auto" height="95px">
-        <v-card-text>
-          <v-layout row wrap>
-            <v-flex xs6>&nbsp;&nbsp;&nbsp;ORDEN: {{detalles.cuenta}}</v-flex>
-            <v-flex xs6>MESA: {{detalles.mesa}}</v-flex>
-            <v-flex xs6>&nbsp;&nbsp;&nbsp;MESERO: {{detalles.mesero}}</v-flex>
-            <v-flex xs6>CLIENTE: {{detalles.cliente}}</v-flex>
-          </v-layout>
-        </v-card-text>
-      </v-card>
-      <v-data-table
-        :headers="headers"
-        :items="productos"
-        hide-default-footer
-        :search="search"
-        :page.sync="page"
-        :items-per-page="itemsperpage"
-        @page-count="pageCount = $event"
-        class="elevation-1"
-      >
-        <template v-slot:items="productos">
-          <td>{{ productos.item.cantidad }}</td>
-          <td>{{ productos.item.producto }}</td>
-          <td>${{ productos.item.precio }}</td>
-          <td>${{ (productos.item.precio * productos.item.cantidad).toFixed(2) }}</td>
-        </template>
-        <template v-slot:no-data>
-          <v-alert :value="true" icon="warning">Aun no elije productos</v-alert>
-        </template>
-      </v-data-table>
-      <v-layout row align-center justify-center>
-        <v-pagination v-model="page" :length="pageCount"></v-pagination>
-      </v-layout>
-
-      <v-layout row wrap justify-center align-center>
-        <v-flex xs9>
-          <v-btn text @click="guardar()">GUARDAR</v-btn>
-        </v-flex>
-        <v-flex xs3 class="text-xs-center">
-          <b>Total ${{total()}}</b>
-        </v-flex>
-        <v-flex xs12>
-          <v-text-field v-model="detalles.observacion" label="Observaciones" single-line></v-text-field>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-  </v-layout>
+        <v-layout row wrap justify-center align-center>
+          <v-flex xs9>
+            <v-btn text @click="guardar()">GUARDAR</v-btn>
+          </v-flex>
+          <v-flex xs3 class="text-xs-center">
+            <b>Total ${{total()}}</b>
+          </v-flex>
+          <v-flex xs12>
+            <v-text-field v-model="detalles.observacion" label="Observaciones" single-line></v-text-field>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -122,7 +124,7 @@ export default {
     },
     guardar() {
       if (this.detalles !== null && this.productos.length > 0) {
-        (this.store.ampliando) ? this.sumarizarProductos() : this.detalles;
+        this.store.ampliando ? this.sumarizarProductos() : this.detalles;
         let orden = new OrdenEntity(this.detalles, this.productos);
         console.log(orden);
 

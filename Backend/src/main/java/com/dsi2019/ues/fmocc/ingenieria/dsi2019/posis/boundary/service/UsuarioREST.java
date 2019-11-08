@@ -118,7 +118,7 @@ class ResponseUser {
 
     String id,user, pin, clave,rol;
     
-    public ResponseUser(String user, String pin, String clave,String id,String rol) {
+    public ResponseUser(String user, String clave,String pin ,String id,String rol) {
         this.user = user;
         this.pin = pin;
         this.clave = clave;
@@ -128,8 +128,8 @@ class ResponseUser {
 
     public ResponseUser(Object[] array) {
         this.user = String.valueOf(array[0]);
-        this.pin=String.valueOf(array[1]);
-        this.clave = DigestUtils.md5Hex(String.valueOf(array[2]));
+        this.pin=String.valueOf(array[2]);
+        this.clave = DigestUtils.md5Hex(String.valueOf(array[1]));
         this.id=String.valueOf(array[3]);
         this.rol=String.valueOf(array[4]);
     }

@@ -57,4 +57,24 @@ public class OrdenFacade extends AbstractFacade<Orden> {
         return executeQuery("SELECT r.nombre,p.cantidad FROM Producto r,DetalleOrden p, Orden o WHERE r.id=p.detalleOrdenPK.producto AND p.detalleOrdenPK.id=o.id AND o.estado=0 AND o.fecha=:fecha")
                 .setParameter("fecha", fecha, TemporalType.DATE).getResultList();
     }
+    
+    public void setTiempoPreparadoNull(int id){ 
+        System.out.println("PP"+id);
+        executeQuery("UPDATE Orden  o SET o.tiempoPreparado = NULL WHERE o.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+    
+    public void setTiempoRapidoNull(int id){
+        System.out.println("NP"+id);
+        executeQuery("UPDATE Orden  o SET o.tiempoRapido = NULL WHERE o.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+    
+    public String getEstadoById(int id){
+        return executeQuery("SELECT o.estado FROM Orden o WHERE o.id = :id")
+                .setParameter("id", id)
+                .getSingleResult().toString();
+    } 
 }

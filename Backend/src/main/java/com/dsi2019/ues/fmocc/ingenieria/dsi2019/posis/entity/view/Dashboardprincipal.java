@@ -14,63 +14,79 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author kevin
+ * @author deadbryam
  */
 @Entity
-@Table(name = "dashboardprincipal", catalog = "pos", schema = "")
+@Table(name = "dashboardprincipal")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Dashboardprincipal.findAll", query = "SELECT d FROM Dashboardprincipal d"),
-    @NamedQuery(name = "Dashboardprincipal.findByIdOrden", query = "SELECT d FROM Dashboardprincipal d WHERE d.idOrden = :idOrden"),
-    @NamedQuery(name = "Dashboardprincipal.findByMesa", query = "SELECT d FROM Dashboardprincipal d WHERE d.mesa = :mesa"),
-    @NamedQuery(name = "Dashboardprincipal.findByMesero", query = "SELECT d FROM Dashboardprincipal d WHERE d.mesero = :mesero"),
-    @NamedQuery(name = "Dashboardprincipal.findByCliente", query = "SELECT d FROM Dashboardprincipal d WHERE d.cliente = :cliente"),
-    @NamedQuery(name = "Dashboardprincipal.findByTotal", query = "SELECT d FROM Dashboardprincipal d WHERE d.total = :total"),
-    @NamedQuery(name = "Dashboardprincipal.findByEstado", query = "SELECT d FROM Dashboardprincipal d WHERE d.estado = :estado"),
-    @NamedQuery(name = "Dashboardprincipal.findByLlevar", query = "SELECT d FROM Dashboardprincipal d WHERE d.llevar = :llevar"),
-    @NamedQuery(name = "Dashboardprincipal.findByTiempoPreparado", query = "SELECT d FROM Dashboardprincipal d WHERE d.tiempoPreparado = :tiempoPreparado"),
-    @NamedQuery(name = "Dashboardprincipal.findByPreparado", query = "SELECT d FROM Dashboardprincipal d WHERE d.preparado = :preparado"),
-    @NamedQuery(name = "Dashboardprincipal.findByTiempoRapido", query = "SELECT d FROM Dashboardprincipal d WHERE d.tiempoRapido = :tiempoRapido"),
-    @NamedQuery(name = "Dashboardprincipal.findByRapido", query = "SELECT d FROM Dashboardprincipal d WHERE d.rapido = :rapido"),
-    @NamedQuery(name = "Dashboardprincipal.findByTipo", query = "SELECT d FROM Dashboardprincipal d WHERE d.tipo = :tipo")})
+    @NamedQuery(name = "Dashboardprincipal.findAll", query = "SELECT d FROM Dashboardprincipal d")
+    , @NamedQuery(name = "Dashboardprincipal.findByIdOrden", query = "SELECT d FROM Dashboardprincipal d WHERE d.idOrden = :idOrden")
+    , @NamedQuery(name = "Dashboardprincipal.findByMesa", query = "SELECT d FROM Dashboardprincipal d WHERE d.mesa = :mesa")
+    , @NamedQuery(name = "Dashboardprincipal.findByMesero", query = "SELECT d FROM Dashboardprincipal d WHERE d.mesero = :mesero")
+    , @NamedQuery(name = "Dashboardprincipal.findByCliente", query = "SELECT d FROM Dashboardprincipal d WHERE d.cliente = :cliente")
+    , @NamedQuery(name = "Dashboardprincipal.findByTotal", query = "SELECT d FROM Dashboardprincipal d WHERE d.total = :total")
+    , @NamedQuery(name = "Dashboardprincipal.findByEstado", query = "SELECT d FROM Dashboardprincipal d WHERE d.estado = :estado")
+    , @NamedQuery(name = "Dashboardprincipal.findByLlevar", query = "SELECT d FROM Dashboardprincipal d WHERE d.llevar = :llevar")
+    , @NamedQuery(name = "Dashboardprincipal.findByTiempoPreparado", query = "SELECT d FROM Dashboardprincipal d WHERE d.tiempoPreparado = :tiempoPreparado")
+    , @NamedQuery(name = "Dashboardprincipal.findByPreparado", query = "SELECT d FROM Dashboardprincipal d WHERE d.preparado = :preparado")
+    , @NamedQuery(name = "Dashboardprincipal.findByTiempoRapido", query = "SELECT d FROM Dashboardprincipal d WHERE d.tiempoRapido = :tiempoRapido")
+    , @NamedQuery(name = "Dashboardprincipal.findByRapido", query = "SELECT d FROM Dashboardprincipal d WHERE d.rapido = :rapido")
+    , @NamedQuery(name = "Dashboardprincipal.findByTipo", query = "SELECT d FROM Dashboardprincipal d WHERE d.tipo = :tipo")})
 public class Dashboardprincipal implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "IdOrden", nullable = false)
+    @NotNull
+    @Column(name = "IdOrden")
     private int idOrden;
     @Column(name = "Mesa")
     private Integer mesa;
     @Basic(optional = false)
-    @Column(name = "Mesero", nullable = false, length = 145)
+    @NotNull
+    @Size(min = 1, max = 145)
+    @Column(name = "Mesero")
     private String mesero;
     @Basic(optional = false)
-    @Column(name = "Cliente", nullable = false, length = 145)
+    @NotNull
+    @Size(min = 1, max = 145)
+    @Column(name = "Cliente")
     private String cliente;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "Total", precision = 8, scale = 2)
+    @Column(name = "Total")
     private BigDecimal total;
     @Basic(optional = false)
-    @Column(name = "Estado", nullable = false, length = 2)
+    @NotNull
+    @Size(min = 1, max = 2)
+    @Column(name = "Estado")
     private String estado;
     @Basic(optional = false)
-    @Column(name = "llevar", nullable = false)
+    @NotNull
+    @Column(name = "llevar")
     private int llevar;
-    @Column(name = "TiempoPreparado", precision = 18, scale = 1)
-    private Double tiempoPreparado;
-    @Column(name = "Preparado", length = 8)
+    @Size(max = 17)
+    @Column(name = "TiempoPreparado")
+    private String tiempoPreparado;
+    @Size(max = 6)
+    @Column(name = "Preparado")
     private String preparado;
-    @Column(name = "TiempoRapido", precision = 18, scale = 1)
-    private Double tiempoRapido;
-    @Column(name = "Rapido", length = 8)
+    @Size(max = 17)
+    @Column(name = "TiempoRapido")
+    private String tiempoRapido;
+    @Size(max = 6)
+    @Column(name = "Rapido")
     private String rapido;
     @Basic(optional = false)
-    @Column(name = "tipo", nullable = false, length = 6)
+    @NotNull
+    @Size(min = 1, max = 6)
+    @Column(name = "tipo")
     private String tipo;
 
     public Dashboardprincipal() {
@@ -132,11 +148,11 @@ public class Dashboardprincipal implements Serializable {
         this.llevar = llevar;
     }
 
-    public Double getTiempoPreparado() {
+    public String getTiempoPreparado() {
         return tiempoPreparado;
     }
 
-    public void setTiempoPreparado(Double tiempoPreparado) {
+    public void setTiempoPreparado(String tiempoPreparado) {
         this.tiempoPreparado = tiempoPreparado;
     }
 
@@ -148,11 +164,11 @@ public class Dashboardprincipal implements Serializable {
         this.preparado = preparado;
     }
 
-    public Double getTiempoRapido() {
+    public String getTiempoRapido() {
         return tiempoRapido;
     }
 
-    public void setTiempoRapido(Double tiempoRapido) {
+    public void setTiempoRapido(String tiempoRapido) {
         this.tiempoRapido = tiempoRapido;
     }
 
@@ -171,5 +187,5 @@ public class Dashboardprincipal implements Serializable {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-
+    
 }

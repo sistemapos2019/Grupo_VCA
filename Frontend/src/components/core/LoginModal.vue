@@ -1,51 +1,49 @@
 <template>
-  <v-content>
-    <v-container fluid fill-height>
-      <v-layout align-center justify-center>
-        <v-flex xs12 sm8 md4>
-          <v-card class="elevation-12">
-            <v-toolbar color="primary" dark flat>
-              <v-toolbar-title style="color:black;">Login Users</v-toolbar-title>
-              <v-spacer></v-spacer>
-            </v-toolbar>
-            <v-card-text>
-              <v-form>
-                <v-select
-                  :items="usuarios"
-                  item-value="user"
-                  item-text="user"
-                  v-model="login"
-                  prepend-icon="person"
-                ></v-select>
+  <v-dialog id="core-login-modal" v-model="dialog" max-width="600px">
+    <template v-slot:activator="{ on }">
+      <v-btn v-on="on" @click="login = ''; password='';getUsers();" icon>
+        <v-icon color="tertiary">mdi-account</v-icon>
+      </v-btn>
+    </template>
+    <v-card class="elevation-12">
+      <v-toolbar color="purple lighten-3" dark flat>
+        <v-toolbar-title>LOGIN</v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-toolbar>
+      <v-card-text>
+        <v-form>
+          <v-select
+            :items="usuarios"
+            item-value="user"
+            item-text="user"
+            v-model="login"
+            prepend-icon="person"
+          ></v-select>
 
-                <v-text-field
-                  id="password"
-                  label="Password"
-                  v-model="password"
-                  name="password"
-                  prepend-icon="lock"
-                  type="password"
-                ></v-text-field>
-              </v-form>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="primary" href="#/categorias" @click="getInfo(login,password)">Login</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
-        <div>
-          <v-snackbar v-model="snack">
-            {{ text }}
-            <v-btn color="pink" text @click="snack = false">Close</v-btn>
-          </v-snackbar>
-        </div>
-      </v-layout>
-    </v-container>
-  </v-content>
+          <v-text-field
+            id="password"
+            label="Password"
+            v-model="password"
+            name="password"
+            prepend-icon="lock"
+            type="password"
+          ></v-text-field>
+        </v-form>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="red" text dark @click="dialog = false;">Cancelar</v-btn>
+        <v-btn color="red" dark @click="getInfo(login,password)">Login</v-btn>
+      </v-card-actions>
+    </v-card>
+    <v-snackbar v-model="snack">
+      {{ text }}
+      <v-btn color="pink" text @click="snack = false">Close</v-btn>
+    </v-snackbar>
+  </v-dialog>
 </template>
 <script>
-import restMethods from "./../utils/restMethods.js";
+import restMethods from "./../../utils/restMethods.js";
 import md5 from "js-md5";
 import router from "vue-router";
 const rm = new restMethods();
@@ -60,16 +58,20 @@ export default {
       snack: false,
       text: "",
       rol: "",
-      idUsuario: ""
+      idUsuario: "",
+      dialog: false
     };
-  },
+  }, 
   methods: {
     autentication(pass) {
       this.rol = this.usuario[0].rol === "M" ? "Mesero" : "Gerente";
       this.idUsuario = this.usuario[0].id;
       console.log("madre mia", this.login);
       console.log("Rol: " + this.rol + " IdUs: " + this.idUsuario);
-      if (this.usuario[0].pin === pass || this.usuario[0].clave === md5(pass)) {
+      if (
+        this.usuario[0].pin === pass ||
+        this.usuario[0].clave === md5(pass)
+      ) {;
         this.$store.state.IdUsuario = this.idUsuario;
         this.$store.state.usuario = this.login;
         this.$store.state.rol = this.rol;
@@ -79,7 +81,7 @@ export default {
         this.snack = true;
         this.text = `${this.usuario[0].user} logueado correctamente.`;
         setTimeout(() => {
-          console.log('a ver')
+          this.dialog = false;
           this.$router.push('/');
         }, 500);
       } else {
@@ -128,7 +130,3 @@ export default {
   }
 };
 </script>
-
-<style>
-
-</style>

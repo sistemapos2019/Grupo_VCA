@@ -1,5 +1,6 @@
 <template>
-  <v-data-table
+  <v-container fluid>
+    <v-data-table
     :headers="headers"
     :items="categorias"
     sort-by="categorias"
@@ -45,6 +46,7 @@
       <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
     </template>
   </v-data-table>
+  </v-container>
 </template>
 
 <script>

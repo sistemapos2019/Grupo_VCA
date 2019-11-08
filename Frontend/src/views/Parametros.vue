@@ -1,44 +1,46 @@
 <template>
-  <v-data-table :headers="headers" :items-per-page="5" :items="parametros" class="elevation-1">
-    <template v-slot:item.valor="{ item }">{{item.valor | getValor(item.id) }}</template>
-    <template v-slot:top>
-      <v-toolbar flat color="white">
-        <v-dialog v-model="dialog" max-width="500px">
-          <v-card>
-            <v-card-title>
-              <span class="headline black--text">Editar Parametro</span>
-            </v-card-title>
+  <v-container fluid>
+    <v-data-table :headers="headers" :items-per-page="5" :items="parametros" class="elevation-1">
+      <template v-slot:item.valor="{ item }">{{item.valor | getValor(item.id) }}</template>
+      <template v-slot:top>
+        <v-toolbar flat color="white">
+          <v-dialog v-model="dialog" max-width="500px">
+            <v-card>
+              <v-card-title>
+                <span class="headline black--text">Editar Parametro</span>
+              </v-card-title>
 
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field disabled solo v-model="parametro.nombre" label="Nombre"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="parametro.valor" label="Valor"></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field disabled solo v-model="parametro.nombre" label="Nombre"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="parametro.valor" label="Valor"></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
 
-            <v-card-actions>
-              <div class="flex-grow-1"></div>
-              <v-btn color="#504da3" text @click="close">
-                <v-icon>mdi-cancel</v-icon>Cancelar
-              </v-btn>
-              <v-btn color="#504da3" text @click="save">
-                <v-icon>mdi-content-save</v-icon>Guardar
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-toolbar>
-    </template>
-    <template v-slot:item.action="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-    </template>
-  </v-data-table>
+              <v-card-actions>
+                <div class="flex-grow-1"></div>
+                <v-btn color="#504da3" text @click="close">
+                  <v-icon>mdi-cancel</v-icon>Cancelar
+                </v-btn>
+                <v-btn color="#504da3" text @click="save">
+                  <v-icon>mdi-content-save</v-icon>Guardar
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-toolbar>
+      </template>
+      <template v-slot:item.action="{ item }">
+        <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+      </template>
+    </v-data-table>
+  </v-container>
 </template>
 
 <script>
@@ -100,15 +102,16 @@ export default {
       });
       if (this.parametro.id == 12) {
         let ver;
-        await rm.getJson('parametros/'+parseInt('12'))
+        await rm
+          .getJson("parametros/" + parseInt("12"))
           .then(r => {
-             ver=r.data.valor;
+            ver = r.data.valor;
             console.log(ver);
           })
-          .catch(c=>{
-        ver = false;
-          });   
-          this.$store.state.pantallaVista=ver;
+          .catch(c => {
+            ver = false;
+          });
+        this.$store.state.pantallaVista = ver;
       }
       rm.postJsonBitacora({
           id:16,
