@@ -127,7 +127,6 @@
             </tr>
           </tbody>
         </table>
-        <canvas id="qr"> </canvas>
       </v-col>
     </v-row>
   </v-container>
@@ -135,7 +134,6 @@
 
 <script>
 import restMethods from "./../utils/restMethods.js";
-import QRCode from "qrcode";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 const rm = new restMethods();
@@ -216,11 +214,6 @@ export default {
   mounted: function() {
     this.getCompras();
     this.updateMonth();
-    QRCode.toCanvas(document.getElementById('qr'),
-    'http://192.168.1.4:8081/', { toSJISFunc: QRCode.toSJIS }, function (error) {
-    if (error) console.error(error)
-    console.log('success!')
-  })
   }
 };
 </script>

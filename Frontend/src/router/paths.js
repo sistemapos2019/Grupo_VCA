@@ -126,8 +126,6 @@ export default [{
         path: '/login',
         name: "Login",
         view: 'Login',
-        meta: {
-            requiresVisitor: true,
-        },
     },
 ]
+

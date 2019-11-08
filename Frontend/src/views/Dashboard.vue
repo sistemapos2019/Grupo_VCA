@@ -43,6 +43,23 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
+          <v-dialog v-model="entregado.show" persistent max-width="500">
+            <v-card>
+              <v-card-title class="headline">
+                <v-layout align-center justify-center row fill-height>
+                  <v-flex style="text-align: center;color:black;">CUAL ENTREGARA?</v-flex>
+                </v-layout>
+              </v-card-title>
+              <v-layout justify-center fill-height column>
+                <v-btn color="red darken-1" text @click="setTimeNull('PP');">PREPARADOS</v-btn>
+                <v-btn color="red darken-1" text @click="setTimeNull('NP');">RAPIDOS</v-btn>
+              </v-layout>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" text @click="entregado.show = false">CANCELAR</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
 
           <v-card-title>Ventas realizadas</v-card-title>
           <v-card-text>{{stats.ordenes}}</v-card-text>
@@ -93,6 +110,13 @@
             <v-icon small class="mr-4" @click="editarCuenta(item);$router.push('ampliarorden');">add</v-icon>
             <v-icon small class="mr-4" @click="editarCuenta(item);$router.push('editarorden');">edit</v-icon>
             <v-icon class="mr-4" @click="ModalCobro(item)">payment</v-icon>
+            <v-icon class="mr-4" @click="ModalEntrega(item)">mdi-shaker</v-icon>
+          </template>
+          <template v-slot:item.tiempoPreparado="{ item }">
+            <v-chip :color="item.preparado" dark>{{ item.tiempoPreparado | tiempo }}</v-chip>
+          </template>
+          <template v-slot:item.tiempoRapido="{ item }">
+            <v-chip :color="item.rapido" dark>{{ item.tiempoRapido | tiempo }}</v-chip>
           </template>
         </v-data-table>
       </v-col>
@@ -110,6 +134,10 @@ export default {
   data() {
     return {
       dialog: false,
+      entregado: {
+        show: false,
+        id: null
+      },
       cobrarIndex: [],
       pago: null,
       cuentas: [],
@@ -125,6 +153,7 @@ export default {
         { text: "Cliente", value: "cliente" },
         { text: "Mesero", value: "mesero" },
         { text: "TiempoPreparado", value: "tiempoPreparado" },
+        { text: "TiempoRapido", value: "tiempoRapido" },
         { text: "Total", value: "total" },
         { text: "Actions", value: "action", sortable: false }
       ],
@@ -169,7 +198,9 @@ export default {
     },
     editarCuenta(cuentaEdit) {
       console.log(cuentaEdit);
-        this.store.currentCuenta = this.cuentas.find(cuenta => cuenta.cuenta === cuentaEdit.idOrden);
+      this.store.currentCuenta = this.cuentas.find(
+        cuenta => cuenta.cuenta === cuentaEdit.idOrden
+      );
       this.store.editando = true;
     },
     ModalCobro(orden) {
@@ -177,17 +208,42 @@ export default {
       this.dialog = true;
       this.cobrarIndex = orden;
     },
+    ModalEntrega(orden) {
+      console.log(JSON.stringify(orden));
+      this.entregado.show = true;
+      this.entregado.id = orden.idOrden;
+    },
     cobrarOrden(orden) {
       if (orden.total <= this.pago) {
         this.dialog = false;
-        this.store.cuentaTicket = this.cuentas.find(cuenta => cuenta.cuenta === orden.idOrden);
+        this.store.cuentaTicket = this.cuentas.find(
+          cuenta => cuenta.cuenta === orden.idOrden
+        );
         this.store.pago = this.pago;
         console.log(this.store.cuentaTicket);
         //rm.putJson(`ordenes/finalizar/${orden.idOrden}`, { });
-        this.$router.push('/ticket');
+        this.$router.push("/ticket");
       } else {
         this.snackbar = true;
       }
+    },
+    setTimeNull(value) {
+      if (value === "NP") {
+        rm.getJson(`ordenes/cerrarorden?type=NP&id=${this.entregado.id}`).then(
+          (r) => {
+            console.log(this.entregado.id);
+            console.log(r)
+            this.getDashboard();
+          }
+        );
+      } else if (value === "PP") {
+        rm.getJson(`ordenes/cerrarorden?type=PP&id=${this.entregado.id}`).then(
+          () => {
+            this.getDashboard();
+          }
+        );
+      }
+      this.entregado.show = false;
     },
     getStats() {
       rm.getJson("estadisticas")
@@ -211,6 +267,11 @@ export default {
   filters: {
     negativos: function(value) {
       return value < 0 ? 0.0 : value;
+    },
+    tiempo: function(value) {
+      return typeof value === "undefined"
+        ? "Entregado"
+        : value.replace(/^00:/g, "");
     }
   },
   mounted: function() {

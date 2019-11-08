@@ -1,5 +1,6 @@
 <template>
-  <v-data-table
+  <v-container fluid>
+    <v-data-table
     :headers="headers"
     :items="categorias"
     sort-by="categorias"
@@ -45,6 +46,7 @@
       <!--      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>-->
     </template>
   </v-data-table>
+  </v-container>
 </template>
 
 <script>
@@ -119,6 +121,16 @@ export default {
       if (categoriaEdit != null && this.nuevo && !this.categoria.id) {
         this.categoria.nombre = categoriaEdit;
         console.log(JSON.stringify(this.categoria));
+        rm.postJsonBitacora({
+          id:9,
+          idCategoria: this.categoria.id,
+          usuario:{
+            id: this.$user,
+            //falta agregar el id del usuario que creo la categoria
+          }
+        }).then(r=>{
+          console.log(r.data);
+        });
         rm.postJson("categorias", {
           id: this.categoria.id,
           nombre: this.categoria.nombre
@@ -128,6 +140,16 @@ export default {
       } else if (categoriaEdit != null && !this.nuevo && this.categoria.id) {
         console.log("edit" + JSON.stringify(this.categoria));
         this.categoria.nombre = categoriaEdit;
+        rm.postJsonBitacora({
+          id:10,
+          idCategoria: this.categoria.id,
+          usuario:{
+            id: this.$user,
+          }
+        }).then(r=>{
+          console.log(r.data);
+        });
+
         rm.putJson("categorias/" + parseInt(this.categoria.id), {
           id: this.categoria.id,
           nombre: this.categoria.nombre
@@ -147,15 +169,6 @@ export default {
       this.dialog = true;
       console.log("Entro al crear");
     },
-
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.categorias[this.editedIndex], this.editedItem);
-      } else {
-        this.categorias.push(this.editedItem);
-      }
-      this.close();
-    }
   }
 };
 </script>
