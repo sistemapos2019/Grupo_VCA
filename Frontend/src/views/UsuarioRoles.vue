@@ -185,7 +185,7 @@ export default {
       this.close();
     },
     getContrasenia(clave) {
-      return clave.replace(new RegExp("[a-zA-Z0-9]", "g"), "*");
+      return (clave) ? clave.replace(new RegExp("[a-zA-Z]", "g"), "*") : "";
     }
   }
 };
