@@ -8,34 +8,39 @@
     }
 }
 
-* {
-    font-size: 12px;
-    font-family: "Times New Roman";
-}
-
 td,
 th,
 tr,
 table {
-    border-top: 1px solid black;
     border-collapse: collapse;
 }
 
 td.producto,
 th.producto {
     width: 23mm;
+    align-content: center;
+    text-align: center;
 }
 
 td.cantidad,
 th.cantidad {
     width: 10mm;
     word-break: break-all;
+    text-align: center;
+}
+
+td.cantidadcocina,
+th.cantidadcocina {
+    width: 20mm;
+    word-break: break-all;
+    text-align: center;
 }
 
 td.precio,
 th.precio {
     width: 23mm;
     word-break: break-all;
+    text-align: center;
 }
 
 .centrado {
@@ -46,6 +51,20 @@ th.precio {
 .tickets {
     width: 71.9mm;
     max-width: 71.9mm;
+}
+
+.ticketcliente {
+    font-size: 12px;
+    font-family: "Times New Roman";
+}
+
+.ticketcocina {
+    font-size: 15px;
+    font-family: "Times New Roman";
+}
+
+.total {
+    font-weight: bold;
 }
 
 hr {

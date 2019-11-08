@@ -59,7 +59,7 @@ public class OrdenREST {
             detalleOrdeFacade.create(producto);
         });
 
-        return Response.status(Response.Status.CREATED).build();
+        return Response.status(Response.Status.CREATED).entity(entity.getId()).build();
     }
 
     @PUT
@@ -77,6 +77,13 @@ public class OrdenREST {
         ordenFacade.edit(orden);
 
         return Response.status(Response.Status.ACCEPTED).build();
+    }
+    
+    @GET
+    @Path("{idOrden}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response findById(@PathParam("idOrden") Integer idOrden){
+        return Response.status(Response.Status.OK).entity(ordenFacade.findById(idOrden)).build();
     }
 
     @GET
