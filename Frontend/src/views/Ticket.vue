@@ -48,13 +48,13 @@
       <div class="total">
       <p class="izquierda">
         <hr class="hr1">
-        Subtotal: ${{this.store.cuentaTicket.total}}
+        Subtotal: ${{(this.store.cuentaTicket.total).toFixed(2)}}
         <br />
-        Propina: ${{this.store.cuentaTicket.propina}}
+        Propina: ${{(this.store.cuentaTicket.propina).toFixed(2)}}
         <br />
-        Total: ${{this.store.cuentaTicket.total + this.store.cuentaTicket.propina}}
+        Total: ${{(this.store.cuentaTicket.total + this.store.cuentaTicket.propina).toFixed(2)}}
         <br />
-        Efectivo: ${{this.store.pago}}
+        Efectivo: ${{(this.store.pago)}}
         <br />
         Cambio: ${{(this.store.pago - (this.store.cuentaTicket.total + this.store.cuentaTicket.propina)).toFixed(2)}}
         <br />
