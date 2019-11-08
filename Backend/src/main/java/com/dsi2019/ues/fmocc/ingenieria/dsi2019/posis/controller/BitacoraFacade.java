@@ -51,7 +51,7 @@ public class BitacoraFacade extends AbstractFacade<Bitacora> {
     }
             
     public List<String> latestRecords(int cantidad){
-        return executeQuery("SELECT b.suceso FROM Bitacora b ORDER BY b.fecha DESC")
+        return executeQuery("SELECT CONCAT(b.id,' - ',b.suceso)  FROM Bitacora b ORDER BY b.fecha DESC")
                 .setMaxResults(cantidad)
                 .getResultList();
     }

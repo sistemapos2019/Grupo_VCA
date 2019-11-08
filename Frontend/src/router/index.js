@@ -15,7 +15,9 @@ import Meta from 'vue-meta'
 // Routes
 import paths from './paths'
 import store from '../store';
+import rest from '../utils/restMethods.js'
 import { type } from 'os'
+import { METHODS } from 'http'
 
 function route(path, view, name) {
   return {
@@ -48,6 +50,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+
   if (store.state.IdUsuario === null && to.path !== '/login') {
     next('/login')
   } else {
@@ -58,7 +61,7 @@ router.beforeEach((to, from, next) => {
           to.path === '/usuarioroles' || to.path === '/compras' || to.path === '/mesas' || to.path === '/parametros') {
           confirm('Acceso Denegado');
           next('/login')
-        } else {
+        } else{
           next()
           console.log('es asi ' + store.state.rol);
         }

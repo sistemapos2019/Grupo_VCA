@@ -1,11 +1,10 @@
 <template>
-  <v-content>
-    <v-container fluid fill-height>
+    <v-container fluid class="fill-height" id="ctm">
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4>
-          <v-card class="elevation-12">
-            <v-toolbar color="primary" dark flat>
-              <v-toolbar-title style="color:black;">Login Users</v-toolbar-title>
+          <v-card class="elevation-12" style="margin-bottom:150px;">
+            <v-toolbar class="gradient-background" dark flat>
+              <v-toolbar-title>Login Users</v-toolbar-title>
               <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
@@ -30,7 +29,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" href="#/categorias" @click="getInfo(login,password)">Login</v-btn>
+              <v-btn color="red" dark @click="getInfo(login,password)">Login</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -42,7 +41,6 @@
         </div>
       </v-layout>
     </v-container>
-  </v-content>
 </template>
 <script>
 import restMethods from "./../utils/restMethods.js";
@@ -73,6 +71,7 @@ export default {
         this.$store.state.IdUsuario = this.idUsuario;
         this.$store.state.usuario = this.login;
         this.$store.state.rol = this.rol;
+        this.$store.state.colorRol = (this.rol == "Mesero") ? 'red' : 'orange';
         // if (this.$store.state.pantallaVista) {
         //   this.$router.push("/");
         // }
@@ -121,14 +120,27 @@ export default {
         .catch(e => {
           this.usuario = [];
         });
+    },
+    loginPantalla(){
+      rm.getJson('parametros/12').then(r=>{
+        this.$store.state.loginPantalla = (r.data.valor==1) ? true : false;
+      })
     }
   },
   mounted: function() {
     this.getUsers();
+    this.loginPantalla();
   }
 };
 </script>
 
 <style>
-
+  #ctm{
+    background-image: url('../assets/pixel.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+  #core-view{
+    height: 100%;
+  }
 </style>
