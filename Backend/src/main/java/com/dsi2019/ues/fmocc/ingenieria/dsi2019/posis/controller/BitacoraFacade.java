@@ -36,12 +36,12 @@ public class BitacoraFacade extends AbstractFacade<Bitacora> {
                     .getResultList();
         }else{
             return executeQuery("SELECT TRIM(b.fecha),b.suceso,b.idUsuario.nombreCompleto FROM Bitacora b WHERE b.fecha BETWEEN \'"+FechaInicio+" 00:00:00\' AND \'"+FechaFin+" 00:00:00\'")
-                    .getResultList();
+                    .getResultList(); 
         }
     }
             
     public List<String> latestRecords(int cantidad){
-        return executeQuery("SELECT b.suceso FROM Bitacora b ORDER BY b.fecha DESC")
+        return executeQuery("SELECT CONCAT(b.id,' - ',b.suceso)  FROM Bitacora b ORDER BY b.fecha DESC")
                 .setMaxResults(cantidad)
                 .getResultList();
     }

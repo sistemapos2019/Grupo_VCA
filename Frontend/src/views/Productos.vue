@@ -53,24 +53,24 @@
                 </v-container>
               </v-card-text>
 
-              <v-card-actions>
-                <div class="flex-grow-1"></div>
-                <v-btn color="#504da3" text @click="close">
-                  <v-icon>mdi-cancel</v-icon>Cancelar
-                </v-btn>
-                <v-btn color="#504da3" text @click="guardar()">
-                  <v-icon>mdi-content-save</v-icon>Guardar
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-toolbar>
-      </template>
-      <template v-slot:item.action="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-        <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
-      </template>
-    </v-data-table>
+            <v-card-actions>
+              <div class="flex-grow-1"></div>
+              <v-btn color="#504da3" text @click="close">
+                <v-icon>mdi-cancel</v-icon>Cancelar
+              </v-btn>
+              <v-btn color="#504da3" text @click="guardar()">
+                <v-icon>mdi-content-save</v-icon>Guardar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
+    </template>
+    <template v-slot:item.action="{ item }">
+      <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+     <!-- <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>-->
+    </template>
+  </v-data-table>
   </v-container>
 </template>
 
@@ -95,7 +95,7 @@ export default {
         { text: "Preparado", value: "preparado" },
         { text: "Actions", value: "action", sortable: false }
       ],
-      productos: this.getproductos(),
+      productos: [],
       categorias: this.getcategorias(),
       editedIndex: -1,
       producto: {
@@ -172,6 +172,8 @@ export default {
           inventario: this.producto.inventario,
           precio: this.producto.precio,
           preparado: this.producto.preparado
+        }).then(()=>{
+          this.getproductos();
         });
         console.log("Editar" + JSON.stringify(this.producto));
       } else {
@@ -182,15 +184,13 @@ export default {
           inventario: this.producto.inventario,
           precio: this.producto.precio,
           preparado: this.producto.preparado
+        }).then(()=>{
+          this.getproductos();
         });
         console.log("Crear " + JSON.stringify(this.producto));
       }
       this.productoItem();
       this.close();
-    },
-    deleteItem(item) {
-      const index = this.productos.indexOf(item);
-      confirm("Eliminar Producto?") && this.productos.splice(index, 1);
     },
     close() {
       this.dialog = false;
@@ -216,6 +216,9 @@ export default {
       this.producto.inventario = null;
       this.producto.preparado = null;
     }
+  },
+  mounted: function(){
+    this.getproductos();
   }
 };
 </script>

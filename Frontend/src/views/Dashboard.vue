@@ -1,7 +1,8 @@
 <template>
   <v-container fluid>
     <div class="tittle_text">RESUMEN</div>
-    <v-btn dark class="mb-2 gradient-background" to="/nuevaorden">Nueva Orden</v-btn>
+    <v-btn dark class="mb-2 gradient-background" @click="nuevaOrden();">Nueva Orden</v-btn>
+    <core-login-true :dialog="modal" :path="path"></core-login-true>
     <v-row>
       <v-col cols="12" lg="3">
         <v-card
@@ -107,8 +108,8 @@
       <v-col cols="12" lg="12">
         <v-data-table :headers="headers" :items="dashboard" :items-per-page="5">
           <template v-slot:item.action="{ item }">
-            <v-icon small class="mr-4" @click="editarCuenta(item);$router.push('ampliarorden');">add</v-icon>
-            <v-icon small class="mr-4" @click="editarCuenta(item);$router.push('editarorden');">edit</v-icon>
+            <v-icon small class="mr-4" @click="editarCuenta(item,'ampliarorden');">add</v-icon>
+            <v-icon small class="mr-4" @click="editarCuenta(item,'editarorden');">edit</v-icon>
             <v-icon class="mr-4" @click="ModalCobro(item)">payment</v-icon>
             <v-icon class="mr-4" @click="ModalEntrega(item)">mdi-shaker</v-icon>
           </template>
@@ -134,6 +135,8 @@ export default {
   data() {
     return {
       dialog: false,
+      modal: false,
+      path: "/",
       entregado: {
         show: false,
         id: null
@@ -174,6 +177,9 @@ export default {
   computed: {
     ...mapState(["store"])
   },
+  components: {
+    CoreLoginTrue: () => import("@/components/core/LoginTrue")
+  },
   methods: {
     getOrdenes() {
       this.cuentas = [];
@@ -188,6 +194,19 @@ export default {
           //console.log(JSON.stringify(this.cuentas));
         })
         .catch(e => {});
+    },
+    nuevaOrden() {
+      console.log(this.$store.state.loginPantalla);
+      if (this.$store.state.loginPantalla) {
+        this.modal = false;
+        this.modal = true;
+        this.path = "/nuevaorden";
+      } else {
+        this.modal = false;
+        this.$router.push("/nuevaorden");
+      }
+
+      // this.$router.push("/nuevaorden");
     },
     getDashboard() {
       rm.getJson("dashboardprincipal")
@@ -205,12 +224,19 @@ export default {
           console.log(this.store.propina);
         })
     },
-    editarCuenta(cuentaEdit) {
+    editarCuenta(cuentaEdit, topath) {
       console.log(cuentaEdit);
       this.store.currentCuenta = this.cuentas.find(
         cuenta => cuenta.cuenta === cuentaEdit.idOrden
       );
       this.store.editando = true;
+      if (this.$store.state.loginPantalla) {
+        this.modal = false;
+        this.modal = true;
+        this.path = topath;
+      }else{
+        this.$router.push(topath);
+      }
     },
     ModalCobro(orden) {
       //console.log(JSON.stringify(orden));
@@ -239,9 +265,9 @@ export default {
     setTimeNull(value) {
       if (value === "NP") {
         rm.getJson(`ordenes/cerrarorden?type=NP&id=${this.entregado.id}`).then(
-          (r) => {
+          r => {
             console.log(this.entregado.id);
-            console.log(r)
+            console.log(r);
             this.getDashboard();
           }
         );

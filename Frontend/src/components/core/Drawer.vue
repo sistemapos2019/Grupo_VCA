@@ -42,7 +42,7 @@
         <v-list-item-title v-text="link.text" />
       </v-list-item>
 
-      <v-list-group color="white" prepend-icon="mdi-apps" value="true">
+      <v-list-group color="white" prepend-icon="mdi-apps" value="false">
         <template v-slot:activator>
           <v-list-item-title>Administracion</v-list-item-title>
         </template>

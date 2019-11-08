@@ -43,7 +43,7 @@
     </template>
     <template v-slot:item.action="{ item }">
       <v-icon small class="mr-2" @click="editar(item)">mdi-pencil</v-icon>
-      <!--      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>-->
+      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
     </template>
   </v-data-table>
   </v-container>
@@ -59,6 +59,7 @@ export default {
       dialog: false,
       nuevo: false,
       categorias: this.getcategorias(),
+      idBitacora:0,
       headers: [
         {
           text: "Nombre de la Categoria",
@@ -121,16 +122,7 @@ export default {
       if (categoriaEdit != null && this.nuevo && !this.categoria.id) {
         this.categoria.nombre = categoriaEdit;
         console.log(JSON.stringify(this.categoria));
-        rm.postJsonBitacora({
-          id:9,
-          idCategoria: this.categoria.id,
-          usuario:{
-            id: this.$user,
-            //falta agregar el id del usuario que creo la categoria
-          }
-        }).then(r=>{
-          console.log(r.data);
-        });
+        this.idBitacora=9;
         rm.postJson("categorias", {
           id: this.categoria.id,
           nombre: this.categoria.nombre
@@ -140,16 +132,7 @@ export default {
       } else if (categoriaEdit != null && !this.nuevo && this.categoria.id) {
         console.log("edit" + JSON.stringify(this.categoria));
         this.categoria.nombre = categoriaEdit;
-        rm.postJsonBitacora({
-          id:10,
-          idCategoria: this.categoria.id,
-          usuario:{
-            id: this.$user,
-          }
-        }).then(r=>{
-          console.log(r.data);
-        });
-
+        this.idBitacora=10;
         rm.putJson("categorias/" + parseInt(this.categoria.id), {
           id: this.categoria.id,
           nombre: this.categoria.nombre
@@ -157,6 +140,15 @@ export default {
           this.getcategorias();
         });
       }
+      rm.postJsonBitacora({
+          id:this.idBitacora,
+          idCategoria: this.categoria.id,
+          usuario:{
+            id: this.$store.state.IdUsuario,
+          }
+        }).then(r=>{
+          console.log(r.data);
+        });
       this.dialog = false;
       this.categoria.id = null;
       this.categoria.nombre = null;

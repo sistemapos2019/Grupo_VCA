@@ -28,24 +28,24 @@
                 </v-container>
               </v-card-text>
 
-              <v-card-actions>
-                <div class="flex-grow-1"></div>
-                <v-btn color="#504da3" text @click="close">
-                  <v-icon>mdi-cancel</v-icon>Cancelar
-                </v-btn>
-                <v-btn color="#504da3" text @click="save">
-                  <v-icon>mdi-content-save</v-icon>Guardar
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-toolbar>
-      </template>
-      <template v-if="auth" v-slot:item.action="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-        <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
-      </template>
-    </v-data-table>
+            <v-card-actions >
+              <div class="flex-grow-1" ></div>
+              <v-btn color="#504da3" text @click="close()">
+                <v-icon>mdi-cancel</v-icon>Cancelar
+              </v-btn>
+              <v-btn color="#504da3" text @click="save">
+                <v-icon>mdi-content-save</v-icon>Guardar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
+    </template>
+    <template  v-slot:item.action="{ item }">
+      <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+      <!--<v-icon small @click="deleteItem(item)">mdi-delete</v-icon>-->
+    </template>
+  </v-data-table>
   </v-container>
 </template>
 
@@ -108,15 +108,10 @@ export default {
       this.arrayMesas = item;
       this.dialog = true;
     },
-    create() {
-      this.arrayMesas.mesa = null;
-      this.dialog = true;
-      this.editedIndex = 0;
+    create(){
+      this.dialog=true;
+      this.editedIndex=-1;
       console.log("crear");
-    },
-    deleteItem(item) {
-      const index = this.mesas.indexOf(item);
-      confirm("Desea Eliminar la Mesa?") && this.mesas.splice(index, 1);
     },
     close() {
       this.dialog = false;
@@ -127,9 +122,18 @@ export default {
     },
     save() {
       if (this.editedIndex > -1) {
-        rm.putJson();
+        rm.putJson("mesas/"+parseInt(this.arrayMesas.id),{
+          id:this.arrayMesas.id,
+          mesa: this.arrayMesas.mesa,
+        }).then(()=>{
+          this.getMesas();
+        });
       } else {
-        this.mesas.push(this.arrayMesas);
+        rm.postJson("mesas",{
+          mesa:this.arrayMesas.mesa,
+        }).then(()=>{
+          this.getMesas();
+        });
       }
       this.close();
     }
