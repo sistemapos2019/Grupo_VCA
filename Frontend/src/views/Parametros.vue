@@ -13,10 +13,12 @@
               <v-card-text>
                 <v-container>
                   <v-row>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field disabled solo v-model="parametro.nombre" label="Nombre"></v-text-field>
+                    <v-col cols="12" sm="6" md="4" lg="12">
+                      <p class="title" style="color:black;">{{parametro.nombre}}</p>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" sm="6" md="4" lg="12">
                       <v-text-field v-model="parametro.valor" label="Valor"></v-text-field>
                     </v-col>
                   </v-row>
@@ -99,7 +101,9 @@ export default {
         id: this.parametro.id,
         nombre: this.parametro.nombre,
         valor: this.parametro.valor
-      });
+      }).then(()=>{
+          this.getparametros();
+        });
       if (this.parametro.id == 12) {
         let ver;
         await rm
