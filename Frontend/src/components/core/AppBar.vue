@@ -10,8 +10,12 @@
     <v-spacer />
 
     <v-toolbar-items>
-      <v-row align="center" class="mx-0">
-        <v-chip class="ma-6" color="orange" text-color="white">
+      <v-row align="center" justify="center" class="mx-0">
+        <!-- <v-btn style="padding-left:40px;" text icon :color="this.$store.state.colorRol" v-if="this.$store.state.loginPantalla"> -->
+          <v-icon :color="this.$store.state.colorRol" v-if="this.$store.state.loginPantalla" dark>mdi-account-circle</v-icon>
+        <!-- </v-btn> -->
+
+        <v-chip class="ma-6" :color="this.$store.state.colorRol" text-color="white" style="margin-left: 10px !important;">
           {{this.$store.state.usuario | Upper}}
           <v-icon right>mdi-star</v-icon>
         </v-chip>
@@ -60,6 +64,7 @@ export default {
     notifications: [],
     title: null,
     responsive: false,
+    color: "green"
   }),
 
   watch: {
@@ -93,14 +98,14 @@ export default {
       rm.getJson("bitacoras/latest").then(r => {
         this.notifications = r.data;
       });
-    },
+    }
   },
   components: {
     CoreLoginModal: () => import("@/components/core/LoginModal")
   },
   filters: {
-    Upper(value){
-      return (typeof value === "undefined") ? "" : value.toUpperCase();
+    Upper(value) {
+      return typeof value === "undefined" ? "" : value.toUpperCase();
     }
   }
 };

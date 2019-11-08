@@ -71,6 +71,7 @@ export default {
         this.$store.state.IdUsuario = this.idUsuario;
         this.$store.state.usuario = this.login;
         this.$store.state.rol = this.rol;
+        this.$store.state.colorRol = (this.rol == "Mesero") ? 'red' : 'orange';
         // if (this.$store.state.pantallaVista) {
         //   this.$router.push("/");
         // }
@@ -119,10 +120,16 @@ export default {
         .catch(e => {
           this.usuario = [];
         });
+    },
+    loginPantalla(){
+      rm.getJson('parametros/12').then(r=>{
+        this.$store.state.loginPantalla = (r.data.valor==1) ? true : false;
+      })
     }
   },
   mounted: function() {
     this.getUsers();
+    this.loginPantalla();
   }
 };
 </script>

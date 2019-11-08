@@ -6,5 +6,7 @@ export default {
     pantallaVista:true,
     rol:null,
     IdUsuario:null,
+    colorRol:null,
     path:null,
+    loginPantalla: false,
 }

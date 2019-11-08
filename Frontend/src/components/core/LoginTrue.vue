@@ -1,10 +1,5 @@
 <template>
   <v-dialog id="core-login-modal" v-model="dialog" max-width="600px">
-    <template v-slot:activator="{ on }">
-      <v-btn v-on="on" @click="login = ''; password='';getUsers();" icon>
-        <v-icon color="tertiary">mdi-account</v-icon>
-      </v-btn>
-    </template>
     <v-card class="elevation-12">
       <v-toolbar class="gradient-background" dark flat>
         <v-toolbar-title>LOGIN</v-toolbar-title>
@@ -49,6 +44,7 @@ import router from "vue-router";
 const rm = new restMethods();
 const ru = new router();
 export default {
+  props: ['dialog','path'],
   data() {
     return {
       usuarios: [],
@@ -59,7 +55,6 @@ export default {
       text: "",
       rol: "",
       idUsuario: "",
-      dialog: false
     };
   }, 
   methods: {
@@ -83,7 +78,8 @@ export default {
         this.text = `${this.usuario[0].user} logueado correctamente.`;
         setTimeout(() => {
           this.dialog = false;
-          // this.$router.next();
+          this.$router.push(this.path);
+          // this.$router.go();
         }, 500);
       } else {
         this.snack = true;
@@ -123,7 +119,7 @@ export default {
         })
         .catch(e => {
           this.usuario = [];
-        });
+        }); 
     },
     loginPantalla(){
       rm.getJson('parametros/12').then(r=>{

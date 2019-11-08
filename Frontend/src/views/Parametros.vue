@@ -103,6 +103,7 @@ export default {
         valor: this.parametro.valor
       }).then(()=>{
           this.getparametros();
+          this.loginPantalla();
         });
       if (this.parametro.id == 12) {
         let ver;
@@ -137,6 +138,11 @@ export default {
         .catch(e => {
           this.parametros = [];
         });
+    },
+    loginPantalla(){
+      rm.getJson('parametros/12').then(r=>{
+        this.$store.state.loginPantalla = (r.data.valor==1) ? true : false;
+      })
     }
   },
   filters: {
