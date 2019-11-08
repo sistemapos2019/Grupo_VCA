@@ -10,7 +10,7 @@ export default class OrdenEntity {
             this.idUsuario = {
                 id: orden.mesero
             },
-            this.llevar = 0,
+            this.llevar = (orden.llevar) ? 1 : 0,
             this.observacion = orden.observacion,
             this.propina = (orden.total * propina).toFixed(2),
             this.total = orden.total,

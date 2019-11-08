@@ -142,7 +142,7 @@ export default {
         id: null
       },
       cobrarIndex: [],
-      pago: null,
+      pago: 0.00,
       cuentas: [],
       dashboard: [],
       headers: [
@@ -221,6 +221,8 @@ export default {
         .then(r => {
           this.store.propina = r.data[13].valor;
           this.store.modoEntorno = r.data[0].valor;
+          this.store.imprimirPP = r.data[7].valor;
+          this.store.imprimirNP = r.data[8].valor;
           console.log(this.store.propina);
         })
     },
@@ -254,7 +256,7 @@ export default {
         this.store.cuentaTicket = this.cuentas.find(
           cuenta => cuenta.cuenta === orden.idOrden
         );
-        this.store.pago = this.pago;
+        this.store.pago = this.pago ;
         console.log(this.store.cuentaTicket);
         rm.putJson(`ordenes/finalizar/${orden.idOrden}`, { });
         this.$router.push("/ticket");

@@ -104,6 +104,7 @@ export default {
       }).then(()=>{
           this.getparametros();
           this.loginPantalla();
+          this.getalgoametros();
         });
       if (this.parametro.id == 12) {
         let ver;
@@ -143,6 +144,16 @@ export default {
       rm.getJson('parametros/12').then(r=>{
         this.$store.state.loginPantalla = (r.data.valor==1) ? true : false;
       })
+    },
+    getalgoametros(){
+      rm.getJson("parametros")
+        .then(r => {
+          this.store.propina = r.data[13].valor;
+          this.store.modoEntorno = r.data[0].valor;
+          this.store.imprimirPP = r.data[7].valor;
+          this.store.imprimirNP = r.data[8].valor;
+          console.log(this.store.propina);
+        })
     }
   },
   filters: {

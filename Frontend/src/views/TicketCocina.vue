@@ -1,6 +1,8 @@
 <template>
   <div class="tickets">
     <div class="ticketcocina">
+
+      <!--div class="ticketGeneral">
       <p class="izquierda">
         <br />
         {{new Date().toLocaleString()}}
@@ -12,24 +14,83 @@
         Mesero: {{this.store.cuentaTicket.mesero}}
         <br />
       </p>
-      <table class="ticketcocina">
+      <table class="ticketcocina tabla">
         <thead>
           <tr>
-            <th class="producto">Producto</th>
-            <th class="cantidadcocina">Cantidad</th>
+            <th class="producto tabla">Producto</th>
+            <th class="cantidadcocina tabla">Cantidad</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(producto, index) in this.store.cuentaTicket.resumen" :key="index">
-            <td class="producto">{{producto.producto}}</td>
-            <td class="cantidadcocina">{{producto.cantidad}}</td>
+            <td class="producto tabla">{{producto.producto}}</td>
+            <td class="cantidadcocina tabla">{{producto.cantidad}}</td>
           </tr>
         </tbody>
       </table>
-      <div id="canvas"></div>
-      <p>
-        <canvas id="qr"></canvas>
+      <div id="canvas1"></div>
+    </div-->
+
+    <div class="ticketPreparados">
+      <p class="izquierda">
+        Preparados
+        <br />
+        {{new Date().toLocaleString()}}
+        <br />
+        Cuenta: {{this.store.cuentaTicket.cuenta}}
+        <br />
+        Mesa: {{this.store.cuentaTicket.mesa}}
+        <br />
+        Mesero: {{this.store.cuentaTicket.mesero}}
+        <br />
       </p>
+      <table class="ticketcocina tabla">
+        <thead>
+          <tr>
+            <th class="producto tabla">Producto</th>
+            <th class="cantidadcocina tabla">Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(producto, index) in this.preparados" :key="index">
+            <td class="producto tabla">{{producto.producto}}</td>
+            <td class="cantidadcocina tabla">{{producto.cantidad}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div id="canvas2"></div>
+    </div>
+
+    <div class="ticketNoPreparados">
+      <p class="izquierda">
+        NoPreparados
+        <br />
+        {{new Date().toLocaleString()}}
+        <br />
+        Cuenta: {{this.store.cuentaTicket.cuenta}}
+        <br />
+        Mesa: {{this.store.cuentaTicket.mesa}}
+        <br />
+        Mesero: {{this.store.cuentaTicket.mesero}}
+        <br />
+      </p>
+      <table class="ticketcocina tabla">
+        <thead>
+          <tr>
+            <th class="producto tabla">Producto</th>
+            <th class="cantidadcocina tabla">Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(producto, index) in this.nopreparados" :key="index">
+            <td class="producto tabla">{{producto.producto}}</td>
+            <td class="cantidadcocina tabla">{{producto.cantidad}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div id="canvas3"></div>
+    </div>
+
     </div>
   </div>
 </template>
@@ -42,13 +103,16 @@ const rm = new restMethods();
 export default {
   data() {
     return {
-      parametros: this.getParametros(),
       preparados: [],
-      nopreparados: []
+      nopreparados: [],
+      qr1: null,
+      qr2: null,
+      qr3: null
     };
   },
   created() {
-    this.parametros = this.getParametros();
+    this.filtrarPreparados();
+
   },
   mounted() {
     this.GenerarQR();
@@ -59,14 +123,25 @@ export default {
   },
   methods: {
     imprimirElemento() {
-      var qr = document.querySelector("#qr");
-      var elemento = document.querySelector(".tickets");
+      var ticketPP = document.querySelector(".ticketPreparados");
+      var ticketNP = document.querySelector(".ticketNoPreparados");
+
       var ventana = window.open("", "PRINT", "height=800,width=1000");
       ventana.document.write("<html><head><title>" + document.title + "</title>");
       ventana.document.write('<link rel="stylesheet" href="./ticket.css">');
       ventana.document.write("</head><body >");
-      ventana.document.write(elemento.innerHTML);
-      ventana.document.querySelector("#canvas").appendChild(qr);
+console.log(this.store.imprimirNP)
+console.log(this.store.imprimirPP)
+
+      if (this.store.imprimirPP === "SI") {
+        ventana.document.write(ticketPP.innerHTML);
+        ventana.document.querySelector("#canvas2").appendChild(this.qr2);
+      } if(this.store.imprimirNP === "SI"){
+        ventana.document.write(ticketNP.innerHTML);
+        ventana.document.querySelector("#canvas3").appendChild(this.qr3);
+      }
+      
+      
       ventana.document.write("</body></html>");
       ventana.document.close();
       ventana.focus();
@@ -77,31 +152,35 @@ export default {
       };
       return true;
     },
-    getParametros() {
-      rm.getJson("parametros")
-        .then(r => {
-          this.parametros = r.data;
-          console.log(this.parametros);
-        })
-        .catch(e => {
-          this.parametros = [];
-        });
-    },
     filtrarPreparados() {
+      console.log(this.store.cuentaTicket.resumen)
       this.preparados = this.store.cuentaTicket.resumen.filter(
-        producto => preparado === true
+        producto => producto.preparado === 1
       );
       this.nopreparados = this.store.cuentaTicket.resumen.filter(
-        producto => preparado === false
+        producto => producto.preparado === 0
       );
       console.log(this.preparados);
       console.log(this.nopreparados);
     },
     GenerarQR() {
-      console.log(document.querySelector("#qr"));
-      QRCode.toCanvas(
-        document.querySelector("#qr"),
-        "http://66.254.114.41/",
+      this.qr2 = document.createElement("canvas");
+      console.log(this.store.cuentaTicket.cuenta)
+
+       QRCode.toCanvas(
+        this.qr2,
+        `http://localhost:8080/Backend/ws/ordenes/cerrarorden?type=NP&id=${this.store.cuentaTicket.cuenta}`,
+        { toSJISFunc: QRCode.toSJIS },
+        function(error) {
+          if (error) console.error(error);
+          console.log("success!");
+        }
+      );
+       this.qr3 = document.createElement("canvas");
+
+       QRCode.toCanvas(
+        this.qr3,
+        `http://localhost:8080/Backend/ws/ordenes/cerrarorden?type=PP&id=${this.store.cuentaTicket.cuenta}`,
         { toSJISFunc: QRCode.toSJIS },
         function(error) {
           if (error) console.error(error);

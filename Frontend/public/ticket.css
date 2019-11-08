@@ -1,6 +1,5 @@
 @media print {
-    .oculto-impresion,
-    .oculto-impresion * {
+    #qr {
         display: none !important;
     }
     .preparados {
@@ -8,10 +7,8 @@
     }
 }
 
-td,
-th,
-tr,
-table {
+.tabla {
+    border-top: 1px solid black;
     border-collapse: collapse;
 }
 
@@ -78,4 +75,8 @@ hr {
 
 .hr1 {
     width: 100%;
+}
+
+.imprimir {
+    display: none;
 }
