@@ -107,7 +107,6 @@ export default class RestMethods {
                 case 21:
                     this.suceso = 'El Usuario entro al Sistema' 
                     break
-
             }
             return Axios.post(this.baseUri + "bitacoras", {
                 fecha: new Date(),

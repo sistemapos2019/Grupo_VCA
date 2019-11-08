@@ -8,4 +8,3 @@ export default {
     IdUsuario:null,
     path:null,
 }
-

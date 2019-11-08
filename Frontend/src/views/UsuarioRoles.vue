@@ -4,7 +4,7 @@
       <v-toolbar flat color="white">
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn dark class="mb-2 gradient-background" v-on="on">Nuevo Usuario</v-btn>
+            <v-btn dark class="mb-2 gradient-background" v-on="on" @click="crear()">Nuevo Usuario</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -14,20 +14,20 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.nombreCompleto" label="Nombre del Usuario"></v-text-field>
+                    <v-text-field v-model="usuario.nombreCompleto" label="Nombre del Usuario"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.login" label="Login"></v-text-field>
+                    <v-text-field v-model="usuario.login" label="Login"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.clave" label="Clave"></v-text-field>
+                    <v-text-field v-model="usuario.clave" label="Clave"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.pin" label="Pin"></v-text-field>
+                    <v-text-field v-model="usuario.pin" label="Pin"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                      <v-select :items="[{rol:'G',val:'Gerente'},{rol:'M',val:'Mesero'}]" item-text="val"
-                    item-value="rol" v-model="editedItem.rol" label="Rol"></v-select>
+                    item-value="rol" v-model="usuario.rol" label="Rol"></v-select>
                   </v-col>
                 </v-row>
               </v-container>
@@ -98,7 +98,8 @@ export default {
     dialog: false,
     usuarios: this.getusuarios(),
     editedIndex: -1,
-    editedItem: {
+    usuario: {
+      id:"",
       nombreCompleto: "",
       login: "",
       clave:"",
@@ -106,6 +107,7 @@ export default {
       rol: ""
     },
     defaultItem: {
+      id:"",
       nombreCompleto: "",
       login: "",
       clave:"",
@@ -129,14 +131,13 @@ export default {
         });
     },
     editItem(item) {
-      this.editedIndex = this.usuarios.indexOf(item);
-      this.editedItem = Object.assign({}, item);
+      this.editedIndex = 0;
+      this.usuario=item;
       this.dialog = true;
     },
-    deleteItem(item) {
-      const index = this.usuarios.indexOf(item);
-      confirm("Elminar Usuario de la lista?") &&
-        this.usuarios.splice(index, 1);
+    crear(){
+      this.editedIndex = -1;
+      this.dialog = true;
     },
     close() {
       this.dialog = false;
@@ -147,9 +148,26 @@ export default {
     },
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.usuarios[this.editedIndex], this.editedItem);
+        rm.putJson("usuarios/"+parseInt(this.usuario.id),{
+          id:this.usuario.id,
+          nombreCompleto:this.usuario.nombreCompleto,
+          login:this.usuario.login,
+          clave:this.usuario.clave,
+          pin:this.usuario.pin,
+          rol:this.usuario.rol,
+        }).then(()=>{
+          this.getusuarios();
+        });
       } else {
-        this.usuarios.push(this.editedItem);
+        rm.postJson("usuarios",{
+          nombreCompleto:this.usuario.nombreCompleto,
+          login:this.usuario.login,
+          clave:this.usuario.clave,
+          pin:this.usuario.pin,
+          rol:this.usuario.rol,
+        }).then(()=>{
+          this.getusuarios();
+        });
       }
       this.close();
     },

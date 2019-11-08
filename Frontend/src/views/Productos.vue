@@ -52,7 +52,7 @@
     </template>
     <template v-slot:item.action="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+     <!-- <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>-->
     </template>
   </v-data-table>
 </template>
@@ -154,7 +154,6 @@ export default {
           precio:this.producto.precio,
           preparado:this.producto.preparado,
         })  
-        console.log("Editar"+JSON.stringify(this.producto));
       }else{
         rm.postJson("productos",{
           id:null,
@@ -164,15 +163,9 @@ export default {
           precio:this.producto.precio,
           preparado:this.producto.preparado,
         })
-        console.log("Crear "+JSON.stringify(this.producto));
       }
       this.productoItem();
       this.close();
-    },
-    deleteItem(item) {
-      const index = this.productos.indexOf(item);
-      confirm("Eliminar Producto?") &&
-        this.productos.splice(index, 1);
     },
     close() {
       this.dialog = false;

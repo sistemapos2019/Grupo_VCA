@@ -23,7 +23,7 @@
 
             <v-card-actions >
               <div class="flex-grow-1" ></div>
-              <v-btn color="#504da3" text @click="close">
+              <v-btn color="#504da3" text @click="close()">
                 <v-icon>mdi-cancel</v-icon>Cancelar
               </v-btn>
               <v-btn color="#504da3" text @click="save">
@@ -34,9 +34,9 @@
         </v-dialog>
       </v-toolbar>
     </template>
-    <template v-if="auth" v-slot:item.action="{ item }">
+    <template  v-slot:item.action="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+      <!--<v-icon small @click="deleteItem(item)">mdi-delete</v-icon>-->
     </template>
   </v-data-table>
 </template>
@@ -47,7 +47,7 @@ const rm= new restMethods();
 export default {
   data(){return {
     dialog: false,
-    auth:false,
+    
     mesas:this.getMesas(),
     headers: [
       {
@@ -100,15 +100,9 @@ export default {
       this.dialog = true;
     },
     create(){
-      this.arrayMesas.mesa=null;
       this.dialog=true;
-      this.editedIndex=0;
+      this.editedIndex=-1;
       console.log("crear");
-    },
-    deleteItem(item) {
-      const index = this.mesas.indexOf(item);
-      confirm("Desea Eliminar la Mesa?") &&
-        this.mesas.splice(index, 1);
     },
     close() {
       this.dialog = false;
@@ -119,9 +113,18 @@ export default {
     },
     save() {
       if (this.editedIndex > -1) {
-        rm.putJson();
+        rm.putJson("mesas/"+parseInt(this.arrayMesas.id),{
+          id:this.arrayMesas.id,
+          mesa: this.arrayMesas.mesa,
+        }).then(()=>{
+          this.getMesas();
+        });
       } else {
-        this.mesas.push(this.arrayMesas);
+        rm.postJson("mesas",{
+          mesa:this.arrayMesas.mesa,
+        }).then(()=>{
+          this.getMesas();
+        });
       }
       this.close();
     }

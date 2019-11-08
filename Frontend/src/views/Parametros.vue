@@ -110,6 +110,15 @@ export default {
           });   
           this.$store.state.pantallaVista=ver;
       }
+      rm.postJsonBitacora({
+          id:16,
+          idParametro: this.parametro.id,
+          usuario:{
+            id: this.$store.state.IdUsuario,
+          }
+        }).then(r=>{
+          console.log(r.data);
+        });
 
       this.close();
     },
