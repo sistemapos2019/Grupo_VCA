@@ -61,7 +61,7 @@ export default {
       idUsuario: "",
       dialog: false
     };
-  },
+  }, 
   methods: {
     autentication(pass) {
       this.rol = this.usuario[0].rol === "M" ? "Mesero" : "Gerente";
@@ -82,6 +82,7 @@ export default {
         this.text = `${this.usuario[0].user} logueado correctamente.`;
         setTimeout(() => {
           this.dialog = false;
+          this.$router.push('/');
         }, 500);
       } else {
         this.snack = true;
