@@ -71,6 +71,7 @@
      <!-- <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>-->
     </template>
   </v-data-table>
+  </v-container>
 </template>
 
 <script>
@@ -169,7 +170,6 @@ export default {
           nombre: this.producto.nombre,
           idCategoria: { id: this.producto.idCategoria.id },
           inventario: this.producto.inventario,
-<<<<<<< HEAD
           precio:this.producto.precio,
           preparado:this.producto.preparado,
         })  
@@ -182,33 +182,10 @@ export default {
           precio:this.producto.precio,
           preparado:this.producto.preparado,
         })
-=======
-          precio: this.producto.precio,
-          preparado: this.producto.preparado
-        });
-        console.log("Editar" + JSON.stringify(this.producto));
-      } else {
-        rm.postJson("productos", {
-          id: null,
-          nombre: this.producto.nombre,
-          idCategoria: { id: this.producto.idCategoria.id },
-          inventario: this.producto.inventario,
-          precio: this.producto.precio,
-          preparado: this.producto.preparado
-        });
-        console.log("Crear " + JSON.stringify(this.producto));
->>>>>>> 449411d05053b86348095290ebc27d8e8ee17aff
       }
       this.productoItem();
       this.close();
     },
-<<<<<<< HEAD
-=======
-    deleteItem(item) {
-      const index = this.productos.indexOf(item);
-      confirm("Eliminar Producto?") && this.productos.splice(index, 1);
-    },
->>>>>>> 449411d05053b86348095290ebc27d8e8ee17aff
     close() {
       this.dialog = false;
       setTimeout(() => {

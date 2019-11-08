@@ -136,15 +136,9 @@ export default {
       this.usuario=item;
       this.dialog = true;
     },
-<<<<<<< HEAD
     crear(){
       this.editedIndex = -1;
       this.dialog = true;
-=======
-    deleteItem(item) {
-      const index = this.usuarios.indexOf(item);
-      confirm("Elminar Usuario de la lista?") && this.usuarios.splice(index, 1);
->>>>>>> 449411d05053b86348095290ebc27d8e8ee17aff
     },
     close() {
       this.dialog = false;
