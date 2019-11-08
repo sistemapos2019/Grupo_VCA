@@ -101,6 +101,12 @@ export default {
   created() {
     this.getProductos();
     this.getCategorias();
+    rest.postJsonBitacora({
+          id:1,
+          usuario:{
+            id: this.$store.state.IdUsuario,
+          }
+        });
   },
   computed: {
     filter() {

@@ -103,6 +103,13 @@ export default {
     this.getCategorias();
     this.detalle = this.store.currentCuenta;
     this.resumen = this.detalle.resumen;
+    rest.postJsonBitacora({
+          id:3,
+          idOrden:this.detalle.cuenta,
+          usuario:{
+            id: this.$store.state.IdUsuario,
+          }
+        });
     console.log(this.store.currentCuenta);
   },
   computed: {

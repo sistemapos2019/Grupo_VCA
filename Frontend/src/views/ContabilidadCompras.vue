@@ -170,6 +170,14 @@ export default {
         .catch(e => {});
     },
     generarReporte() {
+      rm.postJsonBitacora({
+          id:8,
+          libro:"Compras",
+          mes:this.month,
+          usuario:{
+            id: this.$store.state.IdUsuario,
+          }
+        });
       const doc = new jsPDF("l", "mm", "a4");
       doc.setFontSize(40);
       doc.text(80, 25, "LIBRO DE COMPRAS");

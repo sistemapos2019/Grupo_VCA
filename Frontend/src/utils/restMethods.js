@@ -60,7 +60,7 @@ export default class RestMethods {
                     this.suceso = 'Consulto las estadisticas de ventas' 
                     break
                 case 6:
-                    this.suceso = 'Editó las existencias del producto ' + registro.nombreProducto 
+                    this.suceso = 'Creo Una nueva Compra'
                     break
                 case 7:
                     this.suceso = 'Consulto la contabilidad del Libro de ' + registro.libro 

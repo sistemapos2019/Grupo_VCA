@@ -204,7 +204,12 @@ export default {
         this.modal = false;
         this.$router.push("/nuevaorden");
       }
-
+        rm.postJsonBitacora({
+          id:1,
+          usuario:{
+            id: this.$store.state.IdUsuario,
+          }
+        });
       // this.$router.push("/nuevaorden");
     },
     getDashboard() {
@@ -245,8 +250,16 @@ export default {
         this.store.cuentaTicket = this.cuentas.find(
           cuenta => cuenta.cuenta === orden.idOrden
         );
+
         this.store.pago = this.pago;
         console.log(this.store.cuentaTicket);
+        rm.postJsonBitacora({
+          id:4,
+          idOrden:orden.idOrden,
+          usuario:{
+            id: this.$store.state.IdUsuario,
+          }
+        });
         //rm.putJson(`ordenes/finalizar/${orden.idOrden}`, { });
         this.$router.push("/ticket");
       } else {
