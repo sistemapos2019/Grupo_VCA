@@ -49,7 +49,7 @@
                 <template v-slot:activator="{ on }">
                   <v-text-field
                     v-model="fechaFin"
-                    label="Fecha Desde"
+                    label="Fecha Hasta"
                     prepend-icon="event"
                     readonly
                     v-on="on"
@@ -66,19 +66,46 @@
               <v-btn class="gradient-background" dark @click="getrangoBitacoras(fechaInicio,fechaFin)">Buscar</v-btn>
             </v-col>
           </v-row>
+          <!-- asdasdas-->
+          <template>
+          <v-toolbar flat color="white">
+          <v-dialog  v-model="deleteB" max-width="500px">
+       
+            <v-card>
+              <v-card-title>
+                <span class="headline black--text">{{ formTitle }}</span>
+              </v-card-title>
+            <v-card-actions >
+              <div class="flex-grow-1" ></div>
+              <v-btn color="#504da3" text @click="deleteB=false">
+                <v-icon>mdi-cancel</v-icon>Cancelar
+              </v-btn>
+              <v-btn color="#504da3" text @click="deleteItem">
+                <v-icon>mdi-content-save</v-icon>Eliminar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
+      </template>
+      <!-- asdas-->
         </template>
+ 
+        
+
+       
       </v-data-table>
       <div class="text-center">
         <v-btn
           dark
           class="gradient-background-orange"
-          @click="deleteItemRange"
+          @click="deleteItemRange(1)"
         >Borrar bitacoras del rango</v-btn>
         <v-btn
           dark
           class="gradient-background-orange"
           style="margin: 0 40px;"
-          @click="deleteItem"
+          @click="deleteItemRange(0)"
         >Borrar todas las Bitacoras</v-btn>
       </div>
     </material-card>
@@ -114,8 +141,15 @@ export default {
       startEnd: false,
       fechaInicio: "",
       fechaFin: "",
+      Eliminar:0,
+      deleteB:false,
       bitacoras: this.getbitacoras()
     };
+  },
+  computed: {
+    formTitle() {
+      return this.Eliminar === -1 ? "Se Eliminaran las Bitacoras del Rango" : "Se Eliminaran Todas las Bitacoras";
+    }
   },
   methods: {
     getbitacoras() {
@@ -141,12 +175,24 @@ export default {
       }
     },
     deleteItem() {
-      confirm("Desea borrar el historial de Bitacoras de sucesos?") &&
-        this.bitacoras.splice(0, this.bitacoras.length);
+      let source="bitacoras/delete?tipo=";
+      if(this.Eliminar===-1){
+        if(this.fechaInicio!="" && this.fechaFin!=""){
+          rm.deleteJson(source,1+"&inicio="+this.fechaInicio+"&fin="+this.fechaFin);
+          this.deleteB=false;
+        }else{
+          confirm("Ingresar Fechas del rango")
+          this.deleteB=false;
+          console.log("error")
+        }
+      }else{
+        rm.deleteJson(source,0);
+        this.deleteB=false;
+      }
     },
-    deleteItemRange() {
-      confirm("Desea borrar el historial de Bitacoras del rango?") &&
-        this.bitacoras.splice(0, 2);
+    deleteItemRange(val) {
+      this.deleteB=true;
+      val?this.Eliminar=-1:this.Eliminar=0;
     }
   }
 };
