@@ -170,6 +170,7 @@ export default {
   created() {
     this.getOrdenes();
     this.getDashboard();
+    this.getParametros();
     this.store.editando = false;
     console.log(JSON.stringify(this.store));
   },
@@ -220,6 +221,14 @@ export default {
         })
         .catch(e => {});
     },
+    getParametros(){
+      rm.getJson("parametros")
+        .then(r => {
+          this.store.propina = r.data[13].valor;
+          this.store.modoEntorno = r.data[0].valor;
+          console.log(this.store.propina);
+        })
+    },
     editarCuenta(cuentaEdit, topath) {
       console.log(cuentaEdit);
       this.store.currentCuenta = this.cuentas.find(
@@ -260,7 +269,9 @@ export default {
             id: this.$store.state.IdUsuario,
           }
         });
-        //rm.putJson(`ordenes/finalizar/${orden.idOrden}`, { });
+        
+        rm.putJson(`ordenes/finalizar/${orden.idOrden}`, { });
+
         this.$router.push("/ticket");
       } else {
         this.snackbar = true;

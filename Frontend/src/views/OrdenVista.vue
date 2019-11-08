@@ -125,15 +125,21 @@ export default {
     guardar() {
       if (this.detalles !== null && this.productos.length > 0) {
         this.store.ampliando ? this.sumarizarProductos() : this.detalles;
-        let orden = new OrdenEntity(this.detalles, this.productos);
+        let orden = new OrdenEntity(this.detalles, this.productos, this.store.propina);
         console.log(orden);
 
         if (this.store.editando) {
           rest.putJson(`ordenes`, orden);
-        } else {
-          rest.postJson(`ordenes`, orden);
+        } else if(this.store.ampliando){
+          rest.putJson(`ordenes`, orden).then(response => this.detalles.cuenta = response.data);
+        } else{
+          rest.postJson(`ordenes`, orden).then(response => this.detalles.cuenta = response.data);
         }
-        this.$router.push("dashboard");
+
+        //procesamiento de tickets\
+        this.detalles.resumen = this.productos;
+        this.store.cuentaTicket = this.detalles;
+        this.$router.push("/ticketcocina");
 
         this.store.alert = true;
       } else {

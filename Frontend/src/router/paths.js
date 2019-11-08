@@ -113,6 +113,11 @@ export default [{
         view: 'Ticket',
     },
     {
+        path: '/ticketcocina',
+        name: 'TicketCocina',
+        view: 'TicketCocina',
+    },
+    {
         path: '/bitacoras',
         name: 'Bitacora',
         view: 'Bitacora',
@@ -128,4 +133,3 @@ export default [{
         view: 'Login',
     },
 ]
-
