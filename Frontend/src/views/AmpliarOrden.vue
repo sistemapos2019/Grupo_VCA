@@ -101,6 +101,13 @@ export default {
     this.detalle = this.store.currentCuenta;
     this.detalle.mesero = 1;
     this.store.ampliando = true;
+    rest.postJsonBitacora({
+          id:2,
+          idOrden:this.detalle.cuenta,
+          usuario:{
+            id: this.$store.state.IdUsuario,
+          }
+        });
     console.log(this.store.currentCuenta);
   },
   computed: {

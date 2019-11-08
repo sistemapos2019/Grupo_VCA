@@ -47,5 +47,10 @@ public class CompraFacade extends AbstractFacade<Compra> {
                 .setParameter("id", id)
                 .getSingleResult();
     }
+    
+    public boolean exist(Integer id){
+        return executeQuery("SELECT COUNT(c) FROM Compra c WHERE c.id=:id")
+                .setParameter("id", id).getSingleResult().toString().equals("1");
+    }
 
 }

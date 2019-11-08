@@ -140,6 +140,14 @@ export default {
         .catch(e => {});
     },
     generarReporte() {
+      rm.postJsonBitacora({
+          id:8,
+          libro:"Ventas",
+          mes:this.month,
+          usuario:{
+            id: this.$store.state.IdUsuario,
+          }
+        });
       const doc = new jsPDF("l", "mm", "a4");
       doc.setFontSize(40);
       doc.text(30, 25, "LIBRO DE VENTAS AL COSUMIDOR");

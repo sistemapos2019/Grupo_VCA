@@ -96,6 +96,14 @@ export default {
       ]
     };
   },
+  created(){
+    rm.postJsonBitacora({
+          id:5,
+          usuario:{
+            id: this.$store.state.IdUsuario,
+          }
+        });
+  },
   methods: {
     getStats() {
       let path =

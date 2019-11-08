@@ -114,6 +114,19 @@ public class BitacoraREST {
                 .entity(bitacoraFacade.latestRecords(5))
                 .build();
     }
+    
+    @DELETE
+    @Path("delete")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response delete(@QueryParam("tipo") Integer tipo,
+            @QueryParam("inicio") @DefaultValue("") String Inicio,
+            @QueryParam("fin") @DefaultValue("") String Fin){
+        if (tipo!=0) {
+            bitacoraFacade.Delete(Inicio, Fin, tipo);
+            return Response.ok().build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
 }
 
 class ResponseJson {

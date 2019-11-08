@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       dialog: false,
-      auth: false,
+      bitacora: null,
       mesas: this.getMesas(),
       headers: [
         {
@@ -128,13 +128,22 @@ export default {
         }).then(()=>{
           this.getMesas();
         });
+        this.bitacora=19;
       } else {
         rm.postJson("mesas",{
           mesa:this.arrayMesas.mesa,
         }).then(()=>{
           this.getMesas();
         });
+        this.bitacora=20;
       }
+      rm.postJsonBitacora({
+        id:this.bitacora,
+        idMesa:this.arrayMesas.id,
+        usuario:{
+          id:this.$store.state.IdUsuario,
+        }
+      });
       this.close();
     }
   }

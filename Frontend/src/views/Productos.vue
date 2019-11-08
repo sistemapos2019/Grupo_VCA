@@ -82,6 +82,7 @@ export default {
   data() {
     return {
       dialog: false,
+      bitacora:null,
       headers: [
         {
           text: "Nombre del Producto",
@@ -175,6 +176,7 @@ export default {
         }).then(()=>{
           this.getproductos();
         });
+        this.bitacora=13;
         console.log("Editar" + JSON.stringify(this.producto));
       } else {
         rm.postJson("productos", {
@@ -187,9 +189,19 @@ export default {
         }).then(()=>{
           this.getproductos();
         });
+        this.bitacora=15;
         console.log("Crear " + JSON.stringify(this.producto));
       }
+  rm.postJsonBitacora({
+    id:this.bitacora,
+    idProducto: this.producto.id,
+    usuario:{
+      id: this.$store.state.IdUsuario,
+    }
+  });
+
       this.productoItem();
+
       this.close();
     },
     close() {

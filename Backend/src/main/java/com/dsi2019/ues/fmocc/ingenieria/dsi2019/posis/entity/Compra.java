@@ -94,6 +94,7 @@ public class Compra implements Serializable {
     private List<Detallecompra> detallecompraList;
 
     public Compra() {
+        setFecha(new Date());
     }
 
     public Compra(Integer id) {

@@ -97,6 +97,7 @@ export default {
   data() {
     return{
     dialog: false,
+    bitacoras:null,
     usuarios: this.getusuarios(),
     editedIndex: -1,
     usuario: {
@@ -126,6 +127,7 @@ export default {
       rm.getJson("usuarios")
         .then(r => {
           this.usuarios = r.data;
+          console.log(JSON.stringify(this.usuarios));
         })
         .catch(e => {
           this.usuarios = [];
@@ -159,6 +161,7 @@ export default {
         }).then(()=>{
           this.getusuarios();
         });
+        this.bitacoras=11;
       } else {
         rm.postJson("usuarios",{
           nombreCompleto:this.usuario.nombreCompleto,
@@ -169,11 +172,20 @@ export default {
         }).then(()=>{
           this.getusuarios();
         });
+        this.bitacoras=12;
       }
+
+      rm.postJsonBitacora({
+        id:this.bitacoras,
+        idCredencial:this.usuario.id,
+        usuario:{
+          id:this.$store.state.IdUsuario,
+        }
+      });
       this.close();
     },
     getContrasenia(clave) {
-      return clave.replace(new RegExp("[a-zA-Z]", "g"), "*");
+      return clave.replace(new RegExp("[a-zA-Z0-9]", "g"), "*");
     }
   }
 };

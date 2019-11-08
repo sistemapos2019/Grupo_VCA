@@ -35,8 +35,18 @@ public class BitacoraFacade extends AbstractFacade<Bitacora> {
             return executeQuery("SELECT TRIM(b.fecha),b.suceso,b.idUsuario.nombreCompleto FROM Bitacora b")
                     .getResultList();
         }else{
-            return executeQuery("SELECT TRIM(b.fecha),b.suceso,b.idUsuario.nombreCompleto FROM Bitacora b WHERE b.fecha BETWEEN \'"+FechaInicio+" 00:00:00\' AND \'"+FechaFin+" 00:00:00\'")
-                    .getResultList(); 
+            return executeQuery("SELECT TRIM(b.fecha),b.suceso,b.idUsuario.nombreCompleto FROM Bitacora b WHERE b.fecha BETWEEN \'"+FechaInicio+" 00:00:00\' AND \'"+FechaFin+" 59:59:59\'")
+                    .getResultList();
+        }
+    }
+    
+    public void Delete(String FechaInicio,String FechaFin,Integer ver){
+        if (ver.equals(1)) {
+            System.out.println("rango Delete");
+             executeQuery("DELETE FROM Bitacora b WHERE b.fecha BETWEEN \'"+FechaInicio+" 00:00:00\' AND \'"+FechaFin+" 59:59:59\'");
+        }else{
+            System.out.println(" Delete");
+            executeQuery("DELETE FROM Bitacora b ");
         }
     }
             

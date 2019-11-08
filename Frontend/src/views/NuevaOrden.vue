@@ -97,6 +97,12 @@ export default {
     this.getProductos();
     this.getCategorias();
     this.getMesas();
+    rest.postJsonBitacora({
+          id:1,
+          usuario:{
+            id: this.$store.state.IdUsuario,
+          }
+        });
   },
   computed: {
     filter() {

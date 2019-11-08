@@ -54,6 +54,18 @@ public class DetallecompraREST  {
         }
         return Response.status(Response.Status.FOUND).build();
     }
+    
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response create(Detallecompra entity){
+        if (entity!=null) {
+            detalleFacade.create(entity);
+            return Response.ok(entity).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+    
 }
 class Detalle{
     private String nombre,precio,cantidad;
