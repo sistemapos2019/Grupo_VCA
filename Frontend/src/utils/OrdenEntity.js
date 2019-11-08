@@ -1,5 +1,5 @@
 export default class OrdenEntity {
-    constructor(orden, detalleOrden) {
+    constructor(orden, detalleOrden, propina, llevar) {
         this.id = orden.cuenta;
         this.cliente = orden.cliente,
             this.estado = "AA",
@@ -12,7 +12,7 @@ export default class OrdenEntity {
             },
             this.llevar = 0,
             this.observacion = orden.observacion,
-            this.propina = 0,
+            this.propina = (orden.total * propina).toFixed(2),
             this.total = orden.total,
             this.detalleordenList = detalleOrden.map(producto => {
                 return {

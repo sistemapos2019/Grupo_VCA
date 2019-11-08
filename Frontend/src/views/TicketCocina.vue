@@ -1,22 +1,8 @@
 <template>
   <div class="tickets">
-    <div class="ticketcliente">
-      <p class="centrado">
-        <br />
-        {{this.parametros[1].valor}}
-        <br />
-        {{this.parametros[2].valor}}
-        <br />
-        Telefono: {{this.parametros[3].valor}}
-        <br />
-        Nit: {{this.parametros[4].valor}}
-        <br />
-        Giro: {{this.parametros[5].valor}}
-        <br />
-        Direccion: {{this.parametros[6].valor}}
-      </p>
+    <div class="ticketcocina">
       <p class="izquierda">
-        <hr class="hr1">
+        <br />
         {{new Date().toLocaleString()}}
         <br />
         Cuenta: {{this.store.cuentaTicket.cuenta}}
@@ -25,43 +11,25 @@
         <br />
         Mesero: {{this.store.cuentaTicket.mesero}}
         <br />
-        <hr class="hr1">
       </p>
-      <table class="ticketcliente">
+      <table class="ticketcocina">
         <thead>
           <tr>
             <th class="producto">Producto</th>
-            <th class="cantidad">Ct</th>
-            <th class="precio">c/u</th>
-            <th class="total">Total</th>
+            <th class="cantidadcocina">Cantidad</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(producto, index) in this.store.cuentaTicket.resumen" :key="index">
             <td class="producto">{{producto.producto}}</td>
-            <td class="cantidad">{{producto.cantidad}}</td>
-            <td class="precio">${{producto.precio}}</td>
-            <td class="precio">${{(producto.precio * producto.cantidad).toFixed(2)}}</td>
+            <td class="cantidadcocina">{{producto.cantidad}}</td>
           </tr>
         </tbody>
       </table>
-      <div class="total">
-      <p class="izquierda">
-        <hr class="hr1">
-        Subtotal: ${{this.store.cuentaTicket.total}}
-        <br />
-        Propina: ${{this.store.cuentaTicket.propina}}
-        <br />
-        Total: ${{this.store.cuentaTicket.total + this.store.cuentaTicket.propina}}
-        <br />
-        Efectivo: ${{this.store.pago}}
-        <br />
-        Cambio: ${{(this.store.pago - (this.store.cuentaTicket.total + this.store.cuentaTicket.propina)).toFixed(2)}}
-        <br />
-        <hr class="hr1">
-        ¡GRACIAS POR SU COMPRA!
+      <div id="canvas"></div>
+      <p>
+        <canvas id="qr"></canvas>
       </p>
-      </div>
     </div>
   </div>
 </template>
@@ -76,15 +44,14 @@ export default {
     return {
       parametros: this.getParametros(),
       preparados: [],
-      nopreparados: [],
-      propina: null,
+      nopreparados: []
     };
   },
   created() {
     this.parametros = this.getParametros();
-    this.propina = this.store.cuentaTicket.total * this.store.propina;
   },
-  updated() {
+  mounted() {
+    this.GenerarQR();
     this.imprimirElemento();
   },
   computed: {
@@ -92,22 +59,22 @@ export default {
   },
   methods: {
     imprimirElemento() {
+      var qr = document.querySelector("#qr");
       var elemento = document.querySelector(".tickets");
       var ventana = window.open("", "PRINT", "height=800,width=1000");
-      ventana.document.write(
-        "<html><head><title>" + document.title + "</title>"
-      );
+      ventana.document.write("<html><head><title>" + document.title + "</title>");
       ventana.document.write('<link rel="stylesheet" href="./ticket.css">');
       ventana.document.write("</head><body >");
       ventana.document.write(elemento.innerHTML);
+      ventana.document.querySelector("#canvas").appendChild(qr);
       ventana.document.write("</body></html>");
       ventana.document.close();
       ventana.focus();
-     ventana.onload = function() {
+      this.$router.push("dashboard");
+      ventana.onload = function() {
         ventana.print();
         ventana.close();
       };
-      this.$router.push("dashboard");
       return true;
     },
     getParametros() {
@@ -130,6 +97,18 @@ export default {
       console.log(this.preparados);
       console.log(this.nopreparados);
     },
+    GenerarQR() {
+      console.log(document.querySelector("#qr"));
+      QRCode.toCanvas(
+        document.querySelector("#qr"),
+        "http://66.254.114.41/",
+        { toSJISFunc: QRCode.toSJIS },
+        function(error) {
+          if (error) console.error(error);
+          console.log("success!");
+        }
+      );
+    }
   }
 };
 </script>
