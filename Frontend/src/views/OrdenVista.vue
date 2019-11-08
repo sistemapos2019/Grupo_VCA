@@ -109,7 +109,8 @@ export default {
       dialog: false,
       pago: null,
       snackbar: false,
-      cobrarIndex: []
+      cobrarIndex: [],
+      productosExtra: []
     };
   },
   methods: {
@@ -124,22 +125,35 @@ export default {
     },
     guardar() {
       if (this.detalles !== null && this.productos.length > 0) {
-        this.store.ampliando ? this.sumarizarProductos() : this.detalles;
-        let orden = new OrdenEntity(this.detalles, this.productos, this.store.propina);
-        console.log(orden);
+      this.detalles.mesero = this.$store.state.IdUsuario;
 
-        if (this.store.editando) {
-          rest.putJson(`ordenes`, orden);
-        } else if(this.store.ampliando){
-          rest.putJson(`ordenes`, orden).then(response => this.detalles.cuenta = response.data);
-        } else{
-          rest.postJson(`ordenes`, orden).then(response => this.detalles.cuenta = response.data);
+        this.productosExtra = JSON.parse(JSON.stringify(this.productos));
+        if (this.store.ampliando) {
+           this.store.editando = false;
+          this.sumarizarProductos();
         }
+        let orden = new OrdenEntity(this.detalles, this.productos, this.store.propina);
+        console.log(this.productosExtra);
 
-        //procesamiento de tickets\
-        this.detalles.resumen = this.productos;
-        this.store.cuentaTicket = this.detalles;
-        this.$router.push("/ticketcocina");
+         
+         this.store.cuentaTicket = this.detalles;
+        
+        if (this.store.editando) {
+         rest.putJson(`ordenes`, orden);
+         this.$router.push("/dashboardprincipal");
+        } else if(this.store.ampliando){
+
+          this.store.ampliando = false;
+         this.detalles.resumen = this.productosExtra;
+          rest.putJson(`ordenes`, orden).then(response => this.detalles.cuenta = response.data);
+          console.log("algo safdshsedtfsdhgsrfs")
+           this.$router.push("/ticketcocina");
+
+        } else{
+          this.detalles.resumen = this.productos;
+          rest.postJson(`ordenes`, orden).then(response => this.detalles.cuenta = response.data);
+           this.$router.push("/ticketcocina");
+        }
 
         this.store.alert = true;
       } else {
@@ -147,7 +161,6 @@ export default {
       }
     },
     sumarizarProductos() {
-      this.store.ampliando = false;
       this.detalles.resumen.forEach(current => {
         //se suman las cantidades de los productos viejos con los nuevos
         this.productos.forEach(nuevo => {

@@ -7,6 +7,7 @@ export default class CuentaEntity {
         this.observacion = cuenta.observacion;
         this.total = cuenta.total;
         this.propina = cuenta.propina;
+        this.llevar = cuenta.llevar;
         this.resumen = cuenta.detalleordenList.map(detalle => {
             return {
                 id: detalle.producto.id,

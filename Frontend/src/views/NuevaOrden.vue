@@ -10,7 +10,7 @@
                   <v-text-field v-model="detalle.cuenta" label="Orden:" required></v-text-field>
                 </v-col>
                 <v-col cols="5">
-                  <v-text-field v-model="detalle.mesero" label="Mesero:" required></v-text-field>
+                  <v-text-field disabled v-model="this.$store.state.usuario" label="Mesero:" required></v-text-field>
                 </v-col>
                 <v-col cols="5">
                   <v-text-field v-model="detalle.cliente" label="Cliente:" required></v-text-field>
@@ -18,8 +18,11 @@
                 <v-col cols="3">
                   <v-autocomplete v-model="detalle.mesa" label="Mesa" :items="mesas"  item-text="mesa" item-value="id"></v-autocomplete>
                 </v-col>
-                <v-col cols="7">
+                <v-col cols="5">
                   <v-text-field label="Seleccione un Producto" v-model="search"></v-text-field>
+                </v-col>
+                <v-col cols="4">
+                 <v-checkbox label="Llevar" v-model="detalle.llevar"></v-checkbox>
                 </v-col>
               </v-row>
             </v-container>
@@ -81,19 +84,11 @@ export default {
         cliente: "",
         mesero: "",
         total: null,
+        llevar: 0,
         observacion: "",
         resumen: []
       },
-      mesas: [
-        {
-          id: 1,
-          mesa: "Uno"
-        },
-        {
-          id: 2,
-          mesa: "Dos"
-        }
-      ],
+      mesas: [],
       productos: [],
       articulos: []
     };
@@ -101,6 +96,7 @@ export default {
   created() {
     this.getProductos();
     this.getCategorias();
+    this.getMesas();
     rest.postJsonBitacora({
           id:1,
           usuario:{
@@ -129,7 +125,8 @@ export default {
           precio: producto.precio,
           cantidad: 0,
           categoria: producto.idCategoria.nombre,
-          id: producto.id
+          id: producto.id,
+          preparado: producto.preparado
         };
       });
       //console.log(JSON.stringify(this.articulos));
@@ -178,12 +175,13 @@ export default {
       console.log(this.categoria);
     },
     setProductos(producto, index) {
-      let registro = { producto: "", precio: "", cantidad: null, id: null };
+      let registro = { producto: "", precio: "", cantidad: null, id: null, preparado: null };
 
       registro.producto = producto.nombre;
       registro.precio = producto.precio;
       registro.cantidad = producto.cantidad;
       registro.id = producto.id;
+      registro.preparado = producto.preparado;
 
       //console.log(JSON.parse(JSON.stringify(registro)));
       //console.log(JSON.parse(JSON.stringify(this.resumen)));
@@ -210,7 +208,17 @@ export default {
       this.resumen = this.resumen.filter(producto => producto.cantidad !== 0);
       this.tamanio = this.resumen.length;
       // console.log(JSON.parse(JSON.stringify(this.resumen)));
-    }
+    },
+     getMesas() {
+      rest.getJson("mesas")
+        .then(r => {
+          console.log(r.data);
+          this.mesas = r.data;
+        })
+        .catch(c => {
+          this.mesas = [];
+        });
+    },
   }
 };
 </script>

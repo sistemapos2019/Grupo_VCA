@@ -76,7 +76,7 @@ public class OrdenREST {
         orden.setDetalleordenList(detalleOrdenList);
         ordenFacade.edit(orden);
 
-        return Response.status(Response.Status.ACCEPTED).build();
+        return Response.status(Response.Status.ACCEPTED).entity(entity.getId()).build();
     }
     
     @GET

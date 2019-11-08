@@ -10,7 +10,7 @@
                   <v-text-field disabled v-model="detalle.cuenta" label="Orden:" required></v-text-field>
                 </v-col>
                 <v-col cols="5">
-                  <v-text-field v-model="detalle.mesero" label="Mesero:" required></v-text-field>
+                   <v-text-field disabled v-model="this.$store.state.usuario" label="Mesero:" required></v-text-field>
                 </v-col>
                 <v-col cols="5">
                   <v-text-field v-model="detalle.cliente" label="Cliente:" required></v-text-field>
@@ -101,6 +101,7 @@ export default {
   created(){
     this.getProductos();
     this.getCategorias();
+    this.getMesas();
     this.detalle = this.store.currentCuenta;
     this.resumen = this.detalle.resumen;
     rest.postJsonBitacora({
@@ -132,7 +133,8 @@ export default {
           precio: producto.precio,
           cantidad: 0,
           categoria: producto.idCategoria.nombre,
-          id: producto.id
+          id: producto.id,
+          preparado: producto.preparado
         };
       });
         this.init();
@@ -180,12 +182,13 @@ export default {
       console.log(this.categoria);
     },
     setProductos(producto, index) {
-      let registro = { producto: "", precio: "", cantidad: null, id: null };
+      let registro = { producto: "", precio: "", cantidad: null, id: null, preparado: null };
 
       registro.producto = producto.nombre;
       registro.precio = producto.precio;
       registro.cantidad = producto.cantidad;
       registro.id = producto.id;
+      registro.preparado = producto.preparado;
 
       //console.log(JSON.parse(JSON.stringify(registro)));
       //console.log(JSON.parse(JSON.stringify(this.resumen)));
@@ -221,7 +224,17 @@ export default {
           }
         });
       });
-    }
+    },
+     getMesas() {
+      rest.getJson("mesas")
+        .then(r => {
+          console.log(r.data);
+          this.mesas = r.data;
+        })
+        .catch(c => {
+          this.mesas = [];
+        });
+    },
   },
   //props: ["productos", "detalles", "tamanio"]
 };
