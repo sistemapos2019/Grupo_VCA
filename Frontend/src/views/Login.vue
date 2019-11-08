@@ -1,11 +1,10 @@
 <template>
-  <v-content>
-    <v-container fluid fill-height>
+    <v-container fluid class="fill-height" id="ctm">
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4>
-          <v-card class="elevation-12">
-            <v-toolbar color="primary" dark flat>
-              <v-toolbar-title style="color:black;">Login Users</v-toolbar-title>
+          <v-card class="elevation-12" style="margin-top:150px;">
+            <v-toolbar class="gradient-background" dark flat>
+              <v-toolbar-title>Login Users</v-toolbar-title>
               <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
@@ -30,7 +29,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" href="#/categorias" @click="getInfo(login,password)">Login</v-btn>
+              <v-btn color="red" dark @click="getInfo(login,password)">Login</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -42,7 +41,6 @@
         </div>
       </v-layout>
     </v-container>
-  </v-content>
 </template>
 <script>
 import restMethods from "./../utils/restMethods.js";
@@ -130,5 +128,12 @@ export default {
 </script>
 
 <style>
-
+  #ctm{
+    background-image: url('../assets/pixel.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+  #core-view{
+    height: 100%;
+  }
 </style>

@@ -95,7 +95,7 @@ export default {
         { text: "Preparado", value: "preparado" },
         { text: "Actions", value: "action", sortable: false }
       ],
-      productos: this.getproductos(),
+      productos: [],
       categorias: this.getcategorias(),
       editedIndex: -1,
       producto: {
@@ -172,6 +172,8 @@ export default {
           inventario: this.producto.inventario,
           precio: this.producto.precio,
           preparado: this.producto.preparado
+        }).then(()=>{
+          this.getproductos();
         });
         console.log("Editar" + JSON.stringify(this.producto));
       } else {
@@ -182,6 +184,8 @@ export default {
           inventario: this.producto.inventario,
           precio: this.producto.precio,
           preparado: this.producto.preparado
+        }).then(()=>{
+          this.getproductos();
         });
         console.log("Crear " + JSON.stringify(this.producto));
       }
@@ -216,6 +220,9 @@ export default {
       this.producto.inventario = null;
       this.producto.preparado = null;
     }
+  },
+  mounted: function(){
+    this.getproductos();
   }
 };
 </script>
