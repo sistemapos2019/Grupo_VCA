@@ -47,11 +47,8 @@
     </v-row>
     <div class="tittle_text" style="margin-top:-200px;">VENTAS SEMANALES</div>
     <v-row>
-      <v-col cols="12" lg="4" offset-lg="1">
-        <apexchart width="400" type="bar" :options="options" :series="series"></apexchart>
-      </v-col>
-      <v-col cols="12" lg="4">
-        <apexchart width="400" type="bar" :options="options" :series="series"></apexchart>
+      <v-col cols="12" lg="6" offset-lg="3">
+        <apexchart width="500" type="bar" :options="options" :series="series"></apexchart>
       </v-col>
     </v-row>
   </v-container>
