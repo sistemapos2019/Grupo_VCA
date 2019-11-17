@@ -20,7 +20,7 @@
         <v-img src="../../assets/logo.png" height="34" contain />
       </v-list-item-avatar>
 
-      <v-list-item-title class="title">SISTEMA POS</v-list-item-title>
+      <v-list-item-title class="title">Lynx</v-list-item-title>
     </v-list-item>
 
     <v-divider class="mx-3 mb-3" />
