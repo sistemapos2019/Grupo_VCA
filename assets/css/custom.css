@@ -1,0 +1,8 @@
+.rotate:hover{
+  transform: scale(1.05) rotate(10deg);
+  transition: 1s;
+}
+
+.rotate{
+  transition: 1s;
+}
