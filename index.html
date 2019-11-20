@@ -61,7 +61,8 @@
 							Y es capaz de mostar estadisticas de lo vendido tanto diario como semanalmente.
 						</p>
 						<ul class="actions">
-							<li><a href="https://frontend.deadbryam.now.sh/l" target="_blank" class="button primary">LIVE DEMO</a></li>
+							<li><a href="https://frontend.deadbryam.now.sh/l" target="_blank" class="button primary">LIVE DEMO</a>
+							</li>
 						</ul>
 					</div>
 					<span class="image rotate"><img src="images/pic01.jpg" alt="" /></span>
@@ -76,38 +77,35 @@
 				<ul class="features">
 					<li>
 						<span class="icon solid major style1 fa-code"></span>
-						<h3>Ipsum consequat</h3>
-						<p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.
+						<h3>Portabilidad</h3>
+						<p>Por su diseño web es facilmente acesible desde cualquier dispositivo ya sea escritorio o movil.
 						</p>
 					</li>
 					<li>
 						<span class="icon major style3 fa-copy"></span>
-						<h3>Amed sed feugiat</h3>
-						<p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.
+						<h3>Utilidad</h3>
+						<p>Lynx ofrece una manera funcional y sencilla de manejar cualquier negocio dedicado a la venta de alimentos
+							preparados o restaurantes. <br>
+							Propociona una manera sencilla para administrar mesas, meseros, platillos y mostrar resumenes tanto de
+							ventas como contables.
 						</p>
 					</li>
 					<li>
 						<span class="icon major style5 fa-gem"></span>
-						<h3>Dolor nullam</h3>
-						<p>Sed lorem amet ipsum dolor et amet nullam consequat a feugiat consequat tempus veroeros sed consequat.
+						<h3>Diseño</h3>
+						<p>Lynx ofrece una diseño totalmente responsive y amigable con el ususario con colores agradables.
 						</p>
 					</li>
 				</ul>
-				<footer class="major">
-					<ul class="actions special">
-						<li><a href="generic.html" class="button">Learn More</a></li>
-					</ul>
-				</footer>
 			</section>
 
 			<!-- Instalación -->
 			<section id="info" class="main special">
 				<header class="major">
 					<h2>Instalación</h2>
-					<p>Donec imperdiet consequat consequat. Suspendisse feugiat congue<br />
-						posuere. Nulla massa urna, fermentum eget quam aliquet.</p>
+					<p>Como Lynx posee la licencia MIT puede ser instalado por cualquier persona que desee usarlo.</p>
 				</header>
-				<ul class="statistics">
+				<!-- <ul class="statistics">
 					<li class="style1">
 						<span class="icon solid fa-code-branch"></span>
 						<strong>5,120</strong> Etiam
@@ -128,18 +126,59 @@
 						<span class="icon fa-gem"></span>
 						<strong>1,024</strong> Nullam
 					</li>
+				</ul> -->
+				<p class="justify">
+					Para la instalacion de Lynx es necesario contar con el JDK de Java 8 instalado, NodeJS con su version 12 como
+					minimo y un gestor de base de datos que puede ser tanto MariaDB o MySQL.
+					<br>
+					Para proceder a la instalacion deben seguirse los siguientes pasos:
+				</p>
+				<div>
+					<a target="_blank" class="shadow-btn" href="https://github.com/sistemapos2019/Grupo_VCA"><span class="icon brands fa-github"></span>&ensp;Repositorio de GitHub</a>
+				</div>
+				<br>
+				<h3><strong>INSTALACION NORMAL</strong></h3>
+				<ul class="justify">
+					<li>Descargar el codigo fuente del repositorio de GitHub y usar la rama Master.</li>
+					<p class="list">&ensp;BASE DE DATOS</p>
+					<li>Instalar un gestor de base de datos ya sea MariaDB o MySQL en sus versiones mas recientes.</li>
+					<li>Montar la base de datos con el script que se le provee en el repositorio de GitHub, para mas facilidad
+						puede ayudarse de herramientas como MySQL WorkBench o PHPMyAdmin.</li>
+					<p class="list">&ensp;BACKEND</p>
+					<li>Compilar el Backend usando mvn package -f /path/to/pom.xml.</li>
+					<li>Subir el .war a un servidor de aplicaciones.</li>
+					<li>Si su base de datos no esta ejecutandose en localhost y en el puerto 3306 tendra que entrar al codigo
+						fuente y modificarlo por su direccion y puerto.</li>
+					<p class="list">&ensp;FRONTEND</p>
+					<li>Si el backend no esta en localhost debera modificar el codigo fuente del Frontend y agregar la direccion
+						de su servidor.</li>
+					<li>En la capeta donde se encuentra el Frontend ejecutar el comando "npm start" para compilar y ejecutar el
+						Frontend.</li>
+					<li>Si hizo todo bien debera tener su sistema Lynx funcionando correctamente.</li>
 				</ul>
-				<p class="content">Nam elementum nisl et mi a commodo porttitor. Morbi sit amet nisl eu arcu faucibus hendrerit
-					vel a risus. Nam a orci mi, elementum ac arcu sit amet, fermentum pellentesque et purus. Integer maximus
-					varius lorem, sed convallis diam accumsan sed. Etiam porttitor placerat sapien, sed eleifend a enim pulvinar
-					faucibus semper quis ut arcu. Ut non nisl a mollis est efficitur vestibulum. Integer eget purus nec nulla
-					mattis et accumsan ut magna libero. Morbi auctor iaculis porttitor. Sed ut magna ac risus et hendrerit
-					scelerisque. Praesent eleifend lacus in lectus aliquam porta. Cras eu ornare dui curabitur lacinia.</p>
-				<footer class="major">
-					<ul class="actions special">
-						<li><a href="generic.html" class="button">Learn More</a></li>
-					</ul>
-				</footer>
+				<h3><strong>INSTALACION CON DOCKER</strong></h3>
+				<ul class="justify">
+					<li>Descargar el codigo fuente del repositorio de GitHub y usar la rama Master.</li>
+					<p class="list">&ensp;BASE DE DATOS</p>
+					<li>Descargar un contenedor de MariaDB con su ultima version, se recomienda la oficial.</li>
+					<li>Crear el contonedor de MariaDB.</li>
+					<li>Montar el script de la base puede usar herramientas como MySQL WorkBench o PHPMyAdmin.</li>
+					<p class="list">&ensp;BACKEND</p>
+					<li>Compilar el Backend usando mvn package -f /path/to/pom.xml.</li>
+					<li>Descargar un contenedor de un servidor de aplicaciones, se recomienda Payara.</li>
+					<li>Ejecutar el contenedor del servidor de aplicaciones con el .war desplegado.</li>
+					<li>Si el contenedor no esta en localhost debera modificar el codigo fuente y agregar la direccion en la cual
+						se encuentra su base de datos.</li>
+					<p class="list">&ensp;FRONTEND</p>
+					<li>Si el contenedor del Backend no esta en localhost debera modificar el codigo fuente del Frontend con la
+						direccion en la cual se encuentra el Backend.</li>
+					<li>Descargar un contenedor de NodeJS y ejecutar el Frontend en el.</li>
+					<li>Si hizo todo bien debera tener su sistema Lynx funcionando correctamente.</li>
+				</ul>
+
+				<h3><strong>SERVICIO</strong></h3>
+				<p>Si no desea instalarse puede comprar el servicio contratando uno de los distintos planes.</p>
+
 			</section>
 
 			<!-- Manual -->
@@ -157,10 +196,10 @@
 
 			<!-- Casos de exito -->
 			<section id="casos" class="main special">
-					<header class="major">
-							<h2>Casos de exito</h2>
-							<p>Muestras de los resultados de nuestro trabajo hecho con esfuerzo y amor.</p>
-						</header>
+				<header class="major">
+					<h2>Casos de exito</h2>
+					<p>Muestras de los resultados de nuestro trabajo hecho con esfuerzo y amor.</p>
+				</header>
 				<div class="box alt">
 					<div class="row gtr-uniform">
 						<div class="col-12"><span class="image fit"><img src="images/pic04.jpg" alt="" /></span></div>
@@ -196,7 +235,7 @@
 				<h2>Nosotros</h2>
 				<dl class="alt">
 					<dt>Ronald Arevalo</dt>
-					<dd>correo de Ronald</dd>
+					<dd>robal271004@gmail.com</dd>
 					<ul class="icons">
 						<li><a href="https://www.facebook.com/ronald.arevalo.355" target="_blank"
 								class="icon brands fa-facebook-f alt"><span class="label">Facebook</span></a></li>
