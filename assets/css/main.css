@@ -1,4 +1,4 @@
-@import url(fontawesome-all.min.css);
+@import url(fa-all.min.css);
 @import 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400';
 
 /*
@@ -2866,8 +2866,8 @@ input, select, textarea {
 		display: -moz-flex;
 		display: -webkit-flex;
 		display: -ms-flex;
-		display: flex;
-		width: 100%;
+		display: block;
+		width: 33%;
 		margin: 0 0 3em 0;
 		padding: 0;
 		list-style: none;
