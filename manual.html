@@ -4,8 +4,7 @@
 <head>
     <title>Lynx</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1,
-			user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="assets/css/main.css" />
     <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
@@ -30,94 +29,268 @@
                 <a href="https://github.com/Dragonkiller69">Dragonkiller69</a>.</p>
         </header>
 
+        <!-- Nav -->
+        <nav id="nav">
+            <ul>
+                <li><a href="#productos" class="active">Productos</a></li>
+                <li><a href="#dashborad">Dashboard</a></li>
+                <li><a href="#nuevaorden">Crear nueva orden</a></li>
+                <li><a href="#agregarproductos">Agregar productos a una orden</a></li>
+                <li><a href="#cobrar">Cobrar orden</a></li>
+                <li><a href="#ordenllevar">Orden para llevar</a></li>
+            </ul>
+        </nav>
 
         <!-- Main -->
         <div id="main">
-
-            <!-- Introduccion -->
-            <section id="intro" class="main">
-                <div class="spotlight">
-                    <div class="content">
-                        <header class="major">
-                            <h2>Sistema de ventas Lynx</h2>
-                        </header>
-                        <p>Es un sistema que sirve para efectuar ordenes de los clientes en restaurantes o negocios que se dediquen a la venta de alimentos preparados.
-                            <br>
-                            <b>Lynx</b> es capaz de administrar las funciones que un negocio realiza como el manejo de mesas, meseros, inventarios, etc. Y es capaz de mostar estadisticas de lo vendido tanto diario como semanalmente.
-                        </p>
-                        <ul class="actions">
-                            <li><a href="https://frontend.deadbryam.now.sh" target="_blank" class="button primary">LIVE DEMO</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="crop"><span class="image"><img src="images/dashboard.png"
-									alt="" /></span></div>
-                    <!-- <span class="image rotate"><img src="images/pic01.jpg" alt="" /></span> -->
-                </div>
+            <section class="manual main ">
+                <footer class="major">
+                    <ul class="actions special">
+                        <li><a href="index.html" class="button primary">Home</a></li>
+                    </ul>
+                </footer>
+                <header class="major">
+                    <h2>Manual de usuario</h2>
+                    <p>A continuación se mostrará un manual rápido de usuario, con las principales opciones para el uso del sistema.</p>
+                </header>
             </section>
-
 
 
             <!-- Manual -->
-            <section id="manual" class="main special">
-                <header class="major">
-                    <h2>Manual de usuario</h2>
-                    <p>Un manual que explica lo que nuestro pequeño sistema es capz de hacer.</p>
-                </header>
-                <footer class="major">
-                    <ul class="actions special">
-                        <li><a href="generic.html" class="button primary">Ver manual</a></li>
+            <section id="productos" class="manual main ">
+
+                <div class="major">
+                    <p><b>Configuracion de Productos </b></p>
+                    <ol>
+                        <li>
+                            <p><b>Agregar producto</b></p>
+                            <ol>
+                                <li>
+                                    <p>Seleccionar la opcion "Productos" de la barra lateral izquierda.</p>
+                                    <img class="img" src="images/manual/productos.png" alt="productos" />
+                                </li>
+                                <li>
+                                    <p>Click en el boton "Nuevo producto".</p>
+                                </li>
+                                <li>
+                                    <p>Llenar los detalles del producto y dar click en "Guardar".</p>
+                                    <img class="img" src="images/manual/modalproductolleno.png" alt="" />
+                                </li>
+                                <li>
+                                    <p>Llenar los detalles del producto y dar click en "Guardar".</p>
+                                    <img class="img" src="images/manual/modalproductolleno.png" alt="" />
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            <p><b>Modificar producto</b></p>
+                            <ol>
+                                <li>
+                                    <p>En la columna Actions, Click en el icono con forma de lapiz del producto que desea modificar".</p>
+                                    <img class="img" src="images/manual/modificar.png" alt="" />
+                                </li>
+                                <li>
+                                    <p>Modificar los campos del producto deseados y dar click en "Guardar".</p>
+                                    <img class="img" src="images/manual/modalmodificar.png" alt="" />
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+
+                </div>
+
+            </section>
+
+            <section id="dashborad" class="manual main ">
+                <div class="major">
+                    <p><b>Consola principal</b></p>
+                    <ul>
+                        <li>
+                            <p><b>Dashboard Principal</b></p>
+                            <p>El sistema inicia con la ventana de loggin donde se debe ingresar sus credenciales.</p>
+                            <img class="img" src="images/manual/login.png" alt="" />
+                            <br><br>
+                            <p>El dashboard principal se compone de varias partes.
+                                <br> Empezando al lateral izquierdo se ecuentra la barra de navegacion, desde donde puede escoger diferentes vistas del sistema.
+                            </p>
+                            <img class="img" src="images/manual/dashboardnavbar.png" alt="" />
+                            <br><br>
+                            <p>En el cuerpo principal se encuentra dividido en dos partes, la primera es un tablero donde se muestra informacion resumida
+                                <br>de las ventas realizadas.
+                            </p>
+                            <img class="img" src="images/manual/dashboardresumen.png" alt="" />
+                            <br><br>
+                            <p>Bajo el tablero de resumen de ventas se encuentra una tabla de las ordenes realizadas, donde se muestran detalles correspondientes a cada orden. Asi como tambien una serie de botones que reliazan las acciones de ampliar, modificar
+                                cobrar y marcar como entregada.
+                            </p>
+                            <img class="img" src="images/manual/dashboardordenes.png" alt="" />
+                            <br><br>
+                        </li>
+                        <li>
+                            <p><b>Dashboard para llevar</b></p>
+                            <p>El dashboard para llevar es muy similar al dashboard principal, la principal diferencia es que unicamente se muestran las ordenes para llevar, ademas no se puede modificar o ampliar las ordenes.</p>
+                            <img class="img" src="images/manual/dashboardllevar.png" alt="" />
+                        </li>
                     </ul>
-                </footer>
+                </div>
+
+            </section>
+
+            <section id="nuevaorden" class="manual main ">
+                <div class="major">
+                    <p><b>Crear nueva orden</b></p>
+                    <ol>
+                        <li>
+                            <p>En el Dashboard principal, dar click en el boton "Nueva Orden"</p>
+                            <img class="img" src="images/manual/nuevaorden.png" alt="" />
+                            <br><br>
+                        </li>
+                        <li>
+                            <p>Ingresar los datos de la nueva orden, el mesero sera la persona que este logueada en el sistema, debe ingresar el nombre del cliente, la mesa deseada y acontinuacion escoger los productos deseados, es opcional agregar observaciones
+                                a la orden.<br> Por ultimo dar click en Guardar. La nueva orden aparecera en el dashboard principal.
+                            </p>
+                            <img class="img" src="images/manual/orden.png" alt="" />
+                            <br><br>
+                        </li>
+                        <li>
+                            <p>Se imprimiran los tickets de productos que van a cocina, dependiendo de los parametros previamente establecidos se imprimiran separados o juntos los productos preparados y no preparados. La orden se vera reflejada en el dashboard
+                                principal.
+                            </p>
+                            <img class="img" src="images/manual/ticketcocina.png" alt="" />
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="agregarproductos" class="manual main ">
+                <div class="major">
+                    <p><b>Agregar productos a una orden</b></p>
+                    <ol>
+                        <li>
+                            <p>Debe dar click en la columna acctions en el boton "+".</p>
+                            <img class="img" src="images/manual/ampliar.png" alt="" />
+                            <br><br>
+                        </li>
+                        <li>
+                            <p>Se presenta la misma interfaz de nueva orden, sin embargo no puede modificar informacion de la orden, solo puede agregar nuevos productos. Al finalizar de agregar, dar click en el boton "Guardar".
+                            </p>
+                            <img class="img" src="images/manual/ampliando.png" alt="" />
+                            <br><br>
+                        </li>
+                        <li>
+                            <p>Se imprimiran los tickets para cocina de los nuevos productos agregados.
+                            </p>
+                            <img class="img" src="images/manual/ticketampliado.png" alt="" />
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="cobrar" class="manual main ">
+                <div class="major">
+                    <p><b>Cobrar orden</b></p>
+                    <ol>
+                        <li>
+                            <p>Debe dar click en la columna actions en el boton con forma de tarjeta.</p>
+                            <img class="img" src="images/manual/cobrarorden.png" alt="" />
+                            <br><br>
+                        </li>
+                        <li>
+                            <p>Aperecera un modal para cobrar la orden, donde debera ingresar el monto en efectivo recivido y se calculara el cambio de forma automatica. Click en cobrar.</p>
+                            <img class="img" src="images/manual/modalcobrar.png" alt="" />
+                            <br><br>
+                        </li>
+                        <li>
+                            <p>Se imprimira el ticket detallando los productos consumidos y su respectivos total..
+                            </p>
+                            <img class="img" src="images/manual/ticketfactura.png" alt="" />
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="ordenllevar" class="manual main ">
+                <div class="major">
+                    <p><b>Orden para llevar</b></p>
+                    <ol>
+                        <li>
+                            <p>En el Dashboard principal, dar click en el boton "Nueva Orden".</p>
+                            <img class="img" src="images/manual/nuevaorden.png" alt="" />
+                            <br><br>
+                        </li>
+                        <li>
+                            <p>Ingresar los datos de la nueva orden, el mesero sera la persona que este logueada en el sistema, debe ingresar el nombre del cliente, la mesa deseada y acontinuacion escoger los productos deseados, es opcional agregar observaciones
+                                a la orden.<br>Debe marcar el checkbox "llevar". Por ultimo dar click en Guardar. La nueva orden aparecera en el dashboard principal.
+                            </p>
+                            <img class="img" src="images/manual/ordenllevar.png" alt="" />
+                            <br><br>
+                        </li>
+                        <li>
+                            <p>Se imprimiran los tickets de productos que van a cocina, dependiendo de los parametros previamente establecidos se imprimiran separados o juntos los productos preparados y no preparados.
+                            </p>
+                            <img class="img" src="images/manual/ticketcocinallevar.png" alt="" />
+                        </li>
+                        <li>
+                            <p>Se imprimira el ticket de la orden realizada.</p>
+                            <img class="img" src="images/manual/Screenshot_20191127_105807.png" alt="" />
+                        </li>
+                        <li>
+                            <p>La nueva orden se reflejara en el Dashboard para llevar.
+                            </p>
+                            <img class="img" src="images/manual/ordenllevardash.png" alt="" />
+                        </li>
+                    </ol>
+                </div>
             </section>
         </div>
+    </div>
 
-        <!-- Footer -->
-        <footer id="footer">
-            <section>
-                <h2>Lynx</h2>
-                <p><b>Lynx</b> es un sistema de ventas para restaurantes y negocios que se dediquen a la venta de alimentos de la materia Diseño de sistemas II cursada en la Universidad de El Salvador Facultad Multidiciplinaria de Occidente. <br> Desarrollado
-                    en JavaEE como Backend y nodeJS con VueJS como Frontend.
-                </p>
-                <!-- <ul class="actions">
+    <!-- Footer -->
+    <footer id="footer">
+        <section>
+            <h2>Lynx</h2>
+            <p><b>Lynx</b> es un sistema de ventas para restaurantes y negocios que se dediquen a la venta de alimentos de la materia Diseño de sistemas II cursada en la Universidad de El Salvador Facultad Multidiciplinaria de Occidente. <br> Desarrollado
+                en JavaEE como Backend y nodeJS con VueJS como Frontend.
+            </p>
+            <!-- <ul class="actions">
 					<li><a href="generic.html" class="button">Learn More</a></li>
 				</ul> -->
-            </section>
-            <section>
-                <h2>Nosotros</h2>
-                <dl class="alt">
-                    <dt>Ronald Arevalo</dt>
-                    <dd>robal271004@gmail.com</dd>
-                    <ul class="icons">
-                        <li><a href="https://www.facebook.com/ronald.arevalo.355" target="_blank" class="icon brands fa-facebook-f alt"><span class="label">Facebook</span></a></li>
-                        <li><a href="https://www.instagram.com/balmore_arevalo27/" target="_blank" class="icon brands fa-instagram alt"><span class="label">Instagram</span></a></li>
-                        <li><a href="https://github.com/RBalmoreA27" target="_blank" class="icon
+        </section>
+        <section>
+            <h2>Nosotros</h2>
+            <dl class="alt">
+                <dt>Ronald Arevalo</dt>
+                <dd>robal271004@gmail.com</dd>
+                <ul class="icons">
+                    <li><a href="https://www.facebook.com/ronald.arevalo.355" target="_blank" class="icon brands fa-facebook-f alt"><span class="label">Facebook</span></a></li>
+                    <li><a href="https://www.instagram.com/balmore_arevalo27/" target="_blank" class="icon brands fa-instagram alt"><span class="label">Instagram</span></a></li>
+                    <li><a href="https://github.com/RBalmoreA27" target="_blank" class="icon
 									brands fa-github alt"><span
 										class="label">GitHub</span></a></li>
-                    </ul>
-                    <dt>Kevin Chinchilla</dt>
-                    <dd>kchinchillam98@gmail.com</dd>
-                    <ul class="icons">
-                        <li><a href="https://www.facebook.com/kevin.chinchilla.96" target="_blank" class="icon brands fa-facebook-f alt"><span class="label">Facebook</span></a></li>
-                        <li><a href="https://www.instagram.com/dragonkiller69omg/" target="_blank" class="icon brands fa-instagram alt"><span class="label">Instagram</span></a></li>
-                        <li><a href="https://github.com/Dragonkiller69" target="_blank" class="icon brands fa-github alt"><span
+                </ul>
+                <dt>Kevin Chinchilla</dt>
+                <dd>kchinchillam98@gmail.com</dd>
+                <ul class="icons">
+                    <li><a href="https://www.facebook.com/kevin.chinchilla.96" target="_blank" class="icon brands fa-facebook-f alt"><span class="label">Facebook</span></a></li>
+                    <li><a href="https://www.instagram.com/dragonkiller69omg/" target="_blank" class="icon brands fa-instagram alt"><span class="label">Instagram</span></a></li>
+                    <li><a href="https://github.com/Dragonkiller69" target="_blank" class="icon brands fa-github alt"><span
 										class="label">GitHub</span></a></li>
-                    </ul>
-                    <dt>Bryan Villafuerte</dt>
-                    <dd>bryamu.u@gmail.com</dd>
-                    <ul class="icons">
-                        <li><a href="https://www.facebook.com/DeadBryam" target="_blank" class="icon brands fa-facebook-f alt"><span
+                </ul>
+                <dt>Bryan Villafuerte</dt>
+                <dd>bryamu.u@gmail.com</dd>
+                <ul class="icons">
+                    <li><a href="https://www.facebook.com/DeadBryam" target="_blank" class="icon brands fa-facebook-f alt"><span
 										class="label">Facebook</span></a></li>
-                        <li><a href="https://www.instagram.com/DeadBryam" target="_blank" class="icon brands fa-instagram alt"><span
+                    <li><a href="https://www.instagram.com/DeadBryam" target="_blank" class="icon brands fa-instagram alt"><span
 										class="label">Instagram</span></a></li>
-                        <li><a href="https://github.com/DeadBryam" target="_blank" class="icon
+                    <li><a href="https://github.com/DeadBryam" target="_blank" class="icon
 									brands fa-github alt"><span
 										class="label">GitHub</span></a></li>
-                    </ul>
-                </dl>
-            </section>
-            <p class="copyright">&copy; Universidad de El Salvador 2019.</p>
-        </footer>
+                </ul>
+            </dl>
+        </section>
+        <p class="copyright">&copy; Universidad de El Salvador 2019.</p>
+    </footer>
 
     </div>
 
